@@ -1,0 +1,19 @@
+#loginDiv {
+    margin: 5%;
+    
+}
+
+.my_card{
+    width: 60%;
+    padding-top: 5%;
+    background-color: #426066dc;
+    align-self: center;
+}
+
+.my_span{
+    width: 10%;
+}
+
+.my_input{
+    width: 90%
+}

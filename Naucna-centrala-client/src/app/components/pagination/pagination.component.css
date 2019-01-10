@@ -1,0 +1,44 @@
+:host {
+    flex: 0 0 30px;
+    display: flex;
+  }
+  :host .pagination {
+    width: 100%;
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  :host .pagination .description {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    left: 3px;
+  }
+  :host .pagination .description .page-counts {
+    margin-right: 6px;
+  }
+  :host .pagination .numbers {
+    display: block;
+    text-align: center;
+    flex: 1;
+  }
+  :host .pagination .numbers button {
+    flex: 0 0 auto;
+    outline: none;
+    border: 0;
+    padding: 0 1.5px;
+    background: transparent;
+    cursor: pointer;
+  }
+  
+  .active{
+    background-color: rgb(255, 253, 253) !important;
+    border-radius: 8px;
+    text-decoration: underline  rgb(0, 0, 0);
+  }
+
+.my_cardd{
+  background-color: #9ec1ee
+}
