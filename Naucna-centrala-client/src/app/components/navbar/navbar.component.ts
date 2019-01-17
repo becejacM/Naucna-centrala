@@ -20,7 +20,7 @@ export class NavbarComponent implements OnInit {
   private perm;
 
   constructor(private router: Router, private toastr: ToastrService,
-    private permissionsService: NgxPermissionsService) {
+    private permissionsService: NgxPermissionsService, private notificationService: NotificationsService) {
   }
 
   ngOnInit() {
@@ -80,9 +80,10 @@ export class NavbarComponent implements OnInit {
 
       that.ws.subscribe("/nc/errors", function (message) {
         console.log(message);
-        alert("Error registration! Try again!");
+        //alert("Error registration! Try again!");
+        that.notificationService.error('Error registration! Try again!');
         
-          that.toastr.warning("Error registration");
+        //that.toastr.warning("Error registration");
         
 
       });

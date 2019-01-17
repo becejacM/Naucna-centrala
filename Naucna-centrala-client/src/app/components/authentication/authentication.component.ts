@@ -32,7 +32,7 @@ export class AuthenticationComponent implements OnInit {
   }
 
   ngOnInit() {
-    //this.notificationService.success('You are logged in');
+    //this.notificationService.success('Welcome');
         
     this.loginForm = new FormGroup({
       username: new FormControl('', Validators.compose([Validators.required, Validators.minLength(3)])),
@@ -53,9 +53,12 @@ export class AuthenticationComponent implements OnInit {
         });
         console.log("evo me");
         this.notificationService.success('You are logged in');
-        this.toastr.success('You are logged in', 'Welcome!');
+        //this.toastr.success('You are logged in', 'Welcome!');
+        this.notificationService.success('You are logged in');
+        
       },
-      error => this.toastr.error('Incorrect username and/or password'),
+      error => 
+      this.notificationService.error('Incorrect username and/or password'),
       () => console.log(JSON.parse(localStorage.getItem('loggedUser')))
     );
   }

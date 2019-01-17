@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RegistrationService } from '../../../services/registration/registration.service';
 import { ToastrService } from 'ngx-toastr';import { RegistrationDetailsDTO } from '../../../model/RegistrationDetailsDTO';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-registration-error-page',
@@ -15,7 +16,7 @@ export class RegistrationErrorPageComponent implements OnInit {
   isDoneLoading = false;
   registrationDetails: RegistrationDetailsDTO;
   
-  constructor(private router: Router, private route: ActivatedRoute, private registrationService: RegistrationService, private toastr: ToastrService, ) { 
+  constructor(private router: Router, private route: ActivatedRoute, private notificationService: NotificationsService, private registrationService: RegistrationService, private toastr: ToastrService, ) { 
       this.registrationDetails = new RegistrationDetailsDTO();    
   }
   
@@ -42,7 +43,9 @@ export class RegistrationErrorPageComponent implements OnInit {
           this.router.navigate([`/registration/error/${response.taskId}`]);          
         }
         else{
-          this.toastr.success("Your registration is successfully created. Please check your email for confirmation!");
+          this.notificationService.success('Your registration is successfully created. Please check your email for confirmation!');
+          
+          //this.toastr.success("Your registration is successfully created. Please check your email for confirmation!");
           this.router.navigate([`/login`]);
         }
         

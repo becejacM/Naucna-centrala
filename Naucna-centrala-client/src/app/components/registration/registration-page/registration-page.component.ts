@@ -6,6 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/http';
 import * as Stomp from 'stompjs';
 import SockJS from 'sockjs-client';
+import { NotificationsService } from 'angular2-notifications';
+
 @Component({
   selector: 'app-registration-page',
   templateUrl: './registration-page.component.html',
@@ -22,7 +24,7 @@ export class RegistrationPageComponent implements OnInit {
   private stompClient;
   ws: any;
   disabled: boolean;
-  constructor(private router: Router, private route: ActivatedRoute, private registrationService: RegistrationService, private toastr: ToastrService, ) { }
+  constructor(private router: Router, private route: ActivatedRoute,private notificationService: NotificationsService, private registrationService: RegistrationService, private toastr: ToastrService, ) { }
 
   ngOnInit() {
     this.start = false;
@@ -56,7 +58,9 @@ export class RegistrationPageComponent implements OnInit {
           this.router.navigate([`/registration/error/${response.taskId}`]);          
         }
         else{
-          this.toastr.success("Your registration is successfully created. Please check your email for confirmation!");
+          this.notificationService.success('Your registration is successfully created. Please check your email for confirmation!');
+          
+  //        this.toastr.success("Your registration is successfully created. Please check your email for confirmation!");
           this.router.navigate([`/login`]);
         }
         
@@ -68,11 +72,13 @@ export class RegistrationPageComponent implements OnInit {
       (err: HttpErrorResponse) => {
         if (err.error instanceof Error) {
           this.router.navigate([`/registration/error`]);
-          this.toastr.error(err.error.message + '\nError Status ' + err.status);
+          this.notificationService.error(err.error.message + '\nError Status ' + err.status);          
+          //this.toastr.error(err.error.message + '\nError Status ' + err.status);
           console.log(err.error.message + '\nError Status ' + err.status);
         } else {
           this.router.navigate([`/registration/error`]);
-          this.toastr.error(err.error.message + '\nError Status ' + err.status);
+          this.notificationService.error(err.error.message + '\nError Status ' + err.status);                    
+          //this.toastr.error(err.error.message + '\nError Status ' + err.status);
           console.log(err.error.message + '\nError Status ' + err.status);
 
         }
