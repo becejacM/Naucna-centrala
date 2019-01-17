@@ -1,7 +1,7 @@
 -- admin
 -- Kuhinja007- => password
 insert into app_user(id, username, password,email, firstname, lastname, verified, role) values
-  (1, 'admin', '$2a$10$vAx6qdBF9CAlCeH1C.tzauqzhja6ARlXVuBi0.87ijnDhHTmFY9xG', 'admin@mailinator.com', 'admin', 'admin', 1, 'ADMIN');
+  (1, 'admin', '$2a$10$vAx6qdBF9CAlCeH1C.tzauqzhja6ARlXVuBi0.87ijnDhHTmFY9xG', 'M9SlrusZncekBbcYwmVaHBF7l6cEUARX2E0KbWCweSg=', 'admin', 'admin', 1, 'ADMIN');
 -- Operator-1-bsep => password
 insert into app_user(id, username, password,email, firstname, lastname, verified, role) values
   (2, 'operator1', '$2a$10$KbAWqhzc8.MlWoQxS.lkXOHT4tQ1j87CYbvpNG49FSmnw7lZt/zFe', 'operator1@mailinator.com', 'Marko', 'Markovic', 1, 'OPERATOR');

@@ -1,0 +1,31 @@
+<div id="registrationDiv" class="mainContainer  d-flex justify-content-center">
+    <div class="card my_card">
+      <div class="col-md-12 col-md-offset-3" id="logreg">
+        <p id="message">
+          <span style="color:white">Registration error!</span>&nbsp;&nbsp;&nbsp;
+          <a id="registration-shortcut" routerLink="/registration" style="color:darkblue">Click to try again</a>
+        </p>
+        <div *ngIf="isDoneLoading">
+            
+        <form (ngSubmit)="register()">
+            <div *ngFor="let field of formFields" class="form-group">
+              <label *ngIf="field.type.name !== 'boolean'" [for]="field.id">{{field.id}}</label>
+              <input  class="form-control" type="checkbox" name={{field.id}} [(ngModel)]="registrationDetails[field.id]"  *ngIf="field.type.name=='boolean'">
+              <input  class="form-control" type="number" name={{field.id}} [(ngModel)]="registrationDetails[field.id]"  *ngIf="field.type.name=='long'">
+              <input *ngIf="'string'" [name]="field.id" [id]="field.id" [type]="field.id === 'password' ? 'password' : field.type.name"
+              class="form-control" [(ngModel)]="registrationDetails[field.id]">
+              <select name="field.id" *ngIf="field.type.name=='enum'">
+                <option *ngFor="let val of enumValues" value={{val}}>
+                  {{field.type.values[val]}}
+                </option>
+              </select>
+            </div>
+            <button id="registration-button" type="submit" class="btn btn-primary btn-md align-self-center">
+                Register
+                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+              </button>
+          </form>
+          </div>
+      </div>
+    </div>
+  </div>

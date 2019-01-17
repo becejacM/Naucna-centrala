@@ -1,0 +1,18 @@
+#registrationDiv {
+    margin: 5%;
+}
+
+.my_card{
+    width: 70%;
+    padding: 5%;
+    background-color: #426066dc;
+    align-self: center;
+}
+
+.my_span{
+    width: 10%;
+}
+
+.my_input{
+    width: 70%
+}

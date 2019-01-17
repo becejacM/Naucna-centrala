@@ -3,6 +3,7 @@ package ftn.uns.ac.rs.naucnaCentrala.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -55,8 +56,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests()
-                .antMatchers("/users/login").permitAll()
+                .authorizeRequests().anyRequest().permitAll();
+                /*.antMatchers("/users/login").permitAll()
                 .antMatchers(HttpMethod.GET, "/center/logs").hasAuthority("READ_PRIVILEGE")
         		.antMatchers(HttpMethod.GET, "/center/logs/regex").hasAuthority("READ_PRIVILEGE")
         		.antMatchers(HttpMethod.GET,"/center/logs/filter").hasAuthority("READ_PRIVILEGE")
@@ -69,7 +70,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/center/rules").hasAuthority("READ_PRIVILEGE")
         		.antMatchers(HttpMethod.GET, "/center/rules/all").hasAuthority("READ_PRIVILEGE")
                 .antMatchers(HttpMethod.GET, "/center/rules/{name}").hasAuthority("READ_PRIVILEGE");
-                /*.antMatchers(HttpMethod.POST, "/center/logs").permitAll()
+                .antMatchers(HttpMethod.POST, "/center/logs").permitAll()
                 .antMatchers("/users/login").permitAll()
                 .antMatchers(HttpMethod.GET, "/center/logs").hasAnyAuthority("ADMIN", "OPERATOR")
                 .antMatchers(HttpMethod.GET, "/center/logs/regex").hasAnyAuthority("ADMIN", "OPERATOR")

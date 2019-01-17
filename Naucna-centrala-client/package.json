@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --proxy-config proxy.conf.json --ssl 1 --ssl-key '/src/assets/angular.key' --ssl-cert '/src/assets/angular.crt'",
+    "start": "ng serve --proxy-config proxy.conf.json",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
@@ -24,6 +24,7 @@
     "@ng-bootstrap/ng-bootstrap": "^1.1.2",
     "@types/grecaptcha": "^2.0.34",
     "angular-captcha": "^3.1.1",
+    "angular2-notifications": "^2.0.0",
     "bootstrap": "^4.1.1",
     "core-js": "^2.4.1",
     "font-awesome": "^4.7.0",
@@ -34,9 +35,10 @@
     "ngx-owl-carousel": "^2.0.7",
     "ngx-permission": "^0.2.1",
     "ngx-permissions": "^2.1.1",
-    "ngx-toastr": "^8.4.0",
+    "ngx-toastr": "^8.10.2",
     "popper.js": "^1.12.3",
     "rxjs": "^5.5.10",
+    "stompjs": "^2.3.3",
     "tether": "^1.4.4",
     "zone.js": "^0.8.19"
   },

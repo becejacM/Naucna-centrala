@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 
 import ftn.uns.ac.rs.naucnaCentrala.model.AppUser;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 
@@ -19,9 +21,14 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
 
     AppUser findByUsername(String username);
 
+    AppUser findByEmail(String email);
+    
     Page<AppUser> findByVerified(Pageable pageable, boolean verified);
 
     @Modifying(clearAutomatically = true)
     @Query("UPDATE AppUser user set user.password = ?1 where user.username = ?2")
     void changePassword(String password, String username);
+    
+    Optional<AppUser> findByEmailAndPassword(String username, String password);
+
 }

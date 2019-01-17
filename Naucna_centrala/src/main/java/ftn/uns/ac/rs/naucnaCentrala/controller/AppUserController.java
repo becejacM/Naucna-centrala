@@ -1,5 +1,7 @@
 package ftn.uns.ac.rs.naucnaCentrala.controller;
 
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,7 @@ import ftn.uns.ac.rs.naucnaCentrala.service.UserExtendedService;
 
 @RestController
 @RequestMapping("/users")
-@CrossOrigin
+//@CrossOrigin
 public class AppUserController {
     private static final Logger logger = LoggerFactory.getLogger(NaucnaCentralaApplication.class);
 
@@ -84,7 +86,7 @@ public class AppUserController {
 
 
     @PutMapping(value = "/change-password")
-    public ResponseEntity<String> changePassword(@RequestBody ChangePasswordDto changePasswordDto) {
+    public ResponseEntity<String> changePassword(@RequestBody ChangePasswordDto changePasswordDto) throws IOException {
         boolean changedPassword = this.userDetailsService.changePassword
                 (changePasswordDto.getCurrentPassword()
                         , changePasswordDto.getNewPassword(),
