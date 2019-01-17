@@ -5,6 +5,7 @@ import { NgxPermissionsService } from 'ngx-permissions';
 import { ToastrService } from 'ngx-toastr';
 
 import { LoggedUtils } from '../../utils/logged-utils';
+import { NotificationsService } from 'angular2-notifications';
 
 import * as Stomp from 'stompjs';
 import SockJS from 'sockjs-client';
