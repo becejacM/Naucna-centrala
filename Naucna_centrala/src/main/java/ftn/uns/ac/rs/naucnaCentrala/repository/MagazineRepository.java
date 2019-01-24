@@ -8,4 +8,5 @@ import ftn.uns.ac.rs.naucnaCentrala.model.Magazine;
 @Repository
 public interface MagazineRepository extends JpaRepository<Magazine, Long>{
 
+	Magazine findByName(String name);
 }

@@ -35,6 +35,9 @@ import { RegistrationFormComponent } from './components/registration/registratio
 import { RegistrationPageComponent } from './components/registration/registration-page/registration-page.component';
 import { RegistrationErrorPageComponent } from './components/registration/registration-error-page/registration-error-page.component';
 import { VerificationPageComponent } from './components/registration/verification-page/verification-page.component';
+import { MagazinesPageComponent } from './components/publication/magazines-page/magazines-page.component';
+import { PublicationService } from './services/publication/publication.service';
+import { SubmitPaperPageComponent } from './components/publication/submit-paper-page/submit-paper-page.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +52,9 @@ import { VerificationPageComponent } from './components/registration/verificatio
     RegistrationFormComponent,
     RegistrationPageComponent,
     RegistrationErrorPageComponent,
-    VerificationPageComponent
+    VerificationPageComponent,
+    MagazinesPageComponent,
+    SubmitPaperPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -72,6 +77,7 @@ import { VerificationPageComponent } from './components/registration/verificatio
     RegistrationService,
     OnlyLoggedInGuard,
     AlreadyLoggedInGuard,
+    PublicationService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,

@@ -34,10 +34,15 @@ public class SocketController {
 		return name;
     }
     
-    /*@SendTo("/nc/alarms/priority")
-	public String processMessageFromClient(@Payload String message) throws Exception {
-    	System.out.println("evo meeeeeeeeeeee porukaaa");
+    @SendTo("/nc/notifyAboutOpenAccess")
+	public String processMessageNotifyAboutOpenAccess(@Payload String message) throws Exception {
     	String name = new Gson().fromJson(message, Map.class).get("name").toString();
 		return name;
-    }*/
+    }
+    
+    @SendTo("/nc/notifyAboutActiveFee")
+	public String processMessageNotifyAboutActiveFee(@Payload String message) throws Exception {
+    	String name = new Gson().fromJson(message, Map.class).get("name").toString();
+		return name;
+    }
 }

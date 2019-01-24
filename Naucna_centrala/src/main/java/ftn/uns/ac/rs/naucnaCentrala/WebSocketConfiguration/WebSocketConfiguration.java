@@ -16,7 +16,7 @@ public class WebSocketConfiguration extends AbstractWebSocketMessageBrokerConfig
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/nc", "/nc/errors");
+        config.enableSimpleBroker("/nc", "/nc/errors", "/nc/notifyAboutOpenAccess", "notifyAboutActiveFee");
         config.setApplicationDestinationPrefixes("/app");
     }
 

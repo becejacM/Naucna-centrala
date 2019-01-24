@@ -81,12 +81,16 @@ export class NavbarComponent implements OnInit {
 
       that.ws.subscribe("/nc/errors", function (message) {
         console.log(message);
-        //alert("Error registration! Try again!");
-        that.notificationService.error('Error registration! Try again!');
-        
-        //that.toastr.warning("Error registration");
-        
+        that.notificationService.error("Error registration! Try again!");        
+      });
 
+      that.ws.subscribe("/nc/notifyAboutOpenAccess", function (message) {
+        console.log(message);
+        that.notificationService.info("Magazine is open access!");        
+      });
+      that.ws.subscribe("/nc/notifyAboutActiveFee", function (message) {
+        console.log(message);
+        that.notificationService.info("Magazine is open access!");        
       });
     }, function (error) {
       console.log("STOMP error " + error);

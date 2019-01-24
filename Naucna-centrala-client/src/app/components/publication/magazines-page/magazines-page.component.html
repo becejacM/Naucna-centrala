@@ -1,0 +1,23 @@
+<div id="registrationDiv" class="mainContainer  d-flex justify-content-center">
+  <div class="card my_card">
+    <div class="col-md-12 col-md-offset-3" id="logreg">
+      <button *ngIf="start===false" type="button" class="btn btn-primary button-accept-accounting" (click)="startProcess()">
+        Start process</button>
+        <div *ngIf="start!==false">
+            <ul class="list-unstyled" *ngIf="magazines">
+              <h3 id="heading-own-magazines">Choose a magazine:</h3>
+              <div *ngFor="let magazine of magazines; let i = index;">
+                <li class="list-group-item list-group-item flex-column align-items-start">
+                  <div *ngIf="magazine" class="d-flex w-100 justify-content-between div-toggle-building-list-item" style="cursor: pointer">
+          
+                    Magazine with name: {{magazine.name}}
+                    <button type="button" class="btn btn-primary button-accept-accounting" (click)="chooseMagazine(magazine.name)">
+                      Choose</button>
+                  </div>
+                </li>
+              </div>
+            </ul>
+          </div>
+    </div>
+  </div>
+</div>

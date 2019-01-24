@@ -3,7 +3,7 @@ insert into editorial_board(id) values (1);
 insert into editorial_board(id) values (2);
 
 -- autor1
--- MDJ421054-bsep- => password
+-- MDJ421054-bsep => password
 insert into app_user(id, username, password,email, firstname, lastname, verified, role, state, city, dtype) values
   (1, 'autor1', '$2a$10$h1VM/QaYFHRKfv9yG77S2uyLT63XUWTCdfusgicsfa560spVNZEsi', 'autor1@mailinator.com', 'autor1', 'autor1', 1, 'AUTHOR', 'Serbia', 'Novi Sad', 'Author');
 insert into app_user(id, username, password,email, firstname, lastname, verified, role, state, city, dtype) values
@@ -54,15 +54,15 @@ insert into users_roles(user_id, role_id) value (8, 3);
 insert into users_roles(user_id, role_id) value (9, 3);
 
 -- dodavanje casopisa
-insert into magazine(id, issn, name, payment_method, editorial_board_id) values (1, '12345', 'casopis 1 biologija', 2, 1);
-insert into magazine(id, issn, name, payment_method, editorial_board_id) values (2, '741258', 'casopis 2 logika', 1, 2);
+insert into magazine(id, issn, name, payment_method, editorial_board_id) values (1, '12345', 'casopis 1 biologija', 1, 1);
+insert into magazine(id, issn, name, payment_method, editorial_board_id) values (2, '741258', 'casopis 2 logika', 0, 2);
 
 -- dodavanje naucnih oblasti
-insert into scientific_field(id, scientific_field_name) values (1, 1);
-insert into scientific_field(id, scientific_field_name) values (2, 2);
-insert into scientific_field(id, scientific_field_name) values (3, 3);
-insert into scientific_field(id, scientific_field_name) values (4, 4);
-insert into scientific_field(id, scientific_field_name) values (5, 5);
+insert into scientific_field(id, scientific_field_name) values (1, 0);
+insert into scientific_field(id, scientific_field_name) values (2, 1);
+insert into scientific_field(id, scientific_field_name) values (3, 2);
+insert into scientific_field(id, scientific_field_name) values (4, 3);
+insert into scientific_field(id, scientific_field_name) values (5, 4);
 
 -- dodela naucnih oblasti casopisima
 insert into magazine_field(magazine_id, field_id) values (1, 2);
