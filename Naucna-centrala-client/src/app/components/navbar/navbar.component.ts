@@ -99,7 +99,8 @@ export class NavbarComponent implements OnInit {
     }*/
     LoggedUtils.clearLocalStorage();
     this.router.navigate(['/login']);
-    this.toastr.success('You are loged out!');
+    this.notificationService.success('You are logged out!');    
+    //this.toastr.success('You are loged out!');
     this.permissionsService.flushPermissions();
   }
 

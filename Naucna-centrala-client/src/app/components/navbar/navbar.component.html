@@ -1,13 +1,13 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-muted rounded" style="background-color: #000508;">
 
   <ul class="navbar nav ml-auto" style="margin-right: 2%">
-    <li class="nav-item" *ngxPermissionsOnly="['[ADMIN]', '[OPERATOR]']">
+    <li class="nav-item" *ngxPermissionsOnly="['[AUTHOR]', '[EDITOR]']">
       <a id="change-password-link" class="nav-link" routerLink="/change-password" translate>Change password</a>
     </li>
-    <li class="nav-item" *ngxPermissionsOnly="['[ADMIN]', '[OPERATOR]']">
+    <li class="nav-item" *ngxPermissionsOnly="['[AUTHOR]', '[EDITOR]']">
       <a id="sing-out-link" class="nav-link" (click)="logoutf()" routerLink="/login" translate>Sign out</a>
     </li>
-    <li class="nav-item" *ngxPermissionsExcept="['[ADMIN]', '[OPERATOR]']">
+    <li class="nav-item" *ngxPermissionsExcept="['[AUTHOR]', '[EDITOR]']">
       <a id="sing-in-link" class="nav-link" routerLink="/login" translate>Sign in</a>
     </li>
 

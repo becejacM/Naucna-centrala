@@ -10,6 +10,7 @@ import javax.crypto.Mac;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import sun.misc.*;
@@ -87,7 +88,11 @@ public class AES {
 		String decryptedString = decrypt(encryptedString);
 
 		System.out.println("After decryption - " + decryptedString);
+		
+        String newPass = new BCryptPasswordEncoder().encode("Kuhinja007");
 
-	}*/
-	
+        System.out.println(newPass);
+        
+	}
+	*/
 }

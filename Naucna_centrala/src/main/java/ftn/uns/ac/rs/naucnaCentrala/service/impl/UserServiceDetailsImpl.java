@@ -53,7 +53,7 @@ public class UserServiceDetailsImpl implements UserExtendedService {
     	String dekriptovanEmail = AES.encrypt(username);
     	System.out.println(dekriptovanEmail);
         //AppUser user = this.userRepository.findByUsername(username);
-    	AppUser user = this.userRepository.findByEmail(dekriptovanEmail);
+    	AppUser user = this.userRepository.findByEmail(username);
         if (user == null) {
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
         } else {

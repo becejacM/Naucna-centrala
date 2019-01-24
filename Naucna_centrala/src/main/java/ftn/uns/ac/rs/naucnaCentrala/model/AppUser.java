@@ -1,5 +1,6 @@
 package ftn.uns.ac.rs.naucnaCentrala.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.Column;
@@ -17,6 +18,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.persistence.JoinColumn;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.Email;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -51,6 +55,12 @@ public class AppUser {
 	@Column(name = "lastname", nullable = true)
 	protected String lastname;
 
+	@Column(name = "city", nullable = true)
+	protected String city;
+
+	@Column(name = "state", nullable = true)
+	protected String state;
+	
 	@Column(name = "verified")
 	protected Boolean verified;
 
@@ -59,15 +69,17 @@ public class AppUser {
 	protected UserRole role;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-	private Collection<Role> roles;
+	private Collection<Role> roles = new ArrayList<Role>();
 	
 	public AppUser() {
 		
 	}
 
 	public AppUser(Long id, @Size(min = 3) String username, @Size(min = 3) String password, @Email String email,
-			String firstname, String lastname, Boolean verified, UserRole role) {
+			String firstname, String lastname, String city, String state, Boolean verified, UserRole role,
+			Collection<Role> roles) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -75,8 +87,11 @@ public class AppUser {
 		this.email = email;
 		this.firstname = firstname;
 		this.lastname = lastname;
+		this.city = city;
+		this.state = state;
 		this.verified = verified;
 		this.role = role;
+		this.roles = roles;
 	}
 
 	public Long getId() {
@@ -127,6 +142,22 @@ public class AppUser {
 		this.lastname = lastname;
 	}
 
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
 	public Boolean getVerified() {
 		return verified;
 	}
@@ -142,8 +173,6 @@ public class AppUser {
 	public void setRole(UserRole role) {
 		this.role = role;
 	}
-	
-	
 
 	public Collection<Role> getRoles() {
 		return roles;
@@ -156,9 +185,9 @@ public class AppUser {
 	@Override
 	public String toString() {
 		return "AppUser [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email
-				+ ", firstname=" + firstname + ", lastname=" + lastname + ", verified=" + verified + ", role=" + role
-				+ "]";
+				+ ", firstname=" + firstname + ", lastname=" + lastname + ", city=" + city + ", state=" + state
+				+ ", verified=" + verified + ", role=" + role + ", roles=" + roles + "]";
 	}
-	
+
 	
 }

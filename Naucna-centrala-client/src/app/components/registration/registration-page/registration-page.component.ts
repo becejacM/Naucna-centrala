@@ -71,12 +71,12 @@ export class RegistrationPageComponent implements OnInit {
     },
       (err: HttpErrorResponse) => {
         if (err.error instanceof Error) {
-          this.router.navigate([`/registration/error`]);
+          this.router.navigate([`/registration`]);
           this.notificationService.error(err.error.message + '\nError Status ' + err.status);          
           //this.toastr.error(err.error.message + '\nError Status ' + err.status);
           console.log(err.error.message + '\nError Status ' + err.status);
         } else {
-          this.router.navigate([`/registration/error`]);
+          this.router.navigate([`/registration`]);
           this.notificationService.error(err.error.message + '\nError Status ' + err.status);                    
           //this.toastr.error(err.error.message + '\nError Status ' + err.status);
           console.log(err.error.message + '\nError Status ' + err.status);

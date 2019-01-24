@@ -54,7 +54,6 @@ export class AuthenticationComponent implements OnInit {
         console.log("evo me");
         this.notificationService.success('You are logged in');
         //this.toastr.success('You are logged in', 'Welcome!');
-        this.notificationService.success('You are logged in');
         
       },
       error => 

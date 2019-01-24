@@ -5,13 +5,17 @@ import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 
 import ftn.uns.ac.rs.naucnaCentrala.model.AppUser;
+import ftn.uns.ac.rs.naucnaCentrala.model.Role;
 import ftn.uns.ac.rs.naucnaCentrala.model.UserRole;
 import ftn.uns.ac.rs.naucnaCentrala.repository.AppUserRepository;
+import ftn.uns.ac.rs.naucnaCentrala.repository.RoleRepository;
 import ftn.uns.ac.rs.naucnaCentrala.service.EmailService;
+import ftn.uns.ac.rs.naucnaCentrala.utils.AES;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -32,9 +36,14 @@ public class RegistrationTaskService {
     private AppUserRepository userRepository;
 
     @Autowired
+    private RoleRepository roleRepository;
+    
+    @Autowired
     private EmailService emailService;
 
     private SimpMessagingTemplate template;
+    
+    private AES aesService;
     
     @Autowired
     public RegistrationTaskService(final FormService formService,
@@ -68,12 +77,15 @@ public class RegistrationTaskService {
         AppUser user = new AppUser();
         user.setFirstname(firstname);
         user.setLastname(lastname);
+    	//String dekriptovanEmail = AES.encrypt(username);
         user.setEmail(email);
-        user.setPassword(password);
+        String passwordHashed = new BCryptPasswordEncoder().encode(password);
+        user.setPassword(passwordHashed);
         user.setUsername(username);
         user.setVerified(false);
-        user.setRole(UserRole.ADMIN);
-        
+        user.setRole(UserRole.AUTHOR);
+        Role role = roleRepository.findByName("AUTHOR");
+        user.getRoles().add(role);
         userRepository.save(user);
     }
 
