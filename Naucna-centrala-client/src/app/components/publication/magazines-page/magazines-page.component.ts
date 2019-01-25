@@ -9,6 +9,7 @@ import SockJS from 'sockjs-client';
 import { NotificationsService } from 'angular2-notifications';
 import { PublicationService } from '../../../services/publication/publication.service';
 import { MagazineDetails } from '../../../model/MagazineDetails';
+import { LoggedUtils } from '../../../utils/logged-utils';
 
 
 @Component({
@@ -47,22 +48,21 @@ export class MagazinesPageComponent implements OnInit {
   }
 
   chooseMagazine(name: string) {
-    console.log("Evo me");
+    console.log("Evo me "+ name);
     this.magazine.processInstanceId = this.processInstanceId;
     this.magazine.name = name;
-    
-    console.log("processsssssssss: " + this.magazine.processInstanceId);
+    this.magazine.starter = LoggedUtils.getUsername();
+    console.log("starter: " + this.magazine.starter);
     this.publicationService.chooseMagazine(this.magazine).subscribe(response => {
       //this.registrationService.getNextTask(registration.username).subscribe(response => {
         console.log(response);
         //this.ngOnInit();
         if(response!==null){
           console.log(response.taskId + "eve meeeeeeeeeee");          
-          //this.router.navigate([`/registration/error/${response.taskId}`]);          
+          //this.router.navigate([`/tasks`]);          
         }
         else{
-          //this.notificationService.success('You have choosed magazine!');
-          this.router.navigate([`/submit-paper-page`]);
+          this.router.navigate([`/tasks`]);
         }
         
       //});

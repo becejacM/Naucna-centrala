@@ -2,7 +2,7 @@
 insert into editorial_board(id) values (1);
 insert into editorial_board(id) values (2);
 
--- autor1
+-- autori
 -- MDJ421054-bsep => password
 insert into app_user(id, username, password,email, firstname, lastname, verified, role, state, city, dtype) values
   (1, 'autor1', '$2a$10$h1VM/QaYFHRKfv9yG77S2uyLT63XUWTCdfusgicsfa560spVNZEsi', 'autor1@mailinator.com', 'autor1', 'autor1', 1, 'AUTHOR', 'Serbia', 'Novi Sad', 'Author');

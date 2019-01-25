@@ -10,6 +10,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 
+import ftn.uns.ac.rs.naucnaCentrala.model.AppUser;
 import ftn.uns.ac.rs.naucnaCentrala.model.Magazine;
 import ftn.uns.ac.rs.naucnaCentrala.model.PaymentMethod;
 import ftn.uns.ac.rs.naucnaCentrala.repository.AppUserRepository;
@@ -63,7 +64,7 @@ public class AppTaskService {
     }
     
     public void notifyAboutOpenAccess() {
-    	System.out.println("radi ovo obavestenje 2");
+    	System.out.println("radi ovo obavestenje 2 ");
         this.template.convertAndSend("/nc/notifyAboutOpenAccess", "Magazine is open access");
     }
     
@@ -75,5 +76,18 @@ public class AppTaskService {
     public void payFee() {
     	System.out.println("radi ovo obavestenje 4");
         this.template.convertAndSend("/nc/errors", "You must pay first");
+    }
+    
+    public void notifyAboutInvalidPaper() {
+    	System.out.println("radi ovo obavestenje 5");
+        this.template.convertAndSend("/nc/notifyAboutInvalidPaper", "Invalid paper");
+    }
+    
+    public boolean checkPaper(String naslov, String kljucneReci, String apstrakt) {
+    	System.out.println("proveravam validnost rada");
+    	if(naslov.equals(null) || naslov.equals("")) {
+    		return false;
+    	}
+    	return true;
     }
 }

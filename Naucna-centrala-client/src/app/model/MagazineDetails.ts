@@ -4,6 +4,7 @@ export class MagazineDetails{
     issn : string;
     paymentMethod : string;
     processInstanceId : string;
+    starter : string;
 
     constructor(magazine: MagazineInterface = {}) {
         this.id = magazine.id;
@@ -11,6 +12,7 @@ export class MagazineDetails{
         this.issn = magazine.issn;
         this.paymentMethod = magazine.paymentMethod;
         this.processInstanceId = magazine.processInstanceId;
+        this.starter = magazine.starter;
     }
     set setprocessInstanceId(newprocessInstanceId: string){
         this.processInstanceId = newprocessInstanceId;
@@ -23,4 +25,5 @@ interface MagazineInterface {
     issn?: string;
     paymentMethod?: string;
     processInstanceId?: string;
+    starter?: string;
 }

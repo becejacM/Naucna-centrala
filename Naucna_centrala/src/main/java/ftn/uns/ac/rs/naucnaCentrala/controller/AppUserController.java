@@ -51,6 +51,7 @@ public class AppUserController {
     @PostMapping(value = "/login")
     public ResponseEntity<?> authenticationRequest(@RequestBody AuthenticationRequestDto authenticationRequest) {
         // Perform the authentication
+    	System.out.println("logujem seeee");
         Authentication authentication = null;
         UsernamePasswordAuthenticationToken t = new UsernamePasswordAuthenticationToken(
                 authenticationRequest.getUsername(), authenticationRequest.getPassword());

@@ -2,16 +2,19 @@
 
   <ul class="navbar nav ml-auto" style="margin-right: 2%">
       <li class="nav-item" *ngxPermissionsOnly="['[AUTHOR]']">
-          <a id="choose-magazine-link" class="nav-link" routerLink="/choose-magazine" translate>Publicate paper</a>
+          <a id="choose-magazine-link" class="nav-link" routerLink="/choose-magazine" translate>Objavi rad</a>
+        </li>
+        <li class="nav-item" *ngxPermissionsOnly="['[AUTHOR]']">
+          <a id="my-tasks-link" class="nav-link" routerLink="/tasks" translate>Moji zadaci</a>
         </li>
     <li class="nav-item" *ngxPermissionsOnly="['[AUTHOR]', '[EDITOR]']">
-      <a id="change-password-link" class="nav-link" routerLink="/change-password" translate>Change password</a>
+      <a id="change-password-link" class="nav-link" routerLink="/change-password" translate>Promeni sifru</a>
     </li>
     <li class="nav-item" *ngxPermissionsOnly="['[AUTHOR]', '[EDITOR]']">
-      <a id="sing-out-link" class="nav-link" (click)="logoutf()" routerLink="/login" translate>Sign out</a>
+      <a id="sing-out-link" class="nav-link" (click)="logoutf()" routerLink="/login" translate>Izloguj se</a>
     </li>
     <li class="nav-item" *ngxPermissionsExcept="['[AUTHOR]', '[EDITOR]']">
-      <a id="sing-in-link" class="nav-link" routerLink="/login" translate>Sign in</a>
+      <a id="sing-in-link" class="nav-link" routerLink="/login" translate>Uloguj se</a>
     </li>
 
   </ul>

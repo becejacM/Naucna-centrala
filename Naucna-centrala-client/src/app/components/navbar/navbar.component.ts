@@ -81,17 +81,23 @@ export class NavbarComponent implements OnInit {
 
       that.ws.subscribe("/nc/errors", function (message) {
         console.log(message);
-        that.notificationService.error("Error registration! Try again!");        
+        that.notificationService.error("Greska prilikom registracije! Pokusajte ponovo!");        
       });
 
       that.ws.subscribe("/nc/notifyAboutOpenAccess", function (message) {
         console.log(message);
-        that.notificationService.info("Magazine is open access!");        
+        that.notificationService.info("Casopis nije open-access! Autorima se ne naplacuje");        
       });
       that.ws.subscribe("/nc/notifyAboutActiveFee", function (message) {
         console.log(message);
-        that.notificationService.info("Magazine is open access!");        
+        that.notificationService.info("Vasa pretplata na open-access casopis je aktivna!");        
       });
+      that.ws.subscribe("/nc/notifyAboutInvalidPaper", function (message) {
+        console.log(message);
+        that.notificationService.info("Vasa unos rada je neuspesan! Neki od parametara nisu validni");        
+      });
+
+      
     }, function (error) {
       console.log("STOMP error " + error);
     });
@@ -103,7 +109,7 @@ export class NavbarComponent implements OnInit {
     }*/
     LoggedUtils.clearLocalStorage();
     this.router.navigate(['/login']);
-    this.notificationService.success('You are logged out!');    
+    this.notificationService.success('Uspesno ste se izlogovali!');    
     //this.toastr.success('You are loged out!');
     this.permissionsService.flushPermissions();
   }

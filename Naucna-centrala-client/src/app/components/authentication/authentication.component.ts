@@ -52,12 +52,12 @@ export class AuthenticationComponent implements OnInit {
         this.permissionsService.permissions$.subscribe((item) => {
         });
         console.log("evo me");
-        this.notificationService.success('You are logged in');
+        this.notificationService.success('Uspesno ste se ulogovali');
         //this.toastr.success('You are logged in', 'Welcome!');
         
       },
       error => 
-      this.notificationService.error('Incorrect username and/or password'),
+      this.notificationService.error('Neipstavno korisnicko i/ili sifra'),
       () => console.log(JSON.parse(localStorage.getItem('loggedUser')))
     );
   }

@@ -10,6 +10,8 @@ import { VerificationPageComponent } from './components/registration/verificatio
 import { RegistrationErrorPageComponent } from './components/registration/registration-error-page/registration-error-page.component';
 import { MagazinesPageComponent } from './components/publication/magazines-page/magazines-page.component';
 import { SubmitPaperPageComponent } from './components/publication/submit-paper-page/submit-paper-page.component';
+import { TasksPageComponent } from './components/publication/tasks-page/tasks-page.component';
+import { TaskComponent } from './components/publication/task/task.component';
 
 
 const appRoutes: Routes = [
@@ -25,6 +27,14 @@ const appRoutes: Routes = [
   {path: 'home', component: HomeComponent, canActivate: [OnlyLoggedInGuard]},
   {path: 'choose-magazine', component: MagazinesPageComponent, canActivate: [OnlyLoggedInGuard]},
   {path: 'submit-paper-page', component: SubmitPaperPageComponent, canActivate: [OnlyLoggedInGuard]},    
+  {path: 'tasks-list', component: SubmitPaperPageComponent, canActivate: [OnlyLoggedInGuard]}, 
+  {
+    path: 'tasks',
+    component: TasksPageComponent,
+    children: [
+      { path: ':taskId', component: TaskComponent, canActivate: [OnlyLoggedInGuard] }
+    ]
+  },
   {path: 'change-password', component: ChangePasswordComponent},
   
 

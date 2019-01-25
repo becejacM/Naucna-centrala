@@ -42,4 +42,9 @@ public class TaskDto {
 		this.assignee = assignee;
 	}
 
+	@Override
+	public String toString() {
+		return "TaskDto [taskId=" + taskId + ", name=" + name + ", assignee=" + assignee + "]";
+	}
+
 }

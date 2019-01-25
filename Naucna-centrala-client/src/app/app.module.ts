@@ -38,6 +38,9 @@ import { VerificationPageComponent } from './components/registration/verificatio
 import { MagazinesPageComponent } from './components/publication/magazines-page/magazines-page.component';
 import { PublicationService } from './services/publication/publication.service';
 import { SubmitPaperPageComponent } from './components/publication/submit-paper-page/submit-paper-page.component';
+import { TasksListComponent } from './components/publication/tasks-list/tasks-list.component';
+import { TasksPageComponent } from './components/publication/tasks-page/tasks-page.component';
+import { TaskComponent } from './components/publication/task/task.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +58,9 @@ import { SubmitPaperPageComponent } from './components/publication/submit-paper-
     VerificationPageComponent,
     MagazinesPageComponent,
     SubmitPaperPageComponent,
+    TasksListComponent,
+    TasksPageComponent,
+    TaskComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,27 @@
+<div *ngIf="isFetched" class="task-content">
+  <div class="task-title">
+    <div class="row">
+      <img src="assets/task.png" />
+      <h3>{{task.name}}</h3>
+    </div>
+  </div>
+  <br/>
+  <br/>
+  <div class="row">
+    <form class="col-md-6" (submit)="completeTask()">
+      <div *ngFor="let field of task.formFields" class="form-group">
+        <label *ngIf="field.type.name !== 'boolean'" [for]="field.id">{{field.label}}</label>
+        <input  class="form-control" type="checkbox" name={{field.id}} [(ngModel)]="taskDetails[field.id]"  *ngIf="field.type.name=='boolean'">
+        <input  class="form-control" type="number" name={{field.id}} [(ngModel)]="taskDetails[field.id]"  *ngIf="field.type.name=='long'">
+        <input *ngIf="'string'" [name]="field.id" [id]="field.id" [type]="field.id === 'password' ? 'password' : field.type.name"
+        class="form-control" [(ngModel)]="taskDetails[field.id]">
+        <select name="field.id" *ngIf="field.type.name=='enum'">
+          <option *ngFor="let val of enumValues" value={{val}}>
+            {{field.type.values[val]}}
+          </option>
+        </select>
+      </div>
+      <button type="submit" class="glass">Posalji</button>
+    </form>
+  </div>
+</div>

@@ -58,7 +58,7 @@ export class RegistrationPageComponent implements OnInit {
           this.router.navigate([`/registration/error/${response.taskId}`]);          
         }
         else{
-          this.notificationService.success('Your registration is successfully created. Please check your email for confirmation!');
+          this.notificationService.success('Vasa registracija je uspesno kreirana. Potvrdite Vas nalog putem e-mail-a!');
           
   //        this.toastr.success("Your registration is successfully created. Please check your email for confirmation!");
           this.router.navigate([`/login`]);

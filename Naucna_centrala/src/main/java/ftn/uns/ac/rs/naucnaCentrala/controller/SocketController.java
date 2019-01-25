@@ -45,4 +45,10 @@ public class SocketController {
     	String name = new Gson().fromJson(message, Map.class).get("name").toString();
 		return name;
     }
+    
+    @SendTo("/nc/notifyAboutInvalidPaper")
+	public String processMessagenotifyAboutInvalidPaper(@Payload String message) throws Exception {
+    	String name = new Gson().fromJson(message, Map.class).get("name").toString();
+		return name;
+    }
 }
