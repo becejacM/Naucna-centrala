@@ -1,5 +1,7 @@
 package ftn.uns.ac.rs.naucnaCentrala.taskService;
 
+import java.util.Collection;
+
 import javax.transaction.Transactional;
 
 import org.camunda.bpm.engine.FormService;
@@ -11,6 +13,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 
 import ftn.uns.ac.rs.naucnaCentrala.model.AppUser;
+import ftn.uns.ac.rs.naucnaCentrala.model.Author;
+import ftn.uns.ac.rs.naucnaCentrala.model.Editor;
 import ftn.uns.ac.rs.naucnaCentrala.model.Magazine;
 import ftn.uns.ac.rs.naucnaCentrala.model.PaymentMethod;
 import ftn.uns.ac.rs.naucnaCentrala.repository.AppUserRepository;
@@ -30,7 +34,8 @@ public class AppTaskService {
 
     @Autowired
     private MagazineRepository magazineRepository;
-    
+    @Autowired
+    private AppUserRepository appUserRepository;
     @Autowired
     private EmailService emailService;
 
@@ -90,4 +95,22 @@ public class AppTaskService {
     	}
     	return true;
     }
+    
+    public String addMainEditor(String magazineName) {
+    	String usernameEditor = "";
+    	Magazine m = this.magazineRepository.findByName(magazineName);
+    	System.out.println(m.getName() + "naziv magazinaaaa");
+
+    	Collection<Editor> editors = m.getEditorialBoard().getEditors();
+    	for (Editor editor : editors) {
+        	System.out.println(editor.getUsername() + "naziv editora");
+			if(editor.isMain().equals("yes")) {
+				usernameEditor = editor.getUsername();
+			}
+		}
+    	System.out.println("dodeljujem urednika "+usernameEditor);
+    	return  usernameEditor;
+    }
+    
+    
 }

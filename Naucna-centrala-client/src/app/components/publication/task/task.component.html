@@ -10,7 +10,7 @@
   <div class="row">
     <form class="col-md-6" (submit)="completeTask()">
       <div *ngFor="let field of task.formFields" class="form-group">
-        <label *ngIf="field.type.name !== 'boolean'" [for]="field.id">{{field.label}}</label>
+        <label [for]="field.id">{{field.label}}</label>
         <input  class="form-control" type="checkbox" name={{field.id}} [(ngModel)]="taskDetails[field.id]"  *ngIf="field.type.name=='boolean'">
         <input  class="form-control" type="number" name={{field.id}} [(ngModel)]="taskDetails[field.id]"  *ngIf="field.type.name=='long'">
         <input *ngIf="'string'" [name]="field.id" [id]="field.id" [type]="field.id === 'password' ? 'password' : field.type.name"

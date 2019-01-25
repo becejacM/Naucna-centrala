@@ -18,7 +18,7 @@ insert into app_user(id, username, password,email, firstname, lastname, verified
 insert into app_user(id, username, password,email, firstname, lastname, verified, role, state, city, dtype, title, editorial_board_id, is_main) values
   (5, 'editor2', '$2a$10$KbAWqhzc8.MlWoQxS.lkXOHT4tQ1j87CYbvpNG49FSmnw7lZt/zFe', 'editor2@mailinator.com', 'editor2', 'editor2', 1, 'EDITOR', 'Serbia', 'Novi Sad', 'Editor', 'dr', 2, 'no');
 insert into app_user(id, username, password,email, firstname, lastname, verified, role, state, city, dtype, title, editorial_board_id, is_main) values
-  (6, 'editor3', '$2a$10$KbAWqhzc8.MlWoQxS.lkXOHT4tQ1j87CYbvpNG49FSmnw7lZt/zFe', 'editor3@mailinator.com', 'editor3', 'editor3', 1, 'EDITOR', 'Serbia', 'Novi Sad', 'Editor', 'dr', 1, 'yes');
+  (6, 'editor3', '$2a$10$KbAWqhzc8.MlWoQxS.lkXOHT4tQ1j87CYbvpNG49FSmnw7lZt/zFe', 'editor3@mailinator.com', 'editor3', 'editor3', 1, 'EDITOR', 'Serbia', 'Novi Sad', 'Editor', 'dr', 2, 'yes');
   
 -- revieweri
 -- Operator-1-bsep => password
