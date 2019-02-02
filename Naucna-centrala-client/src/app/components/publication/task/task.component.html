@@ -11,11 +11,11 @@
     <form class="col-md-6" (submit)="completeTask()">
       <div *ngFor="let field of task.formFields" class="form-group">
         <label [for]="field.id">{{field.label}}</label>
-        <input  class="form-control" type="checkbox" name={{field.id}} [(ngModel)]="taskDetails[field.id]"  *ngIf="field.type.name=='boolean'">
+        <input  class="form-control" type="checkbox" name={{field.id}} [(ngModel)]="taskDetails[field.id]"  *ngIf="field.type.name=='boolean'" value="false">
         <input  class="form-control" type="number" name={{field.id}} [(ngModel)]="taskDetails[field.id]"  *ngIf="field.type.name=='long'">
         <input *ngIf="'string'" [name]="field.id" [id]="field.id" [type]="field.id === 'password' ? 'password' : field.type.name"
         class="form-control" [(ngModel)]="taskDetails[field.id]">
-        <select name="field.id" *ngIf="field.type.name=='enum'">
+        <select name="field.id" *ngIf="field.type.name=='enum'" [(ngModel)]="taskDetails[field.id]">
           <option *ngFor="let val of enumValues" value={{val}}>
             {{field.type.values[val]}}
           </option>

@@ -22,27 +22,27 @@ public class Coauthor {
 	@Column(name = "id")
 	protected Long id;
 	
-	@Column(name = "firstname", nullable = false)
+	@Column(name = "firstname", nullable = true)
 	private String firstname;
 	
-	@Column(name = "email", nullable = false)
+	@Column(name = "email", nullable = true)
 	private String email;
 	
-	@Column(name = "city", nullable = false)
+	@Column(name = "city", nullable = true)
 	private String city;
 	
-	@Column(name = "state", nullable = false)
+	@Column(name = "state", nullable = true)
 	private String state;
 	
 	@ManyToMany(mappedBy = "coauthors")
 	@Fetch(value = FetchMode.SUBSELECT)
-    private Collection<Article> articles;
+    private Collection<Paper> articles;
 	
 	public Coauthor() {
 		
 	}
 
-	public Coauthor(Long id, String firstname, String email, String city, String state, Collection<Article> articles) {
+	public Coauthor(Long id, String firstname, String email, String city, String state, Collection<Paper> articles) {
 		super();
 		this.id = id;
 		this.firstname = firstname;
@@ -92,11 +92,11 @@ public class Coauthor {
 		this.state = state;
 	}
 
-	public Collection<Article> getArticles() {
+	public Collection<Paper> getArticles() {
 		return articles;
 	}
 
-	public void setArticles(Collection<Article> articles) {
+	public void setArticles(Collection<Paper> articles) {
 		this.articles = articles;
 	}
 

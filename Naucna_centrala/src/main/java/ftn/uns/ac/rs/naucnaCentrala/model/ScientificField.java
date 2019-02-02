@@ -44,14 +44,14 @@ public class ScientificField {
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "scientificField")
 	@Fetch(value = FetchMode.SUBSELECT)
-	private List<Article> articles;
+	private List<Paper> articles;
 	
 	public ScientificField() {
 		
 	}
 
 	public ScientificField(Long id, ScientificFieldName scientificFieldName, Collection<Magazine> magazine,
-			Collection<Reviewer> reviewerFields, Collection<Editor> editorFields, List<Article> articles) {
+			Collection<Reviewer> reviewerFields, Collection<Editor> editorFields, List<Paper> articles) {
 		super();
 		this.id = id;
 		this.scientificFieldName = scientificFieldName;
@@ -103,11 +103,11 @@ public class ScientificField {
 		this.editorFields = editorFields;
 	}
 
-	public List<Article> getArticles() {
+	public List<Paper> getArticles() {
 		return articles;
 	}
 
-	public void setArticles(List<Article> articles) {
+	public void setArticles(List<Paper> articles) {
 		this.articles = articles;
 	}
 

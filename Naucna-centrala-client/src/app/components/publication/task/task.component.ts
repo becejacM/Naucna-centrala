@@ -15,7 +15,8 @@ export class TaskComponent implements OnInit {
   id: string;
   isFetched = false;
   taskDetails: any;
-
+  private enumValues = [];
+  
   constructor(private route: ActivatedRoute,private router: Router, private taskService: PublicationService, private notificationService: NotificationsService) { 
     this.taskDetails = {};
   }
@@ -57,6 +58,11 @@ export class TaskComponent implements OnInit {
   formTaskDetails() {
     this.task.formFields.forEach(t => {
       this.taskDetails[t.id] = '';
+        
+        if( t.type.name=='enum'){
+          console.log(t.type.values);          
+          this.enumValues = Object.keys(t.type.values);
+        }
     });
   }
 

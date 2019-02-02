@@ -18,55 +18,68 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import ftn.uns.ac.rs.naucnaCentrala.modelDTO.PaperDTO;
+
 @Entity
-@Table(name = "article")
-public class Article {
+@Table(name = "paper")
+public class Paper {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	protected Long id;
 	
-	@Column(name = "name", nullable = false)
+	@Column(name = "name", nullable = true)
 	private String name;
 	
-	@Column(name = "keywords", nullable = false)
+	@Column(name = "keywords", nullable = true)
 	private String keywords;
 	
-	@Column(name = "apstract", nullable = false)
+	@Column(name = "apstract", nullable = true)
 	private String apstract;
+	
+	@Column(name = "filename", nullable = true)
+	private String filename;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
     @JoinTable(name = "article_coauthor", joinColumns = @JoinColumn(name = "article_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id"))
 	private Collection<Coauthor> coauthors = new ArrayList<Coauthor>();
 	
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@ManyToOne(fetch = FetchType.EAGER, optional = true)
 	private ScientificField scientificField;
 	
-	@Column(name = "firstVersionPath", nullable = false)
+	@Column(name = "firstVersionPath", nullable = true)
 	private String firstVersionPath;	
 	
-	@Column(name = "finaltVersionPath", nullable = false)
+	@Column(name = "finaltVersionPath", nullable = true)
 	private String finalVersionPath;
 	
-	public Article() {
+	public Paper() {
 		
 	}
 
-	public Article(Long id, String name, String keywords, String apstract, Collection<Coauthor> coauthors,
-			ScientificField scientificField, String firstVersionPath, String finalVersionPath) {
+	public Paper(Long id, String name, String keywords, String apstract, String filename,
+			Collection<Coauthor> coauthors, ScientificField scientificField, String firstVersionPath,
+			String finalVersionPath) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.keywords = keywords;
 		this.apstract = apstract;
+		this.filename = filename;
 		this.coauthors = coauthors;
 		this.scientificField = scientificField;
 		this.firstVersionPath = firstVersionPath;
 		this.finalVersionPath = finalVersionPath;
 	}
 
+	public Paper(PaperDTO paperdto) {
+		this.id = paperdto.getId();
+		this.name = paperdto.getName();
+		this.keywords = paperdto.getKeywords();
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -97,6 +110,14 @@ public class Article {
 
 	public void setApstract(String apstract) {
 		this.apstract = apstract;
+	}
+
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 
 	public Collection<Coauthor> getCoauthors() {
@@ -130,5 +151,6 @@ public class Article {
 	public void setFinalVersionPath(String finalVersionPath) {
 		this.finalVersionPath = finalVersionPath;
 	}
+
 	
 }

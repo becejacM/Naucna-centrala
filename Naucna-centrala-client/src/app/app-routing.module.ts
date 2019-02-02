@@ -12,6 +12,7 @@ import { MagazinesPageComponent } from './components/publication/magazines-page/
 import { SubmitPaperPageComponent } from './components/publication/submit-paper-page/submit-paper-page.component';
 import { TasksPageComponent } from './components/publication/tasks-page/tasks-page.component';
 import { TaskComponent } from './components/publication/task/task.component';
+import { SearchlistComponent } from './components/searchlist/searchlist.component';
 
 
 const appRoutes: Routes = [
@@ -36,6 +37,7 @@ const appRoutes: Routes = [
     ]
   },
   {path: 'change-password', component: ChangePasswordComponent},
+  {path: 'search-and-buy', component: SearchlistComponent, canActivate: [OnlyLoggedInGuard]},
   
 
 
