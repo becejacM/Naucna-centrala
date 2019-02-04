@@ -25,6 +25,9 @@ public class Coauthor {
 	@Column(name = "firstname", nullable = true)
 	private String firstname;
 	
+	@Column(name = "lastname", nullable = true)
+	private String lastname;
+	
 	@Column(name = "email", nullable = true)
 	private String email;
 	
@@ -42,10 +45,12 @@ public class Coauthor {
 		
 	}
 
-	public Coauthor(Long id, String firstname, String email, String city, String state, Collection<Paper> articles) {
+	public Coauthor(Long id, String firstname, String lastname, String email, String city, String state,
+			Collection<Paper> articles) {
 		super();
 		this.id = id;
 		this.firstname = firstname;
+		this.lastname = lastname;
 		this.email = email;
 		this.city = city;
 		this.state = state;
@@ -66,6 +71,14 @@ public class Coauthor {
 
 	public void setFirstname(String firstname) {
 		this.firstname = firstname;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
 	}
 
 	public String getEmail() {
@@ -100,7 +113,6 @@ public class Coauthor {
 		this.articles = articles;
 	}
 
-	
 	
 	
 }

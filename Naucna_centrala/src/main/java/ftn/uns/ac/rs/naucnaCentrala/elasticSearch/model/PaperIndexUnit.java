@@ -1,9 +1,16 @@
 package ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
+import javax.persistence.Column;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
+
+import ftn.uns.ac.rs.naucnaCentrala.model.ScientificField;
 
 
 //@Document(indexName = PaperIndexUnit.INDEX_NAME, type = PaperIndexUnit.TYPE_NAME, shards = 1, replicas = 0)
@@ -26,21 +33,17 @@ public class PaperIndexUnit {
 	
 	private String keywords;
 	
-	private String imeAutora;
-	
-	private String prezimeAutora;
-	
-	private String mime;
-	
-	private String naucneOblasti;
-	
-	private String putanjaDoFajla;
-
-	private String originalText;
-	
+	private Collection<AutorIndexUnit> autori = new ArrayList<AutorIndexUnit>();
+		
+	private String naucnaOblast;
+		
 	private String text;
 	
 	private String hightlight;
+	
+	private String dostupnost;
+	
+	
 
 	public String getFilename() {
 		return filename;
@@ -82,52 +85,13 @@ public class PaperIndexUnit {
 		this.keywords = keywords;
 	}
 
-	public String getImeAutora() {
-		return imeAutora;
+
+	public String getNaucnaOblast() {
+		return naucnaOblast;
 	}
 
-	public void setImeAutora(String imeAutora) {
-		this.imeAutora = imeAutora;
-	}
-
-	public String getPrezimeAutora() {
-		return prezimeAutora;
-	}
-
-	public void setPrezimeAutora(String prezimeAutora) {
-		this.prezimeAutora = prezimeAutora;
-	}
-
-	public String getMime() {
-		return mime;
-	}
-
-	public void setMime(String mime) {
-		this.mime = mime;
-	}
-
-	public String getNaucneOblasti() {
-		return naucneOblasti;
-	}
-
-	public void setNaucneOblasti(String naucneOblasti) {
-		this.naucneOblasti = naucneOblasti;
-	}
-
-	public String getPutanjaDoFajla() {
-		return putanjaDoFajla;
-	}
-
-	public void setPutanjaDoFajla(String putanjaDoFajla) {
-		this.putanjaDoFajla = putanjaDoFajla;
-	}
-
-	public String getOriginalText() {
-		return originalText;
-	}
-
-	public void setOriginalText(String originalText) {
-		this.originalText = originalText;
+	public void setNaucnaOblast(String naucnaOblast) {
+		this.naucnaOblast = naucnaOblast;
 	}
 
 	public String getText() {
@@ -146,15 +110,22 @@ public class PaperIndexUnit {
 		this.hightlight = hightlight;
 	}
 
-	
-	@Override
-	public String toString() {
-		return "PaperIndexUnit [filename=" + filename + ", nazivCasopisa=" + nazivCasopisa + ", naslovRada="
-				+ naslovRada + ", apstrakt=" + apstrakt + ", keywords=" + keywords + ", imeAutora=" + imeAutora
-				+ ", prezimeAutora=" + prezimeAutora + ", mime=" + mime + ", naucneOblasti=" + naucneOblasti
-				+ ", putanjaDoFajla=" + putanjaDoFajla + ", originalText=" + originalText + ", text=" + text
-				+ ", hightlight=" + hightlight + "]";
+	public String getDostupnost() {
+		return dostupnost;
 	}
 
+	public void setDostupnost(String dostupnost) {
+		this.dostupnost = dostupnost;
+	}
+
+	public Collection<AutorIndexUnit> getAutori() {
+		return autori;
+	}
+
+	public void setAutori(Collection<AutorIndexUnit> autori) {
+		this.autori = autori;
+	}
+
+	
 	
 }

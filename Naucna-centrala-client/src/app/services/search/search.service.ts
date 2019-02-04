@@ -13,6 +13,15 @@ export class SearchService {
     return this.http.get<any>(`${this.baseUrl}`);
   }
 
+  getById(simpleQuery): Observable<any> {
+    const options = {
+      headers: new HttpHeaders()
+    };
+    return this.http.post<any>(`${this.searchUrl}/getByFilename`, simpleQuery, options);
+  }
+  download(simpleQuery) {
+    return this.http.post(`${this.searchUrl}/download`, simpleQuery, { responseType: 'blob' });
+  }
   searchByContent(simpleQuery): Observable<any> {
     const options = {
       headers: new HttpHeaders()

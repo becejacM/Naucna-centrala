@@ -2,7 +2,9 @@ package ftn.uns.ac.rs.naucnaCentrala.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Fetch;
@@ -29,8 +32,8 @@ public class Paper {
 	@Column(name = "id")
 	protected Long id;
 	
-	@Column(name = "name", nullable = true)
-	private String name;
+	@Column(name = "naslovRada", nullable = true)
+	private String naslovRada;
 	
 	@Column(name = "keywords", nullable = true)
 	private String keywords;
@@ -55,29 +58,28 @@ public class Paper {
 	@Column(name = "finaltVersionPath", nullable = true)
 	private String finalVersionPath;
 	
+	@ManyToOne(fetch = FetchType.EAGER, optional = true)
+	private Magazine magazine;
+	
+	@Column(name="dostupnost")
+	private String dostupnost;
+
 	public Paper() {
 		
 	}
 
-	public Paper(Long id, String name, String keywords, String apstract, String filename,
-			Collection<Coauthor> coauthors, ScientificField scientificField, String firstVersionPath,
-			String finalVersionPath) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.keywords = keywords;
-		this.apstract = apstract;
-		this.filename = filename;
-		this.coauthors = coauthors;
-		this.scientificField = scientificField;
-		this.firstVersionPath = firstVersionPath;
-		this.finalVersionPath = finalVersionPath;
-	}
-
 	public Paper(PaperDTO paperdto) {
 		this.id = paperdto.getId();
-		this.name = paperdto.getName();
+		this.naslovRada = paperdto.getName();
 		this.keywords = paperdto.getKeywords();
+	}
+	
+	public String getDostupnost() {
+		return dostupnost;
+	}
+
+	public void setDostupnost(String dostupnost) {
+		this.dostupnost = dostupnost;
 	}
 	
 	public Long getId() {
@@ -88,12 +90,21 @@ public class Paper {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	
+	public String getNaslovRada() {
+		return naslovRada;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setNaslovRada(String naslovRada) {
+		this.naslovRada = naslovRada;
+	}
+
+	public Magazine getMagazine() {
+		return magazine;
+	}
+
+	public void setMagazine(Magazine magazine) {
+		this.magazine = magazine;
 	}
 
 	public String getKeywords() {

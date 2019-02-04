@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IUPaperRepository extends ElasticsearchRepository<PaperIndexUnit, String> {
+	PaperIndexUnit findByFilename(String filename);
 }

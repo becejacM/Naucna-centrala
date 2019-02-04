@@ -1,54 +1,51 @@
 {
-  "properties": {
-    "filename": {
-      "type": "keyword"
-    },
-    "nazivCasopisa": {
-      "type": "keyword"
-    },
-    "naslovRada": {
-      "type": "text",
-      "analyzer": "serbian_analyzer"
-    },
-    "apstrakt": {
-      "type": "text",
-      "analyzer": "serbian_analyzer"
-    },
-    "keywords": {
-      "type": "text",
-      "analyzer": "serbian_analyzer"
-    },
-    "imeAutora": {
-      "type": "text",
-      "analyzer": "serbian_analyzer"
-    },
-    "prezimeAutora": {
-      "type": "text",
-      "analyzer": "serbian_analyzer"
-    },
-    "mime": {
-      "type": "text",
-      "analyzer": "serbian_analyzer"
-    },
-    "naucneOblasti": {
-      "type": "text",
-      "analyzer": "serbian_analyzer"
-    },
-    "putanjaDoFajla": {
-      "type": "text",
-      "analyzer": "serbian_analyzer"
-    },
-    "originalText": {
-      "type": "text",
-      "analyzer": "serbian_analyzer"
-    },
-    "text": {
-      "type": "text",
-      "analyzer": "serbian_analyzer"
-    },
-    "hightlight": {
-      "type": "text",
-      "analyzer": "serbian_analyzer"
-    }
-  }
+	"properties": {
+		"filename": {
+			"type": "keyword"
+		},
+		"nazivCasopisa": {
+			"type": "keyword"
+		},
+		"naslovRada": {
+			"type": "text",
+			"analyzer": "serbian_analyzer"
+		},
+		"apstrakt": {
+			"type": "text",
+			"analyzer": "serbian_analyzer"
+		},
+		"keywords": {
+			"type": "text",
+			"analyzer": "serbian_analyzer"
+		},
+		"autori": {
+			"type": "nested",
+			"properties": {
+				"imeAutora": {
+					"type": "text",
+					"analyzer": "serbian_analyzer"
+				},
+				"prezimeAutora": {
+					"type": "text",
+					"analyzer": "serbian_analyzer"
+				}
+			}
+		},
+		"naucnaOblast": {
+			"type": "text",
+			"analyzer": "serbian_analyzer"
+		},
+		"text": {
+			"type": "text",
+			"analyzer": "serbian_analyzer"
+		},
+		"hightlight": {
+			"type": "text",
+			"analyzer": "serbian_analyzer"
+		},
+		"dostupnost": {
+			"type": "text",
+			"analyzer": "serbian_analyzer"
+		}
+	}
 }

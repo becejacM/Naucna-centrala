@@ -25,4 +25,8 @@ public class Indexer {
     public void delete(PaperIndexUnit iupaper) {
     	iupaperRepository.delete(iupaper);
     }
+    
+    public PaperIndexUnit findByFilename(String filename) {
+    	return iupaperRepository.findByFilename(filename);
+    }
 }

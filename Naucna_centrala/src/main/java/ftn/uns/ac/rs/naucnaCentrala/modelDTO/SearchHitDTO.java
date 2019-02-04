@@ -1,35 +1,69 @@
 package ftn.uns.ac.rs.naucnaCentrala.modelDTO;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
+import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.AutorIndexUnit;
+import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.PaperIndexUnit;
+
 public class SearchHitDTO {
 
     private long id;
 
-    private String nazivCasopisa;
-    
-    private String naslovRada;
-    
-    private String autor;
+    private String filename;
+	
+   	private String nazivCasopisa;
 
-    private String keywords;
-
-    private String text;
+   	private String naslovRada;
+   	
+   	private String apstrakt;
+   	
+   	private String keywords;
+   	
+   	private Collection<AutorIndexUnit> autori = new ArrayList<AutorIndexUnit>();
+   		
+   	private String naucnaOblast;
+   		
+   	private String text;
+   	
+   	private String hightlight;
+   	
+   	private String dostupnost;
     
-    private String naucnaOblast;
-
     public SearchHitDTO() {
     }
 
-	public SearchHitDTO(long id, String nazivCasopisa, String naslovRada, String autor, String keywords, String text,
-			String naucnaOblast) {
+	public SearchHitDTO(PaperIndexUnit index) {
+		this.filename = index.getFilename();
+		this.nazivCasopisa = index.getNazivCasopisa();
+		this.naslovRada = index.getNaslovRada();
+		this.apstrakt = index.getApstrakt();
+		this.keywords = index.getKeywords();
+		this.autori = index.getAutori();
+		this.keywords = index.getKeywords();
+		this.naucnaOblast = index.getNaucnaOblast();
+		this.hightlight = index.getHightlight();
+		this.text = index.getText();
+		this.dostupnost = index.getDostupnost();
+	}
+
+	public SearchHitDTO(String filename, String nazivCasopisa, String naslovRada, String apstrakt,
+			String keywords, Collection<AutorIndexUnit> autori, String naucnaOblast, String text, String hightlight,
+			String dostupnost) {
 		super();
-		this.id = id;
+		this.filename = filename;
 		this.nazivCasopisa = nazivCasopisa;
 		this.naslovRada = naslovRada;
-		this.autor = autor;
+		this.apstrakt = apstrakt;
 		this.keywords = keywords;
-		this.text = text;
+		this.autori = autori;
 		this.naucnaOblast = naucnaOblast;
+		this.text = text;
+		this.hightlight = hightlight;
+		this.dostupnost = dostupnost;
 	}
+
+
 
 	public long getId() {
 		return id;
@@ -37,6 +71,14 @@ public class SearchHitDTO {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 
 	public String getNazivCasopisa() {
@@ -55,12 +97,12 @@ public class SearchHitDTO {
 		this.naslovRada = naslovRada;
 	}
 
-	public String getAutor() {
-		return autor;
+	public String getApstrakt() {
+		return apstrakt;
 	}
 
-	public void setAutor(String autor) {
-		this.autor = autor;
+	public void setApstrakt(String apstrakt) {
+		this.apstrakt = apstrakt;
 	}
 
 	public String getKeywords() {
@@ -71,13 +113,6 @@ public class SearchHitDTO {
 		this.keywords = keywords;
 	}
 
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
 
 	public String getNaucnaOblast() {
 		return naucnaOblast;
@@ -86,7 +121,42 @@ public class SearchHitDTO {
 	public void setNaucnaOblast(String naucnaOblast) {
 		this.naucnaOblast = naucnaOblast;
 	}
-    
-    
 
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public String getHightlight() {
+		return hightlight;
+	}
+
+	public void setHightlight(String hightlight) {
+		this.hightlight = hightlight;
+	}
+
+	public String getDostupnost() {
+		return dostupnost;
+	}
+
+	public void setDostupnost(String dostupnost) {
+		this.dostupnost = dostupnost;
+	}
+
+
+
+	public Collection<AutorIndexUnit> getAutori() {
+		return autori;
+	}
+
+
+
+	public void setAutori(Collection<AutorIndexUnit> autori) {
+		this.autori = autori;
+	}
+
+	
 }

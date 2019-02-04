@@ -34,12 +34,20 @@ import java.util.stream.Collectors;
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.PaperIndexUnit;
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.StorageProperties;
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.repository.IUPaperRepository;
+import ftn.uns.ac.rs.naucnaCentrala.model.Author;
+import ftn.uns.ac.rs.naucnaCentrala.model.Coauthor;
 import ftn.uns.ac.rs.naucnaCentrala.model.Paper;
+import ftn.uns.ac.rs.naucnaCentrala.model.ScientificField;
+import ftn.uns.ac.rs.naucnaCentrala.model.ScientificFieldName;
 import ftn.uns.ac.rs.naucnaCentrala.modelDTO.SearchDTO;
 import ftn.uns.ac.rs.naucnaCentrala.modelDTO.SearchHitDTO;
 
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.handler.PdfDocumentHandler;
+import ftn.uns.ac.rs.naucnaCentrala.repository.AppUserRepository;
 import ftn.uns.ac.rs.naucnaCentrala.repository.ArticleRepository;
+import ftn.uns.ac.rs.naucnaCentrala.repository.CoauthorRepository;
+import ftn.uns.ac.rs.naucnaCentrala.repository.MagazineRepository;
+import ftn.uns.ac.rs.naucnaCentrala.repository.ScientificFieldRepository;
 
 @Service
 public class ESPaperService {
@@ -54,19 +62,34 @@ public class ESPaperService {
 
     private ElasticsearchTemplate elasticsearchTemplate;
 
+    private MagazineRepository magazineRepository;
+    
+    private ScientificFieldRepository sfRepository;
+
+    private AppUserRepository userRepository;
+    private CoauthorRepository coautorRepository;
     @Autowired
     public ESPaperService(StorageProperties properties,
                         IUPaperRepository irEbookRepository,
                         ArticleRepository paperRepository,
                         PdfDocumentHandler pdfDocumentHandler,
-                        ElasticsearchTemplate elasticsearchTemplate
+                        ElasticsearchTemplate elasticsearchTemplate,
+                        MagazineRepository magazineRepository,
+                        ScientificFieldRepository sfRepository,
+                        AppUserRepository userRepository,
+                        CoauthorRepository coautorRepository
                         ) {
         this.irEbookRepository = irEbookRepository;
         this.paperRepository = paperRepository;
         this.pdfDocumentHandler = pdfDocumentHandler;
         this.dirLocation = Paths.get(properties.getLocation());
         this.elasticsearchTemplate = elasticsearchTemplate;
+        this.magazineRepository = magazineRepository;
+        this.sfRepository = sfRepository;
+        this.userRepository = userRepository;
+        this.coautorRepository = coautorRepository;
         }
+    
 	public void init() {
         try {
             Files.createDirectories(dirLocation);
@@ -82,24 +105,50 @@ public class ESPaperService {
 	}
 	
 	public void listFilesForFolder(final File folder) {
+        int i = 2;
 	    for (final File fileEntry : folder.listFiles()) {
 	        if (fileEntry.isDirectory()) {
 	            listFilesForFolder(fileEntry);
 	        } else {
-	            System.out.println(fileEntry.getName());
-	            Paper a = new Paper();
-	            a.setFilename(fileEntry.getName());
-	            
-	            PaperIndexUnit ireBook = pdfDocumentHandler
-	                    .getIUPaper(a, dirLocation.resolve(a.getFilename()));
-	            Paper saved = paperRepository.save(a);
-
-	            ireBook.setFilename(a.getFilename());
-	            ireBook.setNaslovRada(a.getFilename());
-	            irEbookRepository.save(ireBook);
+	            indexPaper(fileEntry.getName(), i);
+	            i++;
 	        }
 	    }
 	}
+	
+	public void indexPaper(String filename, int i) {
+		System.out.println(dirLocation.toString()+"\\"+filename);
+        Paper paper = new Paper();
+        paper.setFilename(filename);
+        paper.setApstract("neki abstrakt");
+        paper.setKeywords("kljucna rec");
+        if(i%2==0) {
+            paper.setDostupnost("WITH_SUBSCRIPTION");	
+        }
+        else {
+            paper.setDostupnost("OPEN_ACCESS");
+        }
+        paper.setNaslovRada(filename.substring(0, filename.length()-4));
+        paper.setMagazine(magazineRepository.findByName("casopis 1 biologija"));
+        paper.setScientificField(sfRepository.findByScientificFieldName(ScientificFieldName.BIOLOGY));
+        Collection<Coauthor> autori = new ArrayList<Coauthor>();
+        Author a = (Author) userRepository.findByUsername("autor1");
+        Coauthor c = new Coauthor();
+        c.setFirstname(a.getFirstname());
+        c.setLastname(a.getLastname());
+        coautorRepository.save(c);
+        autori.add(c);
+        paper.setCoauthors(autori);
+        PaperIndexUnit paperIU = pdfDocumentHandler
+                .getIUPaper(paper, dirLocation.resolve(paper.getFilename()));
+        Paper saved = paperRepository.save(paper);
+        System.out.println("evo meeeeeeeeeeeeeee" +paperIU.getNaslovRada());
+        PaperIndexUnit s = irEbookRepository.save(paperIU);
+        System.out.println("sacuvaooooooooooo " +paperIU.getNaslovRada());
+
+	}
+	
+	
 	
 	public List<Paper> findAll() {
         return paperRepository.findAll();
@@ -203,7 +252,7 @@ public class ESPaperService {
             PDDocumentInformation info = document.getDocumentInformation();
             //paper.setAuthor(info.getAuthor());
             paper.setKeywords(info.getKeywords());
-            paper.setName(info.getTitle());
+            paper.setNaslovRada(info.getTitle());
             paper.setFilename(file.getName());
         } catch (IOException e) {
             e.printStackTrace();
@@ -214,7 +263,7 @@ public class ESPaperService {
     
     public List<SearchHitDTO> search2(SearchDTO s) {
         List<SearchHitDTO> result = new ArrayList<>();
-        SearchResponse response = elasticsearchTemplate.getClient().prepareSearch("naucnacentrala6")
+        SearchResponse response = elasticsearchTemplate.getClient().prepareSearch("naucnacentrala7")
                 .setTypes("paperindexunit")
                 .setQuery(formQuery(s))
                 .highlighter(new HighlightBuilder()

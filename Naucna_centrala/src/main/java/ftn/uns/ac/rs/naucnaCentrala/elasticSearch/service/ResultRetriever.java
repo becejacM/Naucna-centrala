@@ -1,12 +1,18 @@
 package ftn.uns.ac.rs.naucnaCentrala.elasticSearch.service;
-/*
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.common.text.Text;
 import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.highlight.HighlightBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder.Field;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
+//import org.elasticsearch.search.highlight.HighlightBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,12 +24,17 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.handler.DocumentHandler;
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.handler.PdfDocumentHandler;
+import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.AutorIndexUnit;
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.PaperIndexUnit;
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.RequiredHighlight;
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.ResultData;
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.repository.IUPaperRepository;
+import ftn.uns.ac.rs.naucnaCentrala.modelDTO.SearchHitDTO;
 
 @Service
 public class ResultRetriever {
@@ -37,16 +48,17 @@ public class ResultRetriever {
 	public ResultRetriever(){
 	}
 	
-	public List<ResultData> getResultsWithHighlight(org.elasticsearch.index.query.QueryBuilder query) {
+	private String extractHighlightedText(HighlightField highlightField) {
+        return Arrays.stream(highlightField.getFragments())
+                .map(t -> t.string() + "...")
+                .collect(Collectors.joining());
+    }
+	
+	public List<SearchHitDTO> getResultsWithHighlight(org.elasticsearch.index.query.QueryBuilder query) {
 		
 		SearchQuery sq = new NativeSearchQueryBuilder()
 				.withQuery(query)
-				.withHighlightFields(
-						new HighlightBuilder.Field("text"), 
-						new HighlightBuilder.Field("title"), 
-						new HighlightBuilder.Field("author"),
-						new HighlightBuilder.Field("keywords"), 
-						new HighlightBuilder.Field("languageName"))
+				.withHighlightFields(new Field("text"))
 				.build();
 		
 		Page<PaperIndexUnit> booksEntities = elasticsearchTemplate.queryForPage(sq, PaperIndexUnit.class, new SearchResultMapper() {
@@ -54,6 +66,7 @@ public class ResultRetriever {
 			@SuppressWarnings("unchecked")
 			@Override
 			public <T> AggregatedPage<T> mapResults(SearchResponse arg0, Class<T> arg1, Pageable arg2) {
+				
 				List<PaperIndexUnit> books = new ArrayList<PaperIndexUnit>();
 				for(SearchHit searchHit : arg0.getHits()){
 					if(arg0.getHits().getHits().length <= 0){
@@ -62,16 +75,14 @@ public class ResultRetriever {
 
 					PaperIndexUnit resultData = new PaperIndexUnit();
 					resultData.setFilename((String) searchHit.getSource().get("filename"));
-					resultData.setTitle((String) searchHit.getSource().get("title"));
-					resultData.setAuthor((String) searchHit.getSource().get("author"));
+					resultData.setNaslovRada((String) searchHit.getSource().get("naslovRada"));
 					resultData.setKeywords((String) searchHit.getSource().get("keywords"));
-					resultData.setPublicationYear((Integer) searchHit.getSource().get("publicationYear"));
-					resultData.setMime((String) searchHit.getSource().get("mime"));
-					resultData.setLanguageName((String) searchHit.getSource().get("languageName"));
-					resultData.setCategoryName((String) searchHit.getSource().get("categoryName"));
+					resultData.setNazivCasopisa((String) searchHit.getSource().get("nazivCasopisa"));
 					resultData.setText((String) searchHit.getSource().get("text"));
-					
-					
+					resultData.setAutori((Collection<AutorIndexUnit>) searchHit.getSource().get("autori"));
+					resultData.setApstrakt((String) searchHit.getSource().get("apstrakt"));
+					resultData.setDostupnost((String) searchHit.getSource().get("dostupnost"));
+					resultData.setNaucnaOblast((String) searchHit.getSource().get("naucnaOblast"));
 					if(searchHit.getHighlightFields() != null){
 						StringBuilder highlights = new StringBuilder("...");
 						
@@ -82,15 +93,15 @@ public class ResultRetriever {
 								highlights.append("...");
 							}	
 						}
-						if(searchHit.getHighlightFields().get("author") != null){
-							Text [] text = searchHit.getHighlightFields().get("author").fragments();
+						if(searchHit.getHighlightFields().get("naslovRada") != null){
+							Text [] text = searchHit.getHighlightFields().get("naslovRada").fragments();
 							for (Text t : text) {
 								highlights.append(t.toString());
 								highlights.append("...");
 							}	
 						}
-						if(searchHit.getHighlightFields().get("title") != null){
-							Text [] text = searchHit.getHighlightFields().get("title").fragments();
+						if(searchHit.getHighlightFields().get("nazivCasopisa") != null){
+							Text [] text = searchHit.getHighlightFields().get("nazivCasopisa").fragments();
 							for (Text t : text) {
 								highlights.append(t.toString());
 								highlights.append("...");
@@ -116,39 +127,44 @@ public class ResultRetriever {
 				return null;
 			}
 		});
-		List<PaperIndexUnit> response = new ArrayList<>();
+		List<SearchHitDTO> response = new ArrayList<>();
 		if(booksEntities != null){
 			
 			for (PaperIndexUnit index : booksEntities) {
-				ResultData resultData = new ResultData();
-				resultData.setFilename(index.getFilename());
-				resultData.setTitle(index.getTitle());
-				resultData.setAuthor(index.getAuthor());
-				resultData.setKeywords(index.getKeywords());
-				resultData.setMime("PDF");
-				resultData.setPublicationYear(index.getPublicationYear());
-				resultData.setLanguageName(index.getLanguageName());
-				resultData.setCategoryName(index.getCategoryName());
-				resultData.setHighlight(index.getHightlight());
-				resultData.setOriginalText(index.getOriginalText());
-				resultData.setText(index.getText());
+				SearchHitDTO resultData = new SearchHitDTO(index);
+				
 				response.add(resultData);
 			}
 		}
+		/*List<SearchHitDTO> result = new ArrayList<>();
 
+		Iterator<SearchHit> iterator = ((SearchResponse) sq).getHits().iterator();
+        Gson gson = new GsonBuilder().create();
+        while (iterator.hasNext()) {
+            SearchHit searchHit = iterator.next();
+            String searchSource = searchHit.getSourceAsString();
+            if (searchSource != null) {
+                SearchHitDTO searchHitDTO = gson.fromJson(searchSource, SearchHitDTO.class);
+                searchHit.getHighlightFields().values().forEach(field -> {
+                    searchHitDTO.setText(extractHighlightedText(field));
+                });
+                result.add(searchHitDTO);
+            }
+        }
+        return result;*/
 		return response;	
 	}
 	
-	public List<ResultData> getResults(org.elasticsearch.index.query.QueryBuilder query,
+	public List<SearchHitDTO> getResults(org.elasticsearch.index.query.QueryBuilder query,
 			List<RequiredHighlight> requiredHighlights) {
 		if (query == null) {
 			return null;
 		}
 
-		List<ResultData> results = new ArrayList<ResultData>();
+		List<SearchHitDTO> results = new ArrayList<SearchHitDTO>();
 
 		for (PaperIndexUnit indexUnit : repository.search(query)) {
-			results.add(new ResultData(indexUnit.getFilename(), indexUnit.getTitle(), indexUnit.getAuthor(), indexUnit.getKeywords(), indexUnit.getPublicationYear(), indexUnit.getMime(), indexUnit.getLanguageName(), indexUnit.getCategoryName(), indexUnit.getHightlight(), indexUnit.getOriginalText(), indexUnit.getText()));
+			results.add(new SearchHitDTO(indexUnit.getFilename(),indexUnit.getNazivCasopisa(), indexUnit.getNaslovRada(), indexUnit.getApstrakt(), indexUnit.getKeywords(), indexUnit.getAutori(), indexUnit.getNaucnaOblast(), indexUnit.getText(), indexUnit.getHightlight(), indexUnit.getDostupnost()));
 		}
 
 		return results;
@@ -161,5 +177,6 @@ public class ResultRetriever {
 			return null;
 		}
 	}
+	
+	
 }
-*/

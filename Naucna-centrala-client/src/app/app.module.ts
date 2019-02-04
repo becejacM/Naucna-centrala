@@ -43,6 +43,7 @@ import { TasksPageComponent } from './components/publication/tasks-page/tasks-pa
 import { TaskComponent } from './components/publication/task/task.component';
 import { SearchlistComponent } from './components/searchlist/searchlist.component';
 import { SearchService } from './services/search/search.service';
+import { PaperComponent } from './components/paper/paper.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { SearchService } from './services/search/search.service';
     TasksPageComponent,
     TaskComponent,
     SearchlistComponent,
+    PaperComponent,
   ],
   imports: [
     BrowserModule,

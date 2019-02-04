@@ -1,6 +1,8 @@
 package ftn.uns.ac.rs.naucnaCentrala.elasticSearch.handler;
 
+import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.AutorIndexUnit;
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.PaperIndexUnit;
+import ftn.uns.ac.rs.naucnaCentrala.model.Coauthor;
 import ftn.uns.ac.rs.naucnaCentrala.model.Paper;
 
 import org.apache.lucene.document.Document;
@@ -21,21 +23,34 @@ public class PdfDocumentHandler extends DocumentHandler {
 
     @Override
     public PaperIndexUnit getIUPaper(Paper paper, Path filepath) {
-        PaperIndexUnit ireBook = new PaperIndexUnit();
+        PaperIndexUnit paperIU = new PaperIndexUnit();
 
-        
-        //ireBook.setTitle(eBook.getName());
-        ireBook.setFilename(paper.getFilename());
+        paperIU.setFilename(paper.getFilename());
+        paperIU.setNaslovRada(paper.getNaslovRada());
         File bookFile = filepath.toFile();
-        ireBook.setText(getText(bookFile));
+        paperIU.setText(getText(bookFile));
 
-
-        if (paper.getKeywords() != null) {
-            //ireBook.setKeywords(eBook.getKeywords());
-            //ireBook.setNaucneOblasti(String.valueOf(eBook.getScientificField().getId()));
+        if (paper.getApstract() != null) {
+        	paperIU.setApstrakt(paper.getApstract());
         }
-
-        return ireBook;
+        if (paper.getKeywords() != null) {
+        	paperIU.setKeywords(paper.getKeywords());
+        }
+        if (paper.getScientificField() != null) {
+        	paperIU.setNaucnaOblast(paper.getScientificField().getScientificFieldName().name());
+        }
+        if (paper.getMagazine() != null) {
+        	paperIU.setNazivCasopisa(paper.getMagazine().getName());
+        }
+        if (paper.getDostupnost() != null) {
+        	paperIU.setDostupnost(paper.getDostupnost());
+        }
+        if (paper.getCoauthors().size() > 0) {
+        	for (Coauthor c : paper.getCoauthors()) {
+            	paperIU.getAutori().add(new AutorIndexUnit(c.getFirstname(), c.getLastname()));
+			}
+        }
+        return paperIU;
     }
 
     @Override

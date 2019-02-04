@@ -13,6 +13,7 @@ import { SubmitPaperPageComponent } from './components/publication/submit-paper-
 import { TasksPageComponent } from './components/publication/tasks-page/tasks-page.component';
 import { TaskComponent } from './components/publication/task/task.component';
 import { SearchlistComponent } from './components/searchlist/searchlist.component';
+import { PaperComponent } from './components/paper/paper.component';
 
 
 const appRoutes: Routes = [
@@ -38,6 +39,7 @@ const appRoutes: Routes = [
   },
   {path: 'change-password', component: ChangePasswordComponent},
   {path: 'search-and-buy', component: SearchlistComponent, canActivate: [OnlyLoggedInGuard]},
+  {path: 'search-and-buy/:filename', component: PaperComponent, canActivate: [OnlyLoggedInGuard]},
   
 
 

@@ -2,6 +2,9 @@ package ftn.uns.ac.rs.naucnaCentrala.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,15 +27,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.indexing.Indexer;
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.AdvancedQuery;
+import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.PaperIndexUnit;
+import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.RequiredHighlight;
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.SearchType;
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.SimpleQuery;
+import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.StorageProperties;
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.service.ESPaperService;
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.service.QueryBuilder;
+import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.service.ResultRetriever;
 import ftn.uns.ac.rs.naucnaCentrala.model.Paper;
 import ftn.uns.ac.rs.naucnaCentrala.modelDTO.PaperDTO;
 import ftn.uns.ac.rs.naucnaCentrala.modelDTO.SearchDTO;
@@ -45,7 +54,15 @@ public class ElasticSearchController {
 	@Autowired
 	ESPaperService esPaperService;
 	
-
+	@Autowired
+	private ResultRetriever resultRetriever;
+	
+	@Autowired
+	private Indexer indexer;
+	
+	@Autowired
+	StorageProperties properties;
+	
     @PostMapping("")
     public ResponseEntity save(@RequestBody PaperDTO paperDTO) {
         Paper paper = new Paper(paperDTO);
@@ -112,35 +129,35 @@ public class ElasticSearchController {
 	@PostMapping(value="/search/term", consumes="application/json")
 	public ResponseEntity<List<SearchHitDTO>> searchTermQuery(@RequestBody SimpleQuery simpleQuery) throws Exception {	
 		org.elasticsearch.index.query.QueryBuilder query= QueryBuilder.buildQuery(SearchType.regular, simpleQuery.getField(), simpleQuery.getValue());
-		List<SearchHitDTO> results = esPaperService.search(query);
+		List<SearchHitDTO> results = resultRetriever.getResultsWithHighlight(query);
 		return new ResponseEntity<List<SearchHitDTO>>(results, HttpStatus.OK);
 	}
 
 	@PostMapping(value="/search/fuzzy", consumes="application/json")
 	public ResponseEntity<List<SearchHitDTO>> searchFuzzy(@RequestBody SimpleQuery simpleQuery) throws Exception {
 		org.elasticsearch.index.query.QueryBuilder query= QueryBuilder.buildQuery(SearchType.fuzzy, simpleQuery.getField(), simpleQuery.getValue());
-		List<SearchHitDTO> results = esPaperService.search(query);
+		List<SearchHitDTO> results = resultRetriever.getResultsWithHighlight(query);
 		return new ResponseEntity<List<SearchHitDTO>>(results, HttpStatus.OK);
 	}
 
 	@PostMapping(value="/search/prefix", consumes="application/json")
 	public ResponseEntity<List<SearchHitDTO>> searchPrefix(@RequestBody SimpleQuery simpleQuery) throws Exception {
 		org.elasticsearch.index.query.QueryBuilder query= QueryBuilder.buildQuery(SearchType.prefix, simpleQuery.getField(), simpleQuery.getValue());
-		List<SearchHitDTO> results = esPaperService.search(query);
+		List<SearchHitDTO> results = resultRetriever.getResultsWithHighlight(query);
 		return new ResponseEntity<List<SearchHitDTO>>(results, HttpStatus.OK);
 	}
 
 	@PostMapping(value="/search/range", consumes="application/json")
 	public ResponseEntity<List<SearchHitDTO>> searchRange(@RequestBody SimpleQuery simpleQuery) throws Exception {
 		org.elasticsearch.index.query.QueryBuilder query= QueryBuilder.buildQuery(SearchType.range, simpleQuery.getField(), simpleQuery.getValue());
-		List<SearchHitDTO> results = esPaperService.search(query);
+		List<SearchHitDTO> results = resultRetriever.getResultsWithHighlight(query);
 		return new ResponseEntity<List<SearchHitDTO>>(results, HttpStatus.OK);
 	}
 
 	@PostMapping(value="/search/phrase", consumes="application/json")
 	public ResponseEntity<List<SearchHitDTO>> searchPhrase(@RequestBody SimpleQuery simpleQuery) throws Exception {
 		org.elasticsearch.index.query.QueryBuilder query= QueryBuilder.buildQuery(SearchType.phrase, simpleQuery.getField(), simpleQuery.getValue());
-		List<SearchHitDTO> results = esPaperService.search(query);
+		List<SearchHitDTO> results = resultRetriever.getResultsWithHighlight(query);
 		return new ResponseEntity<List<SearchHitDTO>>(results, HttpStatus.OK);
 	}
 
@@ -152,6 +169,7 @@ public class ElasticSearchController {
 
 		BoolQueryBuilder builder = QueryBuilders.boolQuery();
 		if(advancedQuery.getOperation().equalsIgnoreCase("AND")){
+			System.out.println(advancedQuery.getOperation());
 			builder.must(query1);
 			builder.must(query2);
 		}else if(advancedQuery.getOperation().equalsIgnoreCase("OR")){
@@ -164,7 +182,9 @@ public class ElasticSearchController {
 		System.out.println(query1);
 		System.out.println(query2);
 
-		List<SearchHitDTO> results = esPaperService.search(builder);
+		//List<SearchHitDTO> results = esPaperService.search(builder);
+		
+		List<SearchHitDTO> results = resultRetriever.getResultsWithHighlight(builder);
 		return new ResponseEntity<List<SearchHitDTO>>(results, HttpStatus.OK);
 
 	}
@@ -172,9 +192,43 @@ public class ElasticSearchController {
 	@PostMapping(value="/search/queryParser", consumes="application/json")
 	public ResponseEntity<List<SearchHitDTO>> search(@RequestBody SimpleQuery simpleQuery) throws Exception {		
 		org.elasticsearch.index.query.QueryBuilder query= QueryBuilder.buildQuery(SearchType.regular, simpleQuery.getField(), simpleQuery.getValue());
-		List<SearchHitDTO> results = esPaperService.search(query);
+		List<SearchHitDTO> results = resultRetriever.getResultsWithHighlight(query);
 		return new ResponseEntity<List<SearchHitDTO>>(results, HttpStatus.OK);
 	}
 
 
+	@PostMapping(value="/search/getByFilename", consumes="application/json")
+	public ResponseEntity<SearchHitDTO> getById(@RequestBody SimpleQuery simpleQuery) {
+
+		PaperIndexUnit indexUnit = indexer.findByFilename(simpleQuery.getValue());
+		if(indexUnit != null) {
+			SearchHitDTO response = new SearchHitDTO(indexUnit);
+			return new ResponseEntity<SearchHitDTO>(response, HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<SearchHitDTO>(new SearchHitDTO(), HttpStatus.OK);
+	}
+	
+	@PostMapping(value="/search/download", consumes="application/json")
+	public ResponseEntity<?> download(@RequestBody SimpleQuery simpleQuery) throws IOException{
+
+        Path dirLocation = Paths.get(properties.getLocation());
+        
+		Path path = dirLocation.resolve(simpleQuery.getValue());
+		System.out.println(path);
+		if(new File(path.toString()).exists()) {
+
+			byte[] content = Files.readAllBytes(path);
+
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.parseMediaType("application/pdf"));
+			headers.setContentDispositionFormData(simpleQuery.getValue(), simpleQuery.getValue());
+			headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+
+			return new ResponseEntity<byte[]>(content,headers,HttpStatus.OK);
+
+		}
+
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
 }

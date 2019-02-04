@@ -16,6 +16,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -51,12 +52,18 @@ public class Magazine {
 	@OneToOne(cascade = CascadeType.ALL)
 	private EditorialBoard editorialBoard;
 	
+	
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "magazine")
+	@Fetch(value = FetchMode.SUBSELECT)
+	private List<Paper> papers;
+	
 	public Magazine() {
 		
 	}
 
 	public Magazine(Long id, String name, String issn, Collection<ScientificField> scientificFields,
-			PaymentMethod paymentMethod, EditorialBoard editorialBoard) {
+			PaymentMethod paymentMethod, EditorialBoard editorialBoard, List<Paper> papers) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -64,9 +71,8 @@ public class Magazine {
 		this.scientificFields = scientificFields;
 		this.paymentMethod = paymentMethod;
 		this.editorialBoard = editorialBoard;
+		this.papers = papers;
 	}
-
-
 
 	public Long getId() {
 		return id;
@@ -92,13 +98,12 @@ public class Magazine {
 		this.issn = issn;
 	}
 
-	
-	public Collection<ScientificField> getScientficFields() {
+	public Collection<ScientificField> getScientificFields() {
 		return scientificFields;
 	}
 
-	public void setScientficFields(Collection<ScientificField> scientficFields) {
-		this.scientificFields = scientficFields;
+	public void setScientificFields(Collection<ScientificField> scientificFields) {
+		this.scientificFields = scientificFields;
 	}
 
 	public PaymentMethod getPaymentMethod() {
@@ -116,7 +121,15 @@ public class Magazine {
 	public void setEditorialBoard(EditorialBoard editorialBoard) {
 		this.editorialBoard = editorialBoard;
 	}
-	
+
+	public List<Paper> getPapers() {
+		return papers;
+	}
+
+	public void setPapers(List<Paper> papers) {
+		this.papers = papers;
+	}
+
 	
 	
 }

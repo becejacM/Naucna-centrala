@@ -1,0 +1,59 @@
+<div id="registrationDiv" class="mainContainer  d-flex justify-content-center">
+  <div class="card my_card">
+    <div class="col-md-12 col-md-offset-3" id="logreg">
+      <div *ngIf="rad" class="container" style="margin-top: 84px;">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 toppad">
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title"></h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class=" col-md-6 col-lg-6 ">
+                  <table class="table table-user-information">
+                    <tbody>
+                      <tr>
+                        <td>Naziv casopisa:</td>
+                        <td>{{ rad.nazivCasopisa }}</td>
+                      </tr>
+                      <tr>
+                        <td>Naslov:</td>
+                        <td>{{ rad.naslovRada }}</td>
+                      </tr>
+                      <tr>
+                        <td>Autori:</td>
+                        <td *ngFor="let a of rad.autori">{{a.imeAutora}} &nbsp; {{a.prezimeAutora}}</td>
+                      </tr>
+                      <tr>
+                        <td>Kljucne reci:</td>
+                        <td>{{ rad.keywords }}</td>
+                      </tr>
+                      <tr>
+                        <td>Apstrakt:</td>
+                        <td>{{ rad.apstrakt }}</td>
+                      </tr>
+                      <tr>
+                        <td>Naucna oblast:</td>
+                        <td>{{ rad.naucnaOblast }}</td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+                <div class=" col-md-6 col-lg-6 ">
+                  <div class="form-group">
+                    <textarea rows="14" class="form-control" readonly>{{ rad.text }}</textarea>
+                  </div>
+                  <button *ngIf="type == 'WITH_SUBSCRIPTION'" (click)="kupi()" class="btn btn-md btn-primary btn-block"
+                    type="submit">Kupi</button>
+                    <button *ngIf="type == 'OPEN_ACCESS'" (click)="download()" class="btn btn-md btn-primary btn-block"
+                    type="submit">Preuzmi</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
