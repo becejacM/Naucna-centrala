@@ -100,7 +100,7 @@ public class AppTaskService {
         this.template.convertAndSend("/nc/notifyAboutInvalidPaper", "Invalid paper");
     }
     
-    public boolean checkPaper(String naslov, String kljucneReci, String apstrakt, File file) {
+    public boolean checkPaper(String naslov, String kljucneReci, String apstrakt, String naucnaOblast, String filename) {
     	System.out.println("proveravam validnost rada");
     	if(naslov.equals(null) || naslov.equals("")) {
     		return false;

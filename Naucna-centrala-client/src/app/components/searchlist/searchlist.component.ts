@@ -7,6 +7,9 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { SearchType } from '../../model/searchType';
 import { isBoolean } from 'util';
 import { NotificationsService } from 'angular2-notifications';
+import { saveAs } from "file-saver";
+import { TransactionRequestDto } from '../../model/TransactionRequestDto';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-searchlist',
@@ -33,10 +36,10 @@ export class SearchlistComponent implements OnInit {
 
   isBoolean: string;
 
-  constructor(private searchService: SearchService, private fb: FormBuilder, private notificationService: NotificationsService) { }
+  constructor(private searchService: SearchService, private fb: FormBuilder, private router: Router, private notificationService: NotificationsService) { }
 
   ngOnInit() {
-    //this.getAllBooks();
+    this.getAllBooks();
     //this.createForm();
     const x = SearchCriteria;
     const options = Object.keys(SearchCriteria);
@@ -278,6 +281,48 @@ export class SearchlistComponent implements OnInit {
       );
   }
 
+  download(filename : any) {
+    this.simpleQuery.value = filename;    
+    this.searchService.download(this.simpleQuery)
+      .subscribe(
+        data => {
+          this.downloadFile(data, filename);
+        },
+        error => {
+          console.log(error);
+        }
+      );
+  }
+  uuid : any;
+  url : any;
+  transactionRequestDto : TransactionRequestDto = new TransactionRequestDto;
+  kupi(){
+    this.uuid = "49afdb55-0d09-4e87-af2d-d50ea40f5452";
+    this.transactionRequestDto.amount = 10.00;
+    this.transactionRequestDto.description = "lep opis";
+    this.transactionRequestDto.sellerUuid = "49afdb55-0d09-4e87-af2d-d50ea40f5452";
+    this.transactionRequestDto.successUrl = "https://www.youtube.com";
+    this.transactionRequestDto.failUrl = "https://www.google.com";
+    this.searchService.kupi(this.transactionRequestDto)
+    .subscribe(
+      data => {
+        console.log(data);
+        
+        this.url = data.redirectUrl;
+        window.location.href=this.url;
+        //this.router.navigate([this.url]);
+        
+      },
+      error => {
+        console.log(error);
+      }
+    );
+
+  }
+  downloadFile(data, fileName) {
+    var blob = new Blob([data], { type: 'application/pdf' });
+    saveAs(blob, fileName);
+  }
   
   public languages = [];
   public categories = [];

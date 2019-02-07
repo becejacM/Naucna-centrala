@@ -15,6 +15,7 @@ import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.data.domain.Page;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -59,7 +60,7 @@ public class ESPaperService {
     private PdfDocumentHandler pdfDocumentHandler;
 
     private Path dirLocation;
-
+    private Path dirTemporaryLocation;
     private ElasticsearchTemplate elasticsearchTemplate;
 
     private MagazineRepository magazineRepository;
@@ -83,6 +84,7 @@ public class ESPaperService {
         this.paperRepository = paperRepository;
         this.pdfDocumentHandler = pdfDocumentHandler;
         this.dirLocation = Paths.get(properties.getLocation());
+        this.dirTemporaryLocation = Paths.get(properties.getTemporarylocation());
         this.elasticsearchTemplate = elasticsearchTemplate;
         this.magazineRepository = magazineRepository;
         this.sfRepository = sfRepository;
@@ -150,8 +152,13 @@ public class ESPaperService {
 	
 	
 	
-	public List<Paper> findAll() {
-        return paperRepository.findAll();
+	public Collection<PaperIndexUnit> findAll() {
+		Collection<PaperIndexUnit> papers = new ArrayList<PaperIndexUnit>();
+		Iterable<PaperIndexUnit> booksEntities = irEbookRepository.findAll();
+		for (PaperIndexUnit paperIndexUnit : booksEntities) {
+			papers.add(paperIndexUnit);
+		}
+        return papers;
     }
 	
 	public void save(Paper paper) {
@@ -179,6 +186,21 @@ public class ESPaperService {
     }
     
 
+    public File storeFileTemporary(MultipartFile file) {
+        String filename = StringUtils.cleanPath(file.getOriginalFilename());
+
+        InputStream inputStream = null;
+        try {
+            inputStream = file.getInputStream();
+            Files.copy(inputStream, this.dirTemporaryLocation.resolve(filename),
+                    StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return this.dirTemporaryLocation.resolve(filename).toFile();
+    }
+    
     public List<SearchHitDTO> search(org.elasticsearch.index.query.QueryBuilder query) {
         List<SearchHitDTO> result = new ArrayList<>();
         SearchResponse response = elasticsearchTemplate.getClient().prepareSearch("naucnacentrala6")

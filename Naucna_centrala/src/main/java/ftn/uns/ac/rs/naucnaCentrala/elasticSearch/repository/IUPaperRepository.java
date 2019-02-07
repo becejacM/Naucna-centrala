@@ -2,6 +2,8 @@ package ftn.uns.ac.rs.naucnaCentrala.elasticSearch.repository;
 
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.PaperIndexUnit;
 
+import java.util.Collection;
+
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Repository;
 

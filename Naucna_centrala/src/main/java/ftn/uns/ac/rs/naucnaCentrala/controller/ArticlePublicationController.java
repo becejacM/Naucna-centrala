@@ -1,5 +1,10 @@
 package ftn.uns.ac.rs.naucnaCentrala.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -22,6 +27,7 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,12 +36,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.indexing.Indexer;
+import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.PaperIndexUnit;
+import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.StorageProperties;
 import ftn.uns.ac.rs.naucnaCentrala.model.Magazine;
 import ftn.uns.ac.rs.naucnaCentrala.modelDTO.FormFieldsDto;
 import ftn.uns.ac.rs.naucnaCentrala.modelDTO.MagazineDTO;
@@ -75,6 +86,12 @@ public class ArticlePublicationController {
 	
 	@Autowired
 	MagazineService magazineService;
+	
+	@Autowired
+	private Indexer indexer;
+	
+	@Autowired
+	StorageProperties properties;
 	
     @GetMapping
     public @ResponseBody ProccessMagazineDTO startProcess() {
@@ -235,4 +252,54 @@ public class ArticlePublicationController {
         Map map = mapper.convertValue(details, Map.class);
         return map;
     }
+    
+	/*@RequestMapping(
+			value = "/upload",
+			method = RequestMethod.POST,
+			produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	public ResponseEntity<PaperIndexUnit> upload(@RequestParam(value = "file") MultipartFile file) {
+
+		if(!file.getContentType().equals("application/pdf")){
+			return new ResponseEntity<PaperIndexUnit>(HttpStatus.FORBIDDEN);
+		}
+		
+		PaperIndexUnit indexUnit = indexUploadedFile(file);
+		
+		return new ResponseEntity<PaperIndexUnit>(indexUnit, HttpStatus.OK);
+
+	}
+	
+	private PaperIndexUnit indexUploadedFile(MultipartFile file) {
+
+		String fileName = saveUploadedFile(file);
+		if(fileName != null){
+			
+			PaperIndexUnit indexUnit = indexer.getHandler(fileName).getIndexUnit(new File(fileName));
+			indexer.add(indexUnit);
+			
+			return indexUnit;
+		}
+		return null;
+	}
+	
+	private String saveUploadedFile(MultipartFile file) {
+		String retVal = null;
+		if (! file.isEmpty()) {
+			byte[] bytes;
+			try {
+				bytes = file.getBytes();
+				Path path = Paths.get(getResourceFilePath(dataDirPath).getAbsolutePath() + File.separator + file.getOriginalFilename());
+				Files.write(path, bytes);
+				retVal = path.toString();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return retVal;
+	}*/
+
+
+
 }

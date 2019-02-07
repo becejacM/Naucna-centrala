@@ -37,6 +37,8 @@ export class TaskComponent implements OnInit {
     //this.taskDetails = o || this.taskDetails;
     //this.removeNonWriteableFields();
     console.log(this.taskDetails);
+    console.log("ddddddddd*************dddddddd "+this.taskDetails["filename"]);
+    
     this.taskService.executeTask(this.id, this.taskDetails).subscribe(response => {
       this.notificationService.success(
         response.message
@@ -66,4 +68,26 @@ export class TaskComponent implements OnInit {
     });
   }
 
+  localUrl: any[];
+  
+  uploadFile(event:any) {
+    
+    
+    let fileList: FileList = event.target.files;
+    if (fileList.length > 0) {
+      let file: File = fileList[0];
+      //console.log(file);
+      this.taskService.temporaryupload(file)
+        .subscribe(data => {
+          console.log(data);
+          this.taskDetails.filename = data.filename;
+          console.log("ddddddddddddddddd "+this.taskDetails["filename"]);
+          //this.book.title = data.title.toString();
+          //this.book.author = data.author.toString();
+          //this.book.filename = data.filename.toString();
+          //this.book.keywords = data.keywords.toString();
+          //this.book.publicationYear = data.publicationYear.toString();
+        });
+    }
+  }
 }

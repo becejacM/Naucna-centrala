@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -88,15 +89,27 @@ public class ElasticSearchController {
         paper = esPaperService.getMetadata(storedFile);
         return new ResponseEntity<>(paper, HttpStatus.OK);
     }
+    
+    @PostMapping("temporaryupload")
+    public ResponseEntity uploadTemporary(@RequestParam("file")MultipartFile multipartFile) {
+        String originalFileName = multipartFile.getOriginalFilename();
+
+        Paper paper = null;
+        File storedFile = esPaperService.storeFileTemporary(multipartFile);
+        paper = esPaperService.getMetadata(storedFile);
+        return new ResponseEntity<>(paper, HttpStatus.OK);
+    }
 	@GetMapping("")
     public ResponseEntity getAll() {
-        List<Paper> articleList  = esPaperService.findAll();
-        List<PaperDTO> articleDTOList = new ArrayList<PaperDTO>();
-        for (Paper a : articleList) {
+        Collection<PaperIndexUnit> articleList  = (Collection<PaperIndexUnit>) esPaperService.findAll();
+        List<SearchHitDTO> articleDTOList = new ArrayList<SearchHitDTO>();
+        for (PaperIndexUnit a : articleList) {
         	System.out.println(a.getFilename());
-        	PaperDTO adto = new PaperDTO(a);
-			articleDTOList.add(adto);
-        	System.out.println(adto.getName());
+			SearchHitDTO resultData = new SearchHitDTO(a);
+			articleDTOList.add(resultData);
+        	//PaperDTO adto = new PaperDTO(a);
+			//articleDTOList.add(adto);
+        	//System.out.println(adto.getName());
 
 		}
 

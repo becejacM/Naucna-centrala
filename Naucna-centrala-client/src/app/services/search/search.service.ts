@@ -6,7 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class SearchService {
   private baseUrl = '/api/search';
   private searchUrl = '/api/search/search';
-  
+  private kupiUrl = '/api/trans/initi';
   constructor(private http: HttpClient) { }
 
   getAll(): Observable<any> {
@@ -22,6 +22,11 @@ export class SearchService {
   download(simpleQuery) {
     return this.http.post(`${this.searchUrl}/download`, simpleQuery, { responseType: 'blob' });
   }
+
+  kupi(transactionRequestDto): Observable<any> {
+    return this.http.post(`${this.kupiUrl}`, transactionRequestDto);
+  }
+
   searchByContent(simpleQuery): Observable<any> {
     const options = {
       headers: new HttpHeaders()

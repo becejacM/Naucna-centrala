@@ -69,7 +69,7 @@
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1p2lh1q" sourceRef="ServiceTask_145fe3e" targetRef="ExclusiveGateway_1h6x3ds" />
     <bpmn:sequenceFlow id="SequenceFlow_0wj1yoy" sourceRef="ExclusiveGateway_0zvzig7" targetRef="Task_004pb17" />
-    <bpmn:serviceTask id="Task_05dghd8" name="Provera podataka" camunda:expression="${appTaskService.checkPaper(naslov, kljucneReci, apstrakt, rad)}" camunda:resultVariable="isRadOk">
+    <bpmn:serviceTask id="Task_05dghd8" name="Provera podataka" camunda:expression="${appTaskService.checkPaper(naslov, kljucneReci, apstrakt, naucnaOblast, filename)}" camunda:resultVariable="isRadOk">
       <bpmn:incoming>SequenceFlow_0fx8err</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1uvw3r1</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -86,6 +86,7 @@
             <camunda:value id="Value_0qhi0i8" name="LOGIC" />
             <camunda:value id="Value_24oqjlj" name="ENGINEERING" />
           </camunda:formField>
+          <camunda:formField id="filename" label="Rad" type="string" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0wj1yoy</bpmn:incoming>
@@ -155,7 +156,9 @@
       <bpmn:incoming>SequenceFlow_0krq5ep</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0wjgaly</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0krq5ep" sourceRef="ExclusiveGateway_1hbjw7x" targetRef="Task_026kfj5" />
+    <bpmn:sequenceFlow id="SequenceFlow_0krq5ep" sourceRef="ExclusiveGateway_1hbjw7x" targetRef="Task_026kfj5">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${tematskaPrikladnost}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="ExclusiveGateway_1viwedu">
       <bpmn:incoming>SequenceFlow_0wjgaly</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0s7r8en</bpmn:outgoing>

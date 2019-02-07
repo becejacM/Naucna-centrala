@@ -354,14 +354,14 @@
     <bpmn:sequenceFlow id="SequenceFlow_0a7maym" name="Rad prihvaćen" sourceRef="ExclusiveGateway_180opdj" targetRef="Task_0rbrben" />
     <bpmn:sequenceFlow id="SequenceFlow_0k4nh3j" name="zahtevana manja izmena" sourceRef="ExclusiveGateway_0ms4hjn" targetRef="Task_0rxhh0z" />
     <bpmn:sequenceFlow id="SequenceFlow_0o6b1ml" sourceRef="Task_0rxhh0z" targetRef="ExclusiveGateway_180opdj" />
-    <bpmn:boundaryEvent id="BoundaryEvent_1cin30f" attachedToRef="Task_1q4d7um">
-      <bpmn:outgoing>SequenceFlow_0e32g3e</bpmn:outgoing>
-      <bpmn:errorEventDefinition />
-    </bpmn:boundaryEvent>
     <bpmn:endEvent id="EndEvent_1qyqml5">
       <bpmn:incoming>SequenceFlow_0e32g3e</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_0e32g3e" name="Izlaz ako dodje do greske" sourceRef="BoundaryEvent_1cin30f" targetRef="EndEvent_1qyqml5" />
+    <bpmn:boundaryEvent id="BoundaryEvent_1cin30f" attachedToRef="Task_1q4d7um">
+      <bpmn:outgoing>SequenceFlow_0e32g3e</bpmn:outgoing>
+      <bpmn:errorEventDefinition />
+    </bpmn:boundaryEvent>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="ObjavaRada">
@@ -985,9 +985,6 @@
         <di:waypoint x="2329" y="1034" />
         <di:waypoint x="2381" y="1034" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="BoundaryEvent_0hvn8ba_di" bpmnElement="BoundaryEvent_1cin30f">
-        <dc:Bounds x="1009" y="102" width="36" height="36" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_1qyqml5_di" bpmnElement="EndEvent_1qyqml5">
         <dc:Bounds x="1095" y="22" width="36" height="36" />
       </bpmndi:BPMNShape>
@@ -999,6 +996,9 @@
           <dc:Bounds x="1006" y="68" width="74" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BoundaryEvent_1hebo89_di" bpmnElement="BoundaryEvent_1cin30f">
+        <dc:Bounds x="1009" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>

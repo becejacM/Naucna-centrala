@@ -8,7 +8,8 @@ import { MagazineDetails } from '../../model/MagazineDetails';
 export class PublicationService {
 
   private baseUrl = '/api/publication';
-
+  private uploadUrl = '/api/search';
+  
   constructor(private http: HttpClient) { }
 
   startProcess(): Observable<any> {
@@ -39,4 +40,24 @@ export class PublicationService {
   claimTask(id: string) {
     return this.http.get<any>(`${this.baseUrl}/tasks/${id}/claim`);
   };
+
+  upload(book: any): Observable<any> {
+    const options = {
+      headers: new HttpHeaders()
+    };
+    let formData: FormData = new FormData();
+    formData.append('file', book);
+
+    return this.http.post<any>(`${this.uploadUrl}/upload`, formData, options);
+  }
+
+  temporaryupload(book: any): Observable<any> {
+    const options = {
+      headers: new HttpHeaders()
+    };
+    let formData: FormData = new FormData();
+    formData.append('file', book);
+
+    return this.http.post<any>(`${this.uploadUrl}/temporaryupload`, formData, options);
+  }
 }

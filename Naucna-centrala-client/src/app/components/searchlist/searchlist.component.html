@@ -65,6 +65,7 @@
                   <span class="form-group" class="col-sm-2">
                     <button (click)="search()" class="btn btn-primary">PRETRAZI</button>
                   </span>
+
                 </div>
               </div>
             </div>
@@ -72,7 +73,7 @@
         </div>
       </div>
     </form>
-    
+
   </div>
 </ul>
 
@@ -85,7 +86,7 @@
           <div class="row">
             <div class="col-lg-12">
               <div class="block">
-                <div class="title">Prikaz svih knjiga
+                <div class="title">Prikaz rezultata
                 </div>
                 <div class="block-body">
                   <form class="form-horizontal">
@@ -98,7 +99,7 @@
                           <th>Autori</th>
                           <th>Kljucne reci</th>
                           <th>Naucna oblast</th>
-                          <th>Highlight</th>
+                          <th *ngIf="book.hightlight!==null"></th>
                           <th></th>
                         </tr>
                       </thead>
@@ -110,7 +111,7 @@
                           <td *ngFor="let a of book.autori">{{a.imeAutora}} &nbsp; {{a.prezimeAutora}}</td>
                           <td>{{book.keywords}}</td>
                           <td>{{book.naucnaOblast}}</td>
-                          <td>
+                          <td *ngIf="book.hightlight!==null">
                             <div [innerHTML]="book.hightlight">
                             </div>
                           </td>
@@ -118,8 +119,12 @@
                             <a [routerLink]="[book.filename]">
                               <input type="submit" value="Pogledaj" class="btn btn-primary">
                             </a>
+                            <br/>
+                            <button *ngIf="book.dostupnost == 'WITH_SUBSCRIPTION'" (click)="kupi()" class="btn btn-md btn-primary btn-block" type="submit">Kupi</button>
+                            <button *ngIf="book.dostupnost == 'OPEN_ACCESS'" (click)="download(book.filename)" class="btn btn-md btn-primary btn-block" type="submit">Preuzmi</button>
+                       
                           </td>
-                        </tr>
+                             </tr>
                       </tbody>
                     </table>
                   </form>
