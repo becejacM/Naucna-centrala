@@ -13,6 +13,13 @@ export class SearchService {
     return this.http.get<any>(`${this.baseUrl}/sep`);
   }
 
+  getAllForBuy(): Observable<any> {
+    return this.http.get<any>(`${this.kupiUrl}/getForBuy`);
+  }
+
+  getAllForDownload(): Observable<any> {
+    return this.http.get<any>(`${this.kupiUrl}/getForDownload`);
+  }
   getById(simpleQuery): Observable<any> {
     const options = {
       headers: new HttpHeaders()
@@ -34,7 +41,24 @@ export class SearchService {
   fail(id): Observable<any> {
     return this.http.get(`${this.kupiUrl}/fail/`+id);
   }
+  getMagazinesForSubscribe(): Observable<any> {
+    return this.http.get(`${this.kupiUrl}/magazineForSubscribe`);
+  }
 
+  getMagazinesSubscribed(): Observable<any> {
+    return this.http.get(`${this.kupiUrl}/magazineSubscribed`);
+  }
+  pretplatiSe(transactionRequestDto): Observable<any> {
+    return this.http.post(`${this.kupiUrl}/subscribe`, transactionRequestDto);
+  }
+
+  successSubscription(id): Observable<any> {
+    return this.http.get(`${this.kupiUrl}/subscribe/success/`+id);
+  }
+
+  failSubscription(id): Observable<any> {
+    return this.http.get(`${this.kupiUrl}/subscribe/fail/`+id);
+  }
   proveriKupovinu(transactionRequestDto): Observable<any> {
     return this.http.post(`${this.kupiUrl}/proveraKupovine`,transactionRequestDto);
   }

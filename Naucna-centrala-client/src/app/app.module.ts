@@ -46,6 +46,9 @@ import { SearchService } from './services/search/search.service';
 import { PaperComponent } from './components/paper/paper.component';
 import { SuccessPaymentComponent } from './components/success-payment/success-payment.component';
 import { FailPaymentComponent } from './components/fail-payment/fail-payment.component';
+import { MagazinelistComponent } from './components/magazinelist/magazinelist.component';
+import { FailSubscriptionComponent } from './components/fail-subscription/fail-subscription.component';
+import { SuccessSubscriptionComponent } from './components/success-subscription/success-subscription.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +73,9 @@ import { FailPaymentComponent } from './components/fail-payment/fail-payment.com
     PaperComponent,
     SuccessPaymentComponent,
     FailPaymentComponent,
+    MagazinelistComponent,
+    FailSubscriptionComponent,
+    SuccessSubscriptionComponent,
   ],
   imports: [
     BrowserModule,

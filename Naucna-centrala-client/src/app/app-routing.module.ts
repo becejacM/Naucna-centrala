@@ -16,6 +16,9 @@ import { SearchlistComponent } from './components/searchlist/searchlist.componen
 import { PaperComponent } from './components/paper/paper.component';
 import { SuccessPaymentComponent } from './components/success-payment/success-payment.component';
 import { FailPaymentComponent } from './components/fail-payment/fail-payment.component';
+import { MagazinelistComponent } from './components/magazinelist/magazinelist.component';
+import { FailSubscriptionComponent } from './components/fail-subscription/fail-subscription.component';
+import { SuccessSubscriptionComponent } from './components/success-subscription/success-subscription.component';
 
 
 const appRoutes: Routes = [
@@ -44,7 +47,9 @@ const appRoutes: Routes = [
   {path: 'search-and-buy/:filename', component: PaperComponent, canActivate: [OnlyLoggedInGuard]},
   {path: 'success/:id', component: SuccessPaymentComponent},
   {path: 'fail/:id', component: FailPaymentComponent},
-  
+  {path: 'magazine', component: MagazinelistComponent, canActivate: [OnlyLoggedInGuard]},
+  {path: 'subscribe/success/:id', component: SuccessSubscriptionComponent},
+  {path: 'subscribe/fail/:id', component: FailSubscriptionComponent},
 
 
 ];

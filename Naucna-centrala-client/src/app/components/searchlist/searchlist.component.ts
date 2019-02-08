@@ -19,7 +19,7 @@ import { LoggedUtils } from '../../utils/logged-utils';
 })
 export class SearchlistComponent implements OnInit {
   public books = [];
-  
+  public booksForDownload=[];
   public field;
   public type;
   public pojam;
@@ -40,7 +40,8 @@ export class SearchlistComponent implements OnInit {
   constructor(private searchService: SearchService, private fb: FormBuilder, private router: Router, private notificationService: NotificationsService) { }
 
   ngOnInit() {
-    this.getAllBooks();
+    this.getAllBooksForBuy();
+    this.getAllBooksForDownload();
     //this.createForm();
     const x = SearchCriteria;
     const options = Object.keys(SearchCriteria);
@@ -282,6 +283,31 @@ export class SearchlistComponent implements OnInit {
       );
   }
 
+  public getAllBooksForDownload() {
+    this.searchService.getAllForDownload()
+      .subscribe(
+        data => {
+          this.booksForDownload = data;
+          console.log(this.books)
+        },
+        error => {
+          console.log(error);
+        }
+      );
+  }
+
+  public getAllBooksForBuy() {
+    this.searchService.getAllForBuy()
+      .subscribe(
+        data => {
+          this.books = data;
+          console.log(this.books)
+        },
+        error => {
+          console.log(error);
+        }
+      );
+  }
   download(filename : any) {
     this.simpleQuery.value = filename;    
     this.searchService.download(this.simpleQuery)

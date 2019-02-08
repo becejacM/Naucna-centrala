@@ -1,6 +1,9 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-muted rounded" style="background-color: #000508;">
 
   <ul class="navbar nav ml-auto" style="margin-right: 2%">
+  <li class="nav-item" *ngxPermissionsOnly="['[AUTHOR]']">
+          <a id="choose-magazine-link" class="nav-link" routerLink="/magazine" translate>Pretplata</a>
+        </li>
       <li class="nav-item" *ngxPermissionsOnly="['[AUTHOR]']">
           <a id="choose-magazine-link" class="nav-link" routerLink="/search-and-buy" translate>Pretrazi i kupi</a>
         </li>

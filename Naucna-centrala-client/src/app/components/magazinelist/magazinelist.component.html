@@ -1,0 +1,40 @@
+<div id="registrationDiv" class="mainContainer  d-flex justify-content-center">
+  <div class="card my_card">
+    <div class="col-md-12 col-md-offset-3" id="logreg">
+      
+            <ul class="list-unstyled" *ngIf="magazines">
+              <h3 id="heading-own-magazines">Ovi casopisi zahtevaju pretplatu:</h3>
+              <div *ngFor="let magazine of magazines; let i = index;">
+                <li class="list-group-item list-group-item flex-column align-items-start">
+                  <div *ngIf="magazine" class="d-flex w-100 justify-content-between div-toggle-building-list-item" style="cursor: pointer">
+          
+                    CASOPIS naziv: {{magazine.name}}, issn: {{magazine.issn}}, metod placanja: {{magazine.paymentMethod}}
+                   <button *ngIf="magazine.paymentMethod == 'OPEN_ACCESS'" (click)="pretplatiSe(magazine.name)" class="btn btn-md btn-primary btn-block" type="submit">Pretplati se</button>
+
+                  </div>
+                </li>
+              </div>
+            </ul>
+    </div>
+  </div>
+</div>
+
+<div id="registrationDiv" class="mainContainer  d-flex justify-content-center">
+  <div class="card my_card">
+    <div class="col-md-12 col-md-offset-3" id="logreg">
+      
+            <ul class="list-unstyled" *ngIf="magazines">
+              <h3 id="heading-own-magazines">Ovo su Vam dostupni casopisi:</h3>
+              <div *ngFor="let magazine of magazinesSubscribed; let i = index;">
+                <li class="list-group-item list-group-item flex-column align-items-start">
+                  <div *ngIf="magazine" class="d-flex w-100 justify-content-between div-toggle-building-list-item" style="cursor: pointer">
+          
+                    CASOPIS naziv: {{magazine.name}}, issn: {{magazine.issn}}, metod placanja: {{magazine.paymentMethod}}
+
+                  </div>
+                </li>
+              </div>
+            </ul>
+    </div>
+  </div>
+</div>
