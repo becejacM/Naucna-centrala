@@ -10,6 +10,7 @@ import { NotificationsService } from 'angular2-notifications';
 import { saveAs } from "file-saver";
 import { TransactionRequestDto } from '../../model/TransactionRequestDto';
 import {Router} from '@angular/router';
+import { LoggedUtils } from '../../utils/logged-utils';
 
 @Component({
   selector: 'app-searchlist',
@@ -296,13 +297,16 @@ export class SearchlistComponent implements OnInit {
   uuid : any;
   url : any;
   transactionRequestDto : TransactionRequestDto = new TransactionRequestDto;
-  kupi(){
+  kupi(naslovRada:String, nazivCasopisa:String){
     this.uuid = "49afdb55-0d09-4e87-af2d-d50ea40f5452";
-    this.transactionRequestDto.amount = 10.00;
-    this.transactionRequestDto.description = "lep opis";
-    this.transactionRequestDto.sellerUuid = "5e0f86b8-2f9e-414d-bb63-01164f1ab87a";
-    this.transactionRequestDto.successUrl = "https://www.youtube.com";
-    this.transactionRequestDto.failUrl = "https://www.google.com";
+    //this.transactionRequestDto.amount = 10.00;
+    //this.transactionRequestDto.description = "lep opis";
+    //this.transactionRequestDto.sellerUuid = "5e0f86b8-2f9e-414d-bb63-01164f1ab87a";
+    //this.transactionRequestDto.successUrl = "https://www.youtube.com";
+    //this.transactionRequestDto.failUrl = "https://www.google.com";
+    this.transactionRequestDto.naslovRada = naslovRada;
+    this.transactionRequestDto.prodavac = nazivCasopisa;
+    this.transactionRequestDto.kupac = LoggedUtils.getUsername();
     this.searchService.kupi(this.transactionRequestDto)
     .subscribe(
       data => {
@@ -317,6 +321,36 @@ export class SearchlistComponent implements OnInit {
         console.log(error);
       }
     );
+
+  }
+
+  proveraKupovine(naslovRada:String, nazivCasopisa:String, dostupnost:String):Boolean{
+      if(dostupnost==="OPEN_ACCESS"){
+        return true;
+      }
+      else{
+        this.transactionRequestDto.naslovRada = naslovRada;
+        this.transactionRequestDto.prodavac = nazivCasopisa;
+        this.transactionRequestDto.kupac = LoggedUtils.getUsername();
+        let flag:any;
+        this.searchService.proveriKupovinu(this.transactionRequestDto)
+        .subscribe(
+          data => {
+            console.log(data);
+            flag=data.jeKupljen;            
+          },
+          error => {
+            console.log(error);
+          }
+        );
+
+        if(flag===true){
+          return true;
+        }
+        else{
+          return false;
+        }
+      }
 
   }
   downloadFile(data, fileName) {

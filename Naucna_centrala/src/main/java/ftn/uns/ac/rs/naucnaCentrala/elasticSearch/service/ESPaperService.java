@@ -141,6 +141,7 @@ public class ESPaperService {
         coautorRepository.save(c);
         autori.add(c);
         paper.setCoauthors(autori);
+        paper.setCena(10L);
         PaperIndexUnit paperIU = pdfDocumentHandler
                 .getIUPaper(paper, dirLocation.resolve(paper.getFilename()));
         Paper saved = paperRepository.save(paper);
@@ -160,6 +161,12 @@ public class ESPaperService {
 		}
         return papers;
     }
+	
+	public Collection<Paper> findAllSEP(){
+		Collection<Paper> papers = new ArrayList<Paper>();
+		papers = paperRepository.findAll();
+		return papers;
+	}
 	
 	public void save(Paper paper) {
         PaperIndexUnit iupaper = pdfDocumentHandler

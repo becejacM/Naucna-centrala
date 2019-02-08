@@ -44,6 +44,8 @@ import { TaskComponent } from './components/publication/task/task.component';
 import { SearchlistComponent } from './components/searchlist/searchlist.component';
 import { SearchService } from './services/search/search.service';
 import { PaperComponent } from './components/paper/paper.component';
+import { SuccessPaymentComponent } from './components/success-payment/success-payment.component';
+import { FailPaymentComponent } from './components/fail-payment/fail-payment.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +68,8 @@ import { PaperComponent } from './components/paper/paper.component';
     TaskComponent,
     SearchlistComponent,
     PaperComponent,
+    SuccessPaymentComponent,
+    FailPaymentComponent,
   ],
   imports: [
     BrowserModule,

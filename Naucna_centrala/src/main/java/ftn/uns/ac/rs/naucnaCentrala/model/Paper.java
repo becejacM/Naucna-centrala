@@ -64,6 +64,8 @@ public class Paper {
 	@Column(name="dostupnost")
 	private String dostupnost;
 
+	@Column(name="cena")
+	private Long cena;
 	public Paper() {
 		
 	}
@@ -161,6 +163,14 @@ public class Paper {
 
 	public void setFinalVersionPath(String finalVersionPath) {
 		this.finalVersionPath = finalVersionPath;
+	}
+
+	public Long getCena() {
+		return cena;
+	}
+
+	public void setCena(Long cena) {
+		this.cena = cena;
 	}
 
 	

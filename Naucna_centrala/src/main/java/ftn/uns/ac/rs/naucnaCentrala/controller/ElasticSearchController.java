@@ -116,6 +116,23 @@ public class ElasticSearchController {
         return new ResponseEntity<>(articleDTOList, HttpStatus.OK);
     }
 	
+	@GetMapping("sep")
+    public ResponseEntity getAllSep() {
+        Collection<Paper> articleList  = esPaperService.findAllSEP();
+        List<SearchHitDTO> articleDTOList = new ArrayList<SearchHitDTO>();
+        for (Paper a : articleList) {
+        	System.out.println(a.getFilename());
+			SearchHitDTO resultData = new SearchHitDTO(a);
+			articleDTOList.add(resultData);
+        	//PaperDTO adto = new PaperDTO(a);
+			//articleDTOList.add(adto);
+        	//System.out.println(adto.getName());
+
+		}
+
+        return new ResponseEntity<>(articleDTOList, HttpStatus.OK);
+    }
+	
 	@PostMapping("search")
     public ResponseEntity search(@RequestBody SearchDTO searchDTO) {
         List<SearchHitDTO> eBookDTOList = esPaperService.search2(searchDTO);

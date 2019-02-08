@@ -52,7 +52,8 @@ public class Magazine {
 	@OneToOne(cascade = CascadeType.ALL)
 	private EditorialBoard editorialBoard;
 	
-	
+	@Column(name = "mid", nullable = false)
+	private String mid;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "magazine")
 	@Fetch(value = FetchMode.SUBSELECT)
@@ -63,7 +64,7 @@ public class Magazine {
 	}
 
 	public Magazine(Long id, String name, String issn, Collection<ScientificField> scientificFields,
-			PaymentMethod paymentMethod, EditorialBoard editorialBoard, List<Paper> papers) {
+			PaymentMethod paymentMethod, EditorialBoard editorialBoard, String mid, List<Paper> papers) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -71,6 +72,7 @@ public class Magazine {
 		this.scientificFields = scientificFields;
 		this.paymentMethod = paymentMethod;
 		this.editorialBoard = editorialBoard;
+		this.mid = mid;
 		this.papers = papers;
 	}
 
@@ -120,6 +122,14 @@ public class Magazine {
 
 	public void setEditorialBoard(EditorialBoard editorialBoard) {
 		this.editorialBoard = editorialBoard;
+	}
+
+	public String getMid() {
+		return mid;
+	}
+
+	public void setMid(String mid) {
+		this.mid = mid;
 	}
 
 	public List<Paper> getPapers() {

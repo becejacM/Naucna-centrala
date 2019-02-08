@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.AutorIndexUnit;
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.PaperIndexUnit;
+import ftn.uns.ac.rs.naucnaCentrala.model.Paper;
 
 public class SearchHitDTO {
 
@@ -47,6 +48,14 @@ public class SearchHitDTO {
 		this.dostupnost = index.getDostupnost();
 	}
 
+	public SearchHitDTO(Paper index) {
+		this.filename = index.getFilename();
+		this.nazivCasopisa = index.getMagazine().getName();
+		this.naslovRada = index.getNaslovRada();
+		this.keywords = index.getKeywords();
+		this.naucnaOblast = index.getScientificField().getScientificFieldName().name();
+		this.dostupnost = index.getDostupnost();
+	}
 	public SearchHitDTO(String filename, String nazivCasopisa, String naslovRada, String apstrakt,
 			String keywords, Collection<AutorIndexUnit> autori, String naucnaOblast, String text, String hightlight,
 			String dostupnost) {

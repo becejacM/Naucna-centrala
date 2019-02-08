@@ -14,6 +14,8 @@ import { TasksPageComponent } from './components/publication/tasks-page/tasks-pa
 import { TaskComponent } from './components/publication/task/task.component';
 import { SearchlistComponent } from './components/searchlist/searchlist.component';
 import { PaperComponent } from './components/paper/paper.component';
+import { SuccessPaymentComponent } from './components/success-payment/success-payment.component';
+import { FailPaymentComponent } from './components/fail-payment/fail-payment.component';
 
 
 const appRoutes: Routes = [
@@ -40,6 +42,8 @@ const appRoutes: Routes = [
   {path: 'change-password', component: ChangePasswordComponent},
   {path: 'search-and-buy', component: SearchlistComponent, canActivate: [OnlyLoggedInGuard]},
   {path: 'search-and-buy/:filename', component: PaperComponent, canActivate: [OnlyLoggedInGuard]},
+  {path: 'success/:id', component: SuccessPaymentComponent},
+  {path: 'fail/:id', component: FailPaymentComponent},
   
 
 

@@ -96,7 +96,7 @@
                           <th></th>
                           <th>Casopis</th>
                           <th>Naslov</th>
-                          <th>Autori</th>
+                          <!--<th>Autori</th>-->
                           <th>Kljucne reci</th>
                           <th>Naucna oblast</th>
                           <th *ngIf="book.hightlight!==null"></th>
@@ -108,7 +108,7 @@
                           <th scope="row">{{i+1}}</th>
                           <td>{{book.nazivCasopisa}}</td>
                           <td>{{book.naslovRada}}</td>
-                          <td *ngFor="let a of book.autori">{{a.imeAutora}} &nbsp; {{a.prezimeAutora}}</td>
+                          <!--<td *ngFor="let a of book.autori">{{a.imeAutora}} &nbsp; {{a.prezimeAutora}}</td>-->
                           <td>{{book.keywords}}</td>
                           <td>{{book.naucnaOblast}}</td>
                           <td *ngIf="book.hightlight!==null">
@@ -116,13 +116,16 @@
                             </div>
                           </td>
                           <td>
-                            <a [routerLink]="[book.filename]">
+                            <!--<a [routerLink]="[book.filename]">
                               <input type="submit" value="Pogledaj" class="btn btn-primary">
                             </a>
-                            <br/>
-                            <button *ngIf="book.dostupnost == 'WITH_SUBSCRIPTION'" (click)="kupi()" class="btn btn-md btn-primary btn-block" type="submit">Kupi</button>
+                            <br/>-->
+                            <button *ngIf="book.dostupnost == 'WITH_SUBSCRIPTION'" (click)="kupi(book.naslovRada, book.nazivCasopisa)" class="btn btn-md btn-primary btn-block" type="submit">Kupi</button>
                             <button *ngIf="book.dostupnost == 'OPEN_ACCESS'" (click)="download(book.filename)" class="btn btn-md btn-primary btn-block" type="submit">Preuzmi</button>
-                       
+                          
+                          <!--<button *ngIf="!proveraKupovine(book.naslovRada, book.nazivCasopisa, book.dostupnost)" (click)="kupi(book.naslovRada, book.nazivCasopisa)" class="btn btn-md btn-primary btn-block" type="submit">Kupi</button>
+                          <button *ngIf="proveraKupovine(book.naslovRada, book.nazivCasopisa, book.dostupnost)" (click)="download(book.filename)" class="btn btn-md btn-primary btn-block" type="submit">Preuzmi</button>
+                          -->
                           </td>
                              </tr>
                       </tbody>
