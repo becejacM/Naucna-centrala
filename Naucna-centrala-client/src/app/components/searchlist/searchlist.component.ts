@@ -300,7 +300,7 @@ export class SearchlistComponent implements OnInit {
     this.uuid = "49afdb55-0d09-4e87-af2d-d50ea40f5452";
     this.transactionRequestDto.amount = 10.00;
     this.transactionRequestDto.description = "lep opis";
-    this.transactionRequestDto.sellerUuid = "49afdb55-0d09-4e87-af2d-d50ea40f5452";
+    this.transactionRequestDto.sellerUuid = "5e0f86b8-2f9e-414d-bb63-01164f1ab87a";
     this.transactionRequestDto.successUrl = "https://www.youtube.com";
     this.transactionRequestDto.failUrl = "https://www.google.com";
     this.searchService.kupi(this.transactionRequestDto)
