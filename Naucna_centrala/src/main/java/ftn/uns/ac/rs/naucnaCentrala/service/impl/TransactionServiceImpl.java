@@ -63,7 +63,7 @@ public class TransactionServiceImpl implements TransactionService{
 		transactionDTO.setSellerUuid(magazine.getMid());
 		
 		System.out.println(transactionDTO.toString());
-		String url = "http://localhost:8302/api/kp-service/transactions/init";
+		String url = "https://192.168.0.16:8083/api/kp-service/transactions/init";
 		ResponseEntity<TransactionResponseDto> response = restTemplate.postForEntity(url, transactionDTO,
 				TransactionResponseDto.class);
 		System.out.println("ovde*****************sssssssssssss "+response.getBody().toString());
@@ -123,7 +123,7 @@ public class TransactionServiceImpl implements TransactionService{
 		subDTO.setSellerUuid(magazine.getMid());
 		
 		System.out.println(subDTO.toString());
-		String url = "http://localhost:8302/api/kp-service/subscription";
+		String url = "https://192.168.0.16:8083/api/kp-service/subscription";
 		ResponseEntity<TransactionResponseDto> response = restTemplate.postForEntity(url, subDTO,
 				TransactionResponseDto.class);
 		System.out.println("ovde*****************sssssssssssss "+response.getBody().toString());

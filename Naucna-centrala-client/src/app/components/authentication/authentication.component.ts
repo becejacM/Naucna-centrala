@@ -10,6 +10,7 @@ import {ToastrService} from 'ngx-toastr';
 import {AuthenticationService} from '../../services/authentication/authentication.service';
 import {LoggedUtils} from '../../utils/logged-utils';
 import { NotificationsService } from 'angular2-notifications';
+import { JsonPipe } from '@angular/common';
 
 
 @Component({
@@ -43,6 +44,7 @@ export class AuthenticationComponent implements OnInit {
   authenticate(loginForm) {
     this.autheticationService.authenticateUser(Object.values(loginForm)[0], Object.values(loginForm)[1]).subscribe(
       data => {
+
         localStorage.setItem('loggedUser', JSON.stringify(data)),
           this.router.navigate(['/home']);
 
@@ -56,8 +58,9 @@ export class AuthenticationComponent implements OnInit {
         //this.toastr.success('You are logged in', 'Welcome!');
         
       },
-      error => 
-      this.notificationService.error('Neipstavno korisnicko i/ili sifra'),
+      error => {
+        this.notificationService.error('Neipstavno korisnicko i/ili sifra')
+      },
       () => console.log(JSON.parse(localStorage.getItem('loggedUser')))
     );
   }
