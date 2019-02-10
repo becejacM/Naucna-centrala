@@ -3,13 +3,13 @@ import { SearchService } from '../../services/search/search.service';
 import { SimpleQuery } from '../../model/simpleQuery';
 import { AdvancedQuery } from '../../model/advancedQuery';
 import { SearchCriteria } from '../../model/searchCriteria';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SearchType } from '../../model/searchType';
 import { isBoolean } from 'util';
 import { NotificationsService } from 'angular2-notifications';
 import { saveAs } from "file-saver";
 import { TransactionRequestDto } from '../../model/TransactionRequestDto';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 import { LoggedUtils } from '../../utils/logged-utils';
 
 @Component({
@@ -19,13 +19,13 @@ import { LoggedUtils } from '../../utils/logged-utils';
 })
 export class SearchlistComponent implements OnInit {
   public books = [];
-  public booksForDownload=[];
+  public booksForDownload = [];
   public field;
   public type;
   public pojam;
   public pojam2;
   public field2;
-  
+
   options: string[];
   searchCriteria: SearchCriteria;
   SearchCriteria: typeof SearchCriteria = SearchCriteria;
@@ -40,8 +40,11 @@ export class SearchlistComponent implements OnInit {
   constructor(private searchService: SearchService, private fb: FormBuilder, private router: Router, private notificationService: NotificationsService) { }
 
   ngOnInit() {
-    this.getAllBooksForBuy();
-    this.getAllBooksForDownload();
+    //za sep
+    //this.getAllBooksForBuy();
+    //this.getAllBooksForDownload();
+    //za udd
+    this.getAllBooks();
     //this.createForm();
     const x = SearchCriteria;
     const options = Object.keys(SearchCriteria);
@@ -50,7 +53,7 @@ export class SearchlistComponent implements OnInit {
     const x2 = SearchType;
     const options2 = Object.keys(SearchType);
     this.options2 = options2.slice(options2.length / 2);
-    this.isBoolean="no";
+    this.isBoolean = "no";
   }
 
   /*createFormRegisteredPerson() {
@@ -68,205 +71,215 @@ export class SearchlistComponent implements OnInit {
         }, { updateOn: 'submit' });
       }*/
 
-  public search(){
+  public search() {
     console.log(this.type);
     console.log(this.field);
-    if(this.type==""){
-      this.notificationService.error('Morate odabrati tip pretrage!');      
+    if (this.type == "") {
+      this.notificationService.error('Morate odabrati tip pretrage!');
     }
-    else if(this.field==""){
-      this.notificationService.error('Morate odabrati polje pretrage!');      
+    else if (this.field == "") {
+      this.notificationService.error('Morate odabrati polje pretrage!');
     }
-    else if(this.pojam==""){
-      this.notificationService.error('Morate uneti pojam pretrage!');      
+    else if (this.pojam == "") {
+      this.notificationService.error('Morate uneti pojam pretrage!');
     }
-    else if(this.isBoolean=="yes" && this.pojam2==""){
-      this.notificationService.error('Morate uneti pojam pretrage!');      
+    else if (this.isBoolean == "yes" && this.pojam2 == "") {
+      this.notificationService.error('Morate uneti pojam pretrage!');
     }
-    else if(this.isBoolean=="yes" && this.operationAND=="" && this.operationOR==""){
-      this.notificationService.error('Morate operator za boolean pretragu!');      
+    else if (this.isBoolean == "yes" && this.operationAND == "" && this.operationOR == "") {
+      this.notificationService.error('Morate operator za boolean pretragu!');
     }
-    else{
-      if(this.isBoolean=="yes"){
+    else {
+      if (this.isBoolean == "yes") {
         this.pretraziBoolean();
       }
-      else{
+      else {
         this.pretrazi();
       }
     }
   }
 
-  public pretrazi(){
+  public pretrazi() {
 
     this.pripremiFieldove();
 
-    if(this.type==="TERM"){
-      if(this.field==="sadrzaj"){
+    
+    if (this.type === "TERM") {
+      if (this.field === "sadrzaj") {
         this.pretraziContent();
       }
-      else{
-        this.pretraziTerm();        
+      else {
+        this.pretraziTerm();
       }
     }
-    else if(this.type==="FUZZY"){
+    else if (this.type === "FUZZY") {
       this.pretraziFuzzy();
     }
-    else if(this.type==="PHRASE"){
-      this.pretraziFuzzy();
+    else if (this.type === "PHRASE") {
+      this.pretraziPhrase();
     }
+
   }
 
-  public pripremiFieldove(){
+  public pripremiFieldove() {
     this.simpleQuery.value = this.pojam;
-    if(this.field==="naziv casopisa"){
-      this.simpleQuery.field="nazivCasopisa";
+    if (this.field === "naziv casopisa") {
+      this.simpleQuery.field = "nazivCasopisa";
     }
-    else if(this.field==="naslov rada"){
-      this.simpleQuery.field="naslovRada";
+    else if (this.field === "naslov rada") {
+      this.simpleQuery.field = "naslovRada";
     }
-    else if(this.field==="ime autora"){
-      this.simpleQuery.field="imeAutora";
+    else if (this.field === "ime autora") {
+      this.simpleQuery.field = "imeAutora";
     }
-    else if(this.field==="prezime autora"){
-      this.simpleQuery.field="prezimeAutora";
+    else if (this.field === "prezime autora") {
+      this.simpleQuery.field = "prezimeAutora";
     }
-    else if(this.field==="kljucne reci"){
-      this.simpleQuery.field="keywords";
+    else if (this.field === "kljucne reci") {
+      this.simpleQuery.field = "keywords";
     }
-    else if(this.field==="sadrzaj"){
-      this.simpleQuery.field="text";
+    else if (this.field === "sadrzaj") {
+      this.simpleQuery.field = "text";
     }
-    else if(this.field==="naucna oblast"){
-      this.simpleQuery.field="naucnaOblast";
+    else if (this.field === "naucna oblast") {
+      this.simpleQuery.field = "oblast";
     }
   }
 
-  public pripremiFieldoveZaBoolean(){
+  public pripremiFieldoveZaBoolean() {
     this.advancedQuery.value1 = this.pojam;
     this.advancedQuery.value2 = this.pojam2;
-    
-    if(this.operationAND != "") {
+
+    if (this.operationAND != "") {
+      console.log(this.operationAND);
+      console.log(this.operationOR);
+
       this.advancedQuery.operation = "AND";
     } else {
+      console.log(this.operationAND);
+      console.log(this.operationOR);
       this.advancedQuery.operation = "OR";
     }
 
-    if(this.field==="naziv casopisa"){
-      this.advancedQuery.field1="nazivCasopisa";
+    if (this.field === "naziv casopisa") {
+      this.advancedQuery.field1 = "nazivCasopisa";
     }
-    else if(this.field==="naslov rada"){
-      this.advancedQuery.field1="naslovRada";
+    else if (this.field === "naslov rada") {
+      this.advancedQuery.field1 = "naslovRada";
     }
-    else if(this.field==="ime autora"){
-      this.advancedQuery.field1="imeAutora";
+    else if (this.field === "ime autora") {
+      this.advancedQuery.field1 = "imeAutora";
     }
-    else if(this.field==="prezime autora"){
-      this.advancedQuery.field1="prezimeAutora";
+    else if (this.field === "prezime autora") {
+      this.advancedQuery.field1 = "prezimeAutora";
     }
-    else if(this.field==="kljucne reci"){
-      this.advancedQuery.field1="keywords";
+    else if (this.field === "kljucne reci") {
+      this.advancedQuery.field1 = "keywords";
     }
-    else if(this.field==="sadrzaj"){
-      this.advancedQuery.field1="text";
+    else if (this.field === "sadrzaj") {
+      this.advancedQuery.field1 = "text";
     }
-    else if(this.field==="naucna oblast"){
-      this.advancedQuery.field1="naucnaOblast";
+    else if (this.field === "naucna oblast") {
+      this.advancedQuery.field1 = "oblast";
     }
 
 
 
-    if(this.field2==="naziv casopisa"){
-      this.advancedQuery.field2="nazivCasopisa";
+    if (this.field2 === "naziv casopisa") {
+      this.advancedQuery.field2 = "nazivCasopisa";
     }
-    else if(this.field2==="naslov rada"){
-      this.advancedQuery.field2="naslovRada";
+    else if (this.field2 === "naslov rada") {
+      this.advancedQuery.field2 = "naslovRada";
     }
-    else if(this.field2==="ime autora"){
-      this.advancedQuery.field2="imeAutora";
+    else if (this.field2 === "ime autora") {
+      this.advancedQuery.field2 = "imeAutora";
     }
-    else if(this.field2==="prezime autora"){
-      this.advancedQuery.field2="prezimeAutora";
+    else if (this.field2 === "prezime autora") {
+      this.advancedQuery.field2 = "prezimeAutora";
     }
-    else if(this.field2==="kljucne reci"){
-      this.advancedQuery.field2="keywords";
+    else if (this.field2 === "kljucne reci") {
+      this.advancedQuery.field2 = "keywords";
     }
-    else if(this.field2==="sadrzaj"){
-      this.advancedQuery.field2="text";
+    else if (this.field2 === "sadrzaj") {
+      this.advancedQuery.field2 = "text";
     }
-    else if(this.field2==="naucna oblast"){
-      this.advancedQuery.field2="naucnaOblast";
+    else if (this.field2 === "naucna oblast") {
+      this.advancedQuery.field2 = "oblast";
     }
   }
-  public pretraziContent(){
+  public pretraziContent() {
     this.searchService.searchByContent(this.simpleQuery)
-    .subscribe(
-      data => {
-        this.books = data;
-        console.log(this.books)
-      },
-      error => {
-        console.log(error);
-      }
-    );
+      .subscribe(
+        data => {
+          this.books = data;
+          console.log(this.books)
+        },
+        error => {
+          console.log(error);
+        }
+      );
   }
-  public pretraziPhrase(){
+  public pretraziPhrase() {
     this.searchService.searchPhrase(this.simpleQuery)
-    .subscribe(
-      data => {
-        this.books = data;
-        console.log(this.books)
-      },
-      error => {
-        console.log(error);
-      }
-    );
+      .subscribe(
+        data => {
+          this.books = data;
+          console.log(this.books)
+        },
+        error => {
+          console.log(error);
+        }
+      );
   }
 
-  public pretraziFuzzy(){
+  public pretraziFuzzy() {
     this.searchService.searchFuzzy(this.simpleQuery)
-    .subscribe(
-      data => {
-        this.books = data;
-        console.log(this.books)
-      },
-      error => {
-        console.log(error);
-      }
-    );
+      .subscribe(
+        data => {
+          this.books = data;
+          console.log(this.books)
+        },
+        error => {
+          console.log(error);
+        }
+      );
   }
-  public pretraziTerm(){
+  public pretraziTerm() {
     this.searchService.searchTerm(this.simpleQuery)
-    .subscribe(
-      data => {
-        this.books = data;
-        console.log(this.books)
-      },
-      error => {
-        console.log(error);
-      }
-    );
+      .subscribe(
+        data => {
+          this.books = data;
+          console.log(this.books)
+        },
+        error => {
+          console.log(error);
+        }
+      );
   }
-  public pretraziBoolean(){
+  public pretraziBoolean() {
     this.pripremiFieldoveZaBoolean();
     this.searchService.searchBoolean(this.advancedQuery)
-    .subscribe(
-      data => {
-        this.books = data;
-        console.log(this.books)
-      },
-      error => {
-        console.log(error);
-      }
-    );
+      .subscribe(
+        data => {
+          this.books = data;
+          console.log(this.books);
+          this.advancedQuery.operation = "";
+          this.operationAND = "";
+          this.operationOR = "";
+        },
+        error => {
+          console.log(error);
+        }
+      );
   }
 
-  public promenaTipa(value : string){
-    console.log("promenaaaa "+SearchType[value]);
-    if(SearchType[value]===3){
-        this.isBoolean="yes";
+  public promenaTipa(value: string) {
+    console.log("promenaaaa " + SearchType[value]);
+    if (SearchType[value] === 3) {
+      this.isBoolean = "yes";
     }
-    else{
-      this.isBoolean="no";
+    else {
+      this.isBoolean = "no";
     }
   }
 
@@ -308,8 +321,8 @@ export class SearchlistComponent implements OnInit {
         }
       );
   }
-  download(filename : any) {
-    this.simpleQuery.value = filename;    
+  download(filename: any) {
+    this.simpleQuery.value = filename;
     this.searchService.download(this.simpleQuery)
       .subscribe(
         data => {
@@ -320,10 +333,10 @@ export class SearchlistComponent implements OnInit {
         }
       );
   }
-  uuid : any;
-  url : any;
-  transactionRequestDto : TransactionRequestDto = new TransactionRequestDto;
-  kupi(naslovRada:String, nazivCasopisa:String){
+  uuid: any;
+  url: any;
+  transactionRequestDto: TransactionRequestDto = new TransactionRequestDto;
+  kupi(naslovRada: String, nazivCasopisa: String) {
     this.uuid = "49afdb55-0d09-4e87-af2d-d50ea40f5452";
     //this.transactionRequestDto.amount = 10.00;
     //this.transactionRequestDto.description = "lep opis";
@@ -334,56 +347,56 @@ export class SearchlistComponent implements OnInit {
     this.transactionRequestDto.prodavac = nazivCasopisa;
     this.transactionRequestDto.kupac = LoggedUtils.getUsername();
     this.searchService.kupi(this.transactionRequestDto)
-    .subscribe(
-      data => {
-        console.log(data);
-        
-        this.url = data.redirectUrl;
-        window.location.href=this.url;
-        //this.router.navigate([this.url]);
-        
-      },
-      error => {
-        console.log(error);
-      }
-    );
+      .subscribe(
+        data => {
+          console.log(data);
+
+          this.url = data.redirectUrl;
+          window.location.href = this.url;
+          //this.router.navigate([this.url]);
+
+        },
+        error => {
+          console.log(error);
+        }
+      );
 
   }
 
-  proveraKupovine(naslovRada:String, nazivCasopisa:String, dostupnost:String):Boolean{
-      if(dostupnost==="OPEN_ACCESS"){
-        return true;
-      }
-      else{
-        this.transactionRequestDto.naslovRada = naslovRada;
-        this.transactionRequestDto.prodavac = nazivCasopisa;
-        this.transactionRequestDto.kupac = LoggedUtils.getUsername();
-        let flag:any;
-        this.searchService.proveriKupovinu(this.transactionRequestDto)
+  proveraKupovine(naslovRada: String, nazivCasopisa: String, dostupnost: String): Boolean {
+    if (dostupnost === "OPEN_ACCESS") {
+      return true;
+    }
+    else {
+      this.transactionRequestDto.naslovRada = naslovRada;
+      this.transactionRequestDto.prodavac = nazivCasopisa;
+      this.transactionRequestDto.kupac = LoggedUtils.getUsername();
+      let flag: any;
+      this.searchService.proveriKupovinu(this.transactionRequestDto)
         .subscribe(
           data => {
             console.log(data);
-            flag=data.jeKupljen;            
+            flag = data.jeKupljen;
           },
           error => {
             console.log(error);
           }
         );
 
-        if(flag===true){
-          return true;
-        }
-        else{
-          return false;
-        }
+      if (flag === true) {
+        return true;
       }
+      else {
+        return false;
+      }
+    }
 
   }
   downloadFile(data, fileName) {
     var blob = new Blob([data], { type: 'application/pdf' });
     saveAs(blob, fileName);
   }
-  
+
   public languages = [];
   public categories = [];
 
@@ -447,46 +460,46 @@ export class SearchlistComponent implements OnInit {
       );
   }
   public searchBoolean() {
-    if(this.operationAND != "") {
+    if (this.operationAND != "") {
       this.advancedQuery.operation = this.operationAND;
     } else {
       this.advancedQuery.operation = this.operationOR;
     }
-    if(this.title != "" && this.author != "") {
+    if (this.title != "" && this.author != "") {
       this.advancedQuery.field1 = "title";
       this.advancedQuery.value1 = this.title;
 
       this.advancedQuery.field2 = "author";
       this.advancedQuery.value2 = this.author;
-    } 
-    if(this.title != "" && this.keywords != "") {
+    }
+    if (this.title != "" && this.keywords != "") {
       this.advancedQuery.field1 = "title";
       this.advancedQuery.value1 = this.title;
 
       this.advancedQuery.field2 = "keywords";
       this.advancedQuery.value2 = this.keywords;
-    } 
-    if(this.title != "" && this.text != "") {
+    }
+    if (this.title != "" && this.text != "") {
       this.advancedQuery.field1 = "title";
       this.advancedQuery.value1 = this.title;
 
       this.advancedQuery.field2 = "text";
       this.advancedQuery.value2 = this.text;
-    } 
-    if(this.keywords != "" && this.text != "") {
+    }
+    if (this.keywords != "" && this.text != "") {
       this.advancedQuery.field1 = "keywords";
       this.advancedQuery.value1 = this.keywords;
 
       this.advancedQuery.field2 = "text";
       this.advancedQuery.value2 = this.text;
-    } 
-    if(this.author != "" && this.text != "") {
+    }
+    if (this.author != "" && this.text != "") {
       this.advancedQuery.field1 = "author";
       this.advancedQuery.value1 = this.author;
 
       this.advancedQuery.field2 = "text";
       this.advancedQuery.value2 = this.text;
-    } 
+    }
     /*if(this.author != "") {
       if(this.advancedQuery.field1 == "") {
         this.advancedQuery.field1 = "author";

@@ -10,7 +10,7 @@ export class SearchService {
   constructor(private http: HttpClient) { }
 
   getAll(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/sep`);
+    return this.http.get<any>(`${this.baseUrl}`);
   }
 
   getAllForBuy(): Observable<any> {
@@ -29,7 +29,18 @@ export class SearchService {
   download(simpleQuery) {
     return this.http.post(`${this.searchUrl}/download`, simpleQuery, { responseType: 'blob' });
   }
+  upload(book: any): Observable<any> {
+    const options = {
+      headers: new HttpHeaders()
+    };
+    let formData: FormData = new FormData();
+    formData.append('file', book);
 
+    return this.http.post<any>(`${this.baseUrl}/upload`, formData, options);
+  }
+  save(paper) {
+    return this.http.post(`${this.baseUrl}`, paper);
+  }
   kupi(transactionRequestDto): Observable<any> {
     return this.http.post(`${this.kupiUrl}/initi`, transactionRequestDto);
   }
@@ -72,6 +83,7 @@ export class SearchService {
     const options = {
       headers: new HttpHeaders()
     };
+    console.log(simpleQuery);
     return  this.http.post<any>(`${this.searchUrl}/term`, simpleQuery, options);
   }
   searchFuzzy(simpleQuery): Observable<any> {
@@ -84,6 +96,7 @@ export class SearchService {
     const options = {
       headers: new HttpHeaders()
     };
+
     return  this.http.post<any>(`${this.searchUrl}/phrase`, simpleQuery, options);
   }
 
@@ -91,6 +104,7 @@ export class SearchService {
     const options = {
       headers: new HttpHeaders()
     };
+    console.log(advancedQuery);
     return  this.http.post<any>(`${this.searchUrl}/boolean`, advancedQuery, options);
   }
 }

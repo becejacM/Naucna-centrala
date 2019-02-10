@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.lucene.queryparser.classic.ParseException;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,7 @@ import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.indexing.Indexer;
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.AdvancedQuery;
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.PaperIndexUnit;
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.RequiredHighlight;
+import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.ReviewerIndexUnit;
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.SearchType;
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.SimpleQuery;
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.StorageProperties;
@@ -45,6 +47,7 @@ import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.service.QueryBuilder;
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.service.ResultRetriever;
 import ftn.uns.ac.rs.naucnaCentrala.model.Paper;
 import ftn.uns.ac.rs.naucnaCentrala.modelDTO.PaperDTO;
+import ftn.uns.ac.rs.naucnaCentrala.modelDTO.ReviewerDTO;
 import ftn.uns.ac.rs.naucnaCentrala.modelDTO.SearchDTO;
 import ftn.uns.ac.rs.naucnaCentrala.modelDTO.SearchHitDTO;
 
@@ -66,16 +69,14 @@ public class ElasticSearchController {
 	
     @PostMapping("")
     public ResponseEntity save(@RequestBody PaperDTO paperDTO) {
-        Paper paper = new Paper(paperDTO);
-        esPaperService.save(paper);
+        esPaperService.save(paperDTO);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("")
     public ResponseEntity update(@RequestBody PaperDTO paperDTO) {
-        Paper paper = new Paper(paperDTO);
-        esPaperService.update(paper);
+        esPaperService.update(paperDTO);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -87,6 +88,7 @@ public class ElasticSearchController {
         Paper paper = null;
         File storedFile = esPaperService.storeFile(multipartFile);
         paper = esPaperService.getMetadata(storedFile);
+        paper.setFilename(originalFileName);
         return new ResponseEntity<>(paper, HttpStatus.OK);
     }
     
@@ -98,6 +100,29 @@ public class ElasticSearchController {
         File storedFile = esPaperService.storeFileTemporary(multipartFile);
         paper = esPaperService.getMetadata(storedFile);
         return new ResponseEntity<>(paper, HttpStatus.OK);
+    }
+	@GetMapping("reviewers/{naucnaOblast}")
+    public ResponseEntity getAllReviewersByScientificField(@PathVariable String naucnaOblast) throws IllegalArgumentException, ParseException {
+        Collection<ReviewerIndexUnit> list  = (Collection<ReviewerIndexUnit>) esPaperService.findAllReviewersByScientificField(naucnaOblast);
+        List<ReviewerDTO> listDTO = new ArrayList<ReviewerDTO>();
+        for (ReviewerIndexUnit a : list) {
+        	ReviewerDTO resultData = new ReviewerDTO(a);
+        	listDTO.add(resultData);
+		}
+
+        return new ResponseEntity<>(listDTO, HttpStatus.OK);
+    }
+	
+	@GetMapping("reviewers/all")
+    public ResponseEntity getAllReviewers() {
+        Collection<ReviewerIndexUnit> list  = (Collection<ReviewerIndexUnit>) esPaperService.findAllReviewers();
+        List<ReviewerDTO> listDTO = new ArrayList<ReviewerDTO>();
+        for (ReviewerIndexUnit a : list) {
+        	ReviewerDTO resultData = new ReviewerDTO(a);
+        	listDTO.add(resultData);
+		}
+
+        return new ResponseEntity<>(listDTO, HttpStatus.OK);
     }
 	@GetMapping("")
     public ResponseEntity getAll() {
@@ -115,8 +140,7 @@ public class ElasticSearchController {
 
         return new ResponseEntity<>(articleDTOList, HttpStatus.OK);
     }
-	
-	@GetMapping("sep")
+	/*@GetMapping("sep")
     public ResponseEntity getAllSep() {
         Collection<Paper> articleList  = esPaperService.findAllSEP();
         List<SearchHitDTO> articleDTOList = new ArrayList<SearchHitDTO>();
@@ -131,13 +155,13 @@ public class ElasticSearchController {
 		}
 
         return new ResponseEntity<>(articleDTOList, HttpStatus.OK);
-    }
+    }*/
 	
-	@PostMapping("search")
+	/*@PostMapping("search")
     public ResponseEntity search(@RequestBody SearchDTO searchDTO) {
         List<SearchHitDTO> eBookDTOList = esPaperService.search2(searchDTO);
         return new ResponseEntity<>(eBookDTOList, HttpStatus.OK);
-    }
+    }*/
 
     @GetMapping("{id}/download")
     public ResponseEntity downloadFile(@PathVariable long id, HttpServletRequest request) {
@@ -159,6 +183,7 @@ public class ElasticSearchController {
 	@PostMapping(value="/search/term", consumes="application/json")
 	public ResponseEntity<List<SearchHitDTO>> searchTermQuery(@RequestBody SimpleQuery simpleQuery) throws Exception {	
 		org.elasticsearch.index.query.QueryBuilder query= QueryBuilder.buildQuery(SearchType.regular, simpleQuery.getField(), simpleQuery.getValue());
+		
 		List<SearchHitDTO> results = resultRetriever.getResultsWithHighlight(query);
 		return new ResponseEntity<List<SearchHitDTO>>(results, HttpStatus.OK);
 	}

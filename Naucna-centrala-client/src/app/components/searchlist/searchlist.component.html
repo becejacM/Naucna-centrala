@@ -86,7 +86,7 @@
           <div class="row">
             <div class="col-lg-12">
               <div class="block">
-                <div class="title">Clanci koji se placaju
+                <div class="title">Clanci
                 </div>
                 <div class="block-body">
                   <form class="form-horizontal">
@@ -96,7 +96,7 @@
                           <th></th>
                           <th>Casopis</th>
                           <th>Naslov</th>
-                          <!--<th>Autori</th>-->
+                          <th>Autori</th>
                           <th>Kljucne reci</th>
                           <th>Naucna oblast</th>
                           <th *ngIf="book.hightlight!==null"></th>
@@ -108,23 +108,23 @@
                           <th scope="row">{{i+1}}</th>
                           <td>{{book.nazivCasopisa}}</td>
                           <td>{{book.naslovRada}}</td>
-                          <!--<td *ngFor="let a of book.autori">{{a.imeAutora}} &nbsp; {{a.prezimeAutora}}</td>-->
+                          <td *ngFor="let a of book.autori">{{a.imeAutora}} &nbsp; {{a.prezimeAutora}}<br/></td>
                           <td>{{book.keywords}}</td>
-                          <td>{{book.naucnaOblast}}</td>
+                          <td>{{book.oblast}}</td>
                           <td *ngIf="book.hightlight!==null">
                             <div [innerHTML]="book.hightlight">
                             </div>
                           </td>
                           <td>
-                            <!--<a [routerLink]="[book.filename]">
+                            <a [routerLink]="[book.filename]">
                               <input type="submit" value="Pogledaj" class="btn btn-primary">
                             </a>
-                            <br/>-->
-                            <button (click)="kupi(book.naslovRada, book.nazivCasopisa)" class="btn btn-md btn-primary btn-block" type="submit">Kupi</button>
+                            <br/>
+                            <!--<button (click)="kupi(book.naslovRada, book.nazivCasopisa)" class="btn btn-md btn-primary btn-block" type="submit">Kupi</button>
+                            -->
+                          <button *ngIf="book.dostupnost==='WITH_SUBSCRIPTION'" (click)="kupi(book.naslovRada, book.nazivCasopisa)" class="btn btn-md btn-primary btn-block" type="submit" disabled>Kupi</button>
+                          <button *ngIf="book.dostupnost==='OPEN_ACCESS'" (click)="download(book.filename)" class="btn btn-md btn-primary btn-block" type="submit">Preuzmi</button>
                           
-                          <!--<button *ngIf="!proveraKupovine(book.naslovRada, book.nazivCasopisa, book.dostupnost)" (click)="kupi(book.naslovRada, book.nazivCasopisa)" class="btn btn-md btn-primary btn-block" type="submit">Kupi</button>
-                          <button *ngIf="proveraKupovine(book.naslovRada, book.nazivCasopisa, book.dostupnost)" (click)="download(book.filename)" class="btn btn-md btn-primary btn-block" type="submit">Preuzmi</button>
-                          -->
                           </td>
                              </tr>
                       </tbody>
@@ -139,7 +139,7 @@
     </div>
   </div>
 </div>
-
+<!--
 
 <div *ngIf="books.length>0" id="registrationDiv" class="mainContainer  d-flex justify-content-center">
   <div class="card my_card">
@@ -160,7 +160,7 @@
                           <th></th>
                           <th>Casopis</th>
                           <th>Naslov</th>
-                          <!--<th>Autori</th>-->
+                          <th>Autori</th>
                           <th>Kljucne reci</th>
                           <th>Naucna oblast</th>
                           <th *ngIf="book.hightlight!==null"></th>
@@ -172,7 +172,7 @@
                           <th scope="row">{{i+1}}</th>
                           <td>{{book.nazivCasopisa}}</td>
                           <td>{{book.naslovRada}}</td>
-                          <!--<td *ngFor="let a of book.autori">{{a.imeAutora}} &nbsp; {{a.prezimeAutora}}</td>-->
+                          <td *ngFor="let a of book.autori">{{a.imeAutora}} &nbsp; {{a.prezimeAutora}}</td>
                           <td>{{book.keywords}}</td>
                           <td>{{book.naucnaOblast}}</td>
                           <td *ngIf="book.hightlight!==null">
@@ -180,15 +180,15 @@
                             </div>
                           </td>
                           <td>
-                            <!--<a [routerLink]="[book.filename]">
+                            <a [routerLink]="[book.filename]">
                               <input type="submit" value="Pogledaj" class="btn btn-primary">
                             </a>
-                            <br/>-->
+                            <br/>
                             <button (click)="download(book.filename)" class="btn btn-md btn-primary btn-block" type="submit">Preuzmi</button>
                           
-                          <!--<button *ngIf="!proveraKupovine(book.naslovRada, book.nazivCasopisa, book.dostupnost)" (click)="kupi(book.naslovRada, book.nazivCasopisa)" class="btn btn-md btn-primary btn-block" type="submit">Kupi</button>
+                          <button *ngIf="!proveraKupovine(book.naslovRada, book.nazivCasopisa, book.dostupnost)" (click)="kupi(book.naslovRada, book.nazivCasopisa)" class="btn btn-md btn-primary btn-block" type="submit">Kupi</button>
                           <button *ngIf="proveraKupovine(book.naslovRada, book.nazivCasopisa, book.dostupnost)" (click)="download(book.filename)" class="btn btn-md btn-primary btn-block" type="submit">Preuzmi</button>
-                          -->
+                          
                           </td>
                              </tr>
                       </tbody>
@@ -202,4 +202,4 @@
       </div>
     </div>
   </div>
-</div>
+</div>-->

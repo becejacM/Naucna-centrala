@@ -7,5 +7,5 @@ import ftn.uns.ac.rs.naucnaCentrala.model.Coauthor;
 
 @Repository
 public interface CoauthorRepository extends JpaRepository<Coauthor, Long>{
-
+	Coauthor findByFirstnameAndLastname(String firstname, String lastname);
 }

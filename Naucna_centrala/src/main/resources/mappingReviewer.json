@@ -1,0 +1,48 @@
+{
+	"properties": {
+		"id": {
+			"type": "keyword"
+		},
+		"username": {
+			"type": "text",
+			"analyzer": "serbian_analyzer"
+		},
+		"password": {
+			"type": "text",
+			"analyzer": "serbian_analyzer"
+		},
+		"email": {
+			"type": "text",
+			"analyzer": "serbian_analyzer"
+		},
+		"firstname": {
+			"type": "text",
+			"analyzer": "serbian_analyzer"
+		},
+		"lastname": {
+			"type": "text",
+			"analyzer": "serbian_analyzer"
+		},
+		"city": {
+			"type": "text",
+			"analyzer": "serbian_analyzer"
+		},
+		"state": {
+			"type": "text",
+			"analyzer": "serbian_analyzer"
+		},
+		"title": {
+			"type": "text",
+			"analyzer": "serbian_analyzer"
+		},
+		"naucnaOblast": {
+			"type": "nested",
+			"properties": {
+				"ime": {
+					"type": "text",
+					"analyzer": "serbian_analyzer"
+				}
+			}
+		}
+	}
+}

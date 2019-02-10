@@ -74,7 +74,7 @@ public class ResultRetriever {
 					}
 
 					PaperIndexUnit resultData = new PaperIndexUnit();
-					resultData.setFilename((String) searchHit.getSource().get("filename"));
+					/*resultData.setFilename((String) searchHit.getSource().get("filename"));
 					resultData.setNaslovRada((String) searchHit.getSource().get("naslovRada"));
 					resultData.setKeywords((String) searchHit.getSource().get("keywords"));
 					resultData.setNazivCasopisa((String) searchHit.getSource().get("nazivCasopisa"));
@@ -82,7 +82,7 @@ public class ResultRetriever {
 					resultData.setAutori((Collection<AutorIndexUnit>) searchHit.getSource().get("autori"));
 					resultData.setApstrakt((String) searchHit.getSource().get("apstrakt"));
 					resultData.setDostupnost((String) searchHit.getSource().get("dostupnost"));
-					resultData.setNaucnaOblast((String) searchHit.getSource().get("naucnaOblast"));
+					resultData.setOblast((String) searchHit.getSource().get("oblast"));*/
 					if(searchHit.getHighlightFields() != null){
 						StringBuilder highlights = new StringBuilder("...");
 						
@@ -164,7 +164,7 @@ public class ResultRetriever {
 		List<SearchHitDTO> results = new ArrayList<SearchHitDTO>();
 
 		for (PaperIndexUnit indexUnit : repository.search(query)) {
-			results.add(new SearchHitDTO(indexUnit.getFilename(),indexUnit.getNazivCasopisa(), indexUnit.getNaslovRada(), indexUnit.getApstrakt(), indexUnit.getKeywords(), indexUnit.getAutori(), indexUnit.getNaucnaOblast(), indexUnit.getText(), indexUnit.getHightlight(), indexUnit.getDostupnost()));
+			results.add(new SearchHitDTO(indexUnit.getFilename(),indexUnit.getNazivCasopisa(), indexUnit.getNaslovRada(), indexUnit.getApstrakt(), indexUnit.getKeywords(), indexUnit.getAutori(), indexUnit.getOblast(), indexUnit.getText(), indexUnit.getHightlight(), indexUnit.getDostupnost()));
 		}
 
 		return results;

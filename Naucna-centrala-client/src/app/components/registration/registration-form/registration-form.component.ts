@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { RegistrationDetailsDTO } from '../../../model/RegistrationDetailsDTO';
+import { FormField } from '../../../model/FormField';
 
 @Component({
   selector: 'app-registration-form',
@@ -12,7 +13,7 @@ export class RegistrationFormComponent implements OnInit {
   formFields: any[];
 
   @Output()
-  registrationExecuted: EventEmitter<RegistrationDetailsDTO> = new EventEmitter();
+  registrationExecuted: EventEmitter<FormField[]> = new EventEmitter();
 
   registrationDetails: RegistrationDetailsDTO;
 
@@ -23,8 +24,8 @@ export class RegistrationFormComponent implements OnInit {
   ngOnInit() {
   }
 
-  register() {
-    this.registrationExecuted.emit(this.registrationDetails);
+  signup() {
+    
+    this.registrationExecuted.emit(this.formFields);
   }
-
 }

@@ -2,6 +2,8 @@ package ftn.uns.ac.rs.naucnaCentrala.elasticSearch.service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.elasticsearch.action.search.SearchResponse;
@@ -12,11 +14,14 @@ import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder.Field;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,17 +38,24 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.PaperIndexUnit;
+import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.ReviewerIndexUnit;
+import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.SearchType;
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.StorageProperties;
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.repository.IUPaperRepository;
+import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.repository.IUReviewerRepository;
 import ftn.uns.ac.rs.naucnaCentrala.model.Author;
 import ftn.uns.ac.rs.naucnaCentrala.model.Coauthor;
+import ftn.uns.ac.rs.naucnaCentrala.model.Magazine;
 import ftn.uns.ac.rs.naucnaCentrala.model.Paper;
 import ftn.uns.ac.rs.naucnaCentrala.model.ScientificField;
 import ftn.uns.ac.rs.naucnaCentrala.model.ScientificFieldName;
+import ftn.uns.ac.rs.naucnaCentrala.modelDTO.AutorDTO;
+import ftn.uns.ac.rs.naucnaCentrala.modelDTO.PaperDTO;
 import ftn.uns.ac.rs.naucnaCentrala.modelDTO.SearchDTO;
 import ftn.uns.ac.rs.naucnaCentrala.modelDTO.SearchHitDTO;
 
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.handler.PdfDocumentHandler;
+import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.indexing.Indexer;
 import ftn.uns.ac.rs.naucnaCentrala.repository.AppUserRepository;
 import ftn.uns.ac.rs.naucnaCentrala.repository.ArticleRepository;
 import ftn.uns.ac.rs.naucnaCentrala.repository.CoauthorRepository;
@@ -53,14 +65,17 @@ import ftn.uns.ac.rs.naucnaCentrala.repository.ScientificFieldRepository;
 @Service
 public class ESPaperService {
 
+	private Path dirLocation;
+    private Path dirTemporaryLocation;
+    
 	private IUPaperRepository irEbookRepository;
+
+	private IUReviewerRepository iuReviewerRepository;
 
     private ArticleRepository paperRepository;
 
     private PdfDocumentHandler pdfDocumentHandler;
 
-    private Path dirLocation;
-    private Path dirTemporaryLocation;
     private ElasticsearchTemplate elasticsearchTemplate;
 
     private MagazineRepository magazineRepository;
@@ -68,7 +83,11 @@ public class ESPaperService {
     private ScientificFieldRepository sfRepository;
 
     private AppUserRepository userRepository;
+    
     private CoauthorRepository coautorRepository;
+    
+	private Indexer indexer;
+	
     @Autowired
     public ESPaperService(StorageProperties properties,
                         IUPaperRepository irEbookRepository,
@@ -78,7 +97,9 @@ public class ESPaperService {
                         MagazineRepository magazineRepository,
                         ScientificFieldRepository sfRepository,
                         AppUserRepository userRepository,
-                        CoauthorRepository coautorRepository
+                        CoauthorRepository coautorRepository,
+                        Indexer indexer, 
+                        IUReviewerRepository iuReviewerRepository
                         ) {
         this.irEbookRepository = irEbookRepository;
         this.paperRepository = paperRepository;
@@ -90,6 +111,8 @@ public class ESPaperService {
         this.sfRepository = sfRepository;
         this.userRepository = userRepository;
         this.coautorRepository = coautorRepository;
+        this.indexer = indexer;
+        this.iuReviewerRepository = iuReviewerRepository;
         }
     
 	public void init() {
@@ -116,39 +139,11 @@ public class ESPaperService {
 	            i++;
 	        }
 	    }
+	    this.indexer.indexReviewer();
 	}
 	
 	public void indexPaper(String filename, int i) {
-		System.out.println(dirLocation.toString()+"\\"+filename);
-        Paper paper = new Paper();
-        paper.setFilename(filename);
-        paper.setApstract("neki abstrakt");
-        paper.setKeywords("kljucna rec");
-        if(i%2==0) {
-            paper.setDostupnost("WITH_SUBSCRIPTION");	
-        }
-        else {
-            paper.setDostupnost("OPEN_ACCESS");
-        }
-        paper.setNaslovRada(filename.substring(0, filename.length()-4));
-        paper.setMagazine(magazineRepository.findByName("casopis 1 biologija"));
-        paper.setScientificField(sfRepository.findByScientificFieldName(ScientificFieldName.BIOLOGY));
-        Collection<Coauthor> autori = new ArrayList<Coauthor>();
-        Author a = (Author) userRepository.findByUsername("autor1");
-        Coauthor c = new Coauthor();
-        c.setFirstname(a.getFirstname());
-        c.setLastname(a.getLastname());
-        coautorRepository.save(c);
-        autori.add(c);
-        paper.setCoauthors(autori);
-        paper.setCena(10L);
-        PaperIndexUnit paperIU = pdfDocumentHandler
-                .getIUPaper(paper, dirLocation.resolve(paper.getFilename()));
-        Paper saved = paperRepository.save(paper);
-        System.out.println("evo meeeeeeeeeeeeeee" +paperIU.getNaslovRada());
-        PaperIndexUnit s = irEbookRepository.save(paperIU);
-        System.out.println("sacuvaooooooooooo " +paperIU.getNaslovRada());
-
+		this.indexer.indexPaper(filename, i);
 	}
 	
 	
@@ -162,18 +157,58 @@ public class ESPaperService {
         return papers;
     }
 	
-	public Collection<Paper> findAllSEP(){
+	public Collection<ReviewerIndexUnit> findAllReviewersByScientificField(String naucnaOblast) throws IllegalArgumentException, ParseException {
+		org.elasticsearch.index.query.QueryBuilder query= QueryBuilder.buildQuery(SearchType.regular, "naucnaOblast.ime", naucnaOblast);
+		Collection<ReviewerIndexUnit> iureviewers = new ArrayList<ReviewerIndexUnit>();
+		SearchQuery sq = new NativeSearchQueryBuilder()
+				.withQuery(query)
+				.build();
+		Iterable<ReviewerIndexUnit> reviewers = iuReviewerRepository.search(query);
+		for (ReviewerIndexUnit index : reviewers) {
+			iureviewers.add(index);
+		}
+        return iureviewers;
+    }
+	public Collection<ReviewerIndexUnit> findAllReviewers() {
+		Collection<ReviewerIndexUnit> iureviewers = new ArrayList<ReviewerIndexUnit>();
+		Iterable<ReviewerIndexUnit> reviewers = iuReviewerRepository.findAll();
+		for (ReviewerIndexUnit index : reviewers) {
+			iureviewers.add(index);
+		}
+        return iureviewers;
+    }
+	/*public Collection<Paper> findAllSEP(){
 		Collection<Paper> papers = new ArrayList<Paper>();
 		papers = paperRepository.findAll();
 		return papers;
-	}
+	}*/
 	
 	
-	public void save(Paper paper) {
-        PaperIndexUnit iupaper = pdfDocumentHandler
+	public void save(PaperDTO paperDTO) {
+        Paper paper = new Paper(paperDTO);
+        ArrayList<Coauthor> autori = new ArrayList<Coauthor>();
+		for (AutorDTO autorDTO : paperDTO.getAutori()) {
+			Coauthor c = coautorRepository.findByFirstnameAndLastname(autorDTO.getImeAutora(), autorDTO.getPrezimeAutora());
+			if(c==null) {
+				Coauthor aaa = new Coauthor(autorDTO.getImeAutora(), autorDTO.getPrezimeAutora());
+				coautorRepository.save(aaa);
+				autori.add(aaa);
+			}
+			else {
+				autori.add(c);
+
+			}
+		}
+		paper.setCoauthors(autori);
+		ScientificField sf = sfRepository.findByScientificFieldName(ScientificFieldName.valueOf(paperDTO.getNaucnaOblast()));
+		paper.setScientificField(sf);
+		Magazine m = magazineRepository.findByName(paperDTO.getNazivCasopisa());
+		paper.setMagazine(m);
+		paper.setDostupnost(m.getPaymentMethod().name());
+		PaperIndexUnit iupaper = pdfDocumentHandler
                 .getIUPaper(paper, dirLocation.resolve(paper.getFilename()));
         Paper saved = paperRepository.save(paper);
-
+        iupaper.setOblast(saved.getScientificField().getScientificFieldName().name());
         iupaper.setFilename(String.valueOf(saved.getFilename()));
         irEbookRepository.save(iupaper);
     }
@@ -196,7 +231,7 @@ public class ESPaperService {
 
     public File storeFileTemporary(MultipartFile file) {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
-
+        System.out.println("jebi se "+file.getOriginalFilename());
         InputStream inputStream = null;
         try {
             inputStream = file.getInputStream();
@@ -209,7 +244,7 @@ public class ESPaperService {
         return this.dirTemporaryLocation.resolve(filename).toFile();
     }
     
-    public List<SearchHitDTO> search(org.elasticsearch.index.query.QueryBuilder query) {
+    /*public List<SearchHitDTO> search(org.elasticsearch.index.query.QueryBuilder query) {
         List<SearchHitDTO> result = new ArrayList<>();
         SearchResponse response = elasticsearchTemplate.getClient().prepareSearch("naucnacentrala6")
                 .setTypes("paperindexunit")
@@ -249,7 +284,7 @@ public class ESPaperService {
         return Arrays.stream(highlightField.getFragments())
                 .map(t -> t.string() + "...")
                 .collect(Collectors.joining());
-    }
+    }*/
 
     public Optional<Resource> loadBookAsResource(long id) {
         try {
@@ -266,12 +301,14 @@ public class ESPaperService {
         return Optional.empty();
     }
 
-    public void update(Paper paper) {
-        this.save(paper);
+    public void update(PaperDTO paperdto) {
+
+        this.save(paperdto);
     }
 
     public void deleteFileFromStorage(String filename) throws IOException {
         Files.deleteIfExists(dirLocation.resolve(filename));
+        Files.deleteIfExists(dirTemporaryLocation.resolve(filename));
     }
     
     public Paper getMetadata(File file) {
@@ -291,7 +328,7 @@ public class ESPaperService {
         return paper;
     }
     
-    public List<SearchHitDTO> search2(SearchDTO s) {
+    /*public List<SearchHitDTO> search2(SearchDTO s) {
         List<SearchHitDTO> result = new ArrayList<>();
         SearchResponse response = elasticsearchTemplate.getClient().prepareSearch("naucnacentrala7")
                 .setTypes("paperindexunit")
@@ -320,5 +357,5 @@ public class ESPaperService {
         }
 
         return result;
-    }
+    }*/
 }

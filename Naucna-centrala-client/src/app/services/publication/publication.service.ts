@@ -23,8 +23,19 @@ export class PublicationService {
     return this.http.post<any>(`${this.baseUrl}` + "/chooseMagazine", magazine, options);
   }
 
+  getRevizori(naucnaOblast:any): Observable<any> {
+    const options = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    }
+    return this.http.get<any>(`${this.uploadUrl}` + "/reviewers/"+ naucnaOblast, options);
+  }
 
-
+  getRevizoriSvi(): Observable<any> {
+    const options = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    }
+    return this.http.get<any>(`${this.uploadUrl}` + "/reviewers/all" , options);
+  }
   getTasks() {
     return this.http.get<any>(`${this.baseUrl}/tasks`);
   };

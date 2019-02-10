@@ -1,4 +1,4 @@
-<form (ngSubmit)="register()">
+<!--<form (ngSubmit)="register()">
   <div *ngFor="let field of formFields" class="form-group">
     <label *ngIf="field.type.name !== 'boolean'" [for]="field.id">{{field.id}}</label>
     <input  class="form-control" type="checkbox" name={{field.id}} [(ngModel)]="registrationDetails[field.id]"  *ngIf="field.type.name=='boolean'">
@@ -15,4 +15,20 @@
       Register
       <i class="fa fa-plus-circle" aria-hidden="true"></i>
     </button>
-</form>
+</form>-->
+<div class="row">
+  <div class="col-md-4"></div>
+  <form class="col-md-4 form" (ngSubmit)="signup()" #signupForm="ngForm">
+    <h2 class="form-heading">Sign up</h2>
+    <div *ngFor="let field of formFields">
+      <label>{{field.name}}</label>
+      <input type="text" *ngIf="field.name !== 'password'" class="form-control" [(ngModel)]="field.value.value"
+        name="{{field.name}}">
+      <input type="password" *ngIf="field.name === 'password'" class="form-control" [(ngModel)]="field.value.value"
+        name="{{field.name}}">
+    </div>
+    <br>
+    <button id="signinButton" [disabled]="signupForm.form.invalid" class="btn btn-lg btn-primary btn-block"
+      type="submit">Sign up</button>
+  </form>
+</div>

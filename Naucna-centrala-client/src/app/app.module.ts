@@ -49,6 +49,11 @@ import { FailPaymentComponent } from './components/fail-payment/fail-payment.com
 import { MagazinelistComponent } from './components/magazinelist/magazinelist.component';
 import { FailSubscriptionComponent } from './components/fail-subscription/fail-subscription.component';
 import { SuccessSubscriptionComponent } from './components/success-subscription/success-subscription.component';
+import { ReviewersComponent } from './components/reviewers/reviewers.component';
+import { UploadPaperComponent } from './components/upload-paper/upload-paper.component';
+import { TaskUploadPaperComponent } from './components/publication/task-upload-paper/task-upload-paper.component';
+import { TaskCheckTematicComponent } from './components/publication/task-check-tematic/task-check-tematic.component';
+import { TaskCheckFormatComponent } from './components/publication/task-check-format/task-check-format.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +81,11 @@ import { SuccessSubscriptionComponent } from './components/success-subscription/
     MagazinelistComponent,
     FailSubscriptionComponent,
     SuccessSubscriptionComponent,
+    ReviewersComponent,
+    UploadPaperComponent,
+    TaskUploadPaperComponent,
+    TaskCheckTematicComponent,
+    TaskCheckFormatComponent,
   ],
   imports: [
     BrowserModule,

@@ -22,7 +22,7 @@ public class EmailServiceImpl implements EmailService{
     	System.out.println("saljem");
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
-        message.setSubject(subject);
+        message.setSubject(to);
         message.setText(text);
         emailSender.send(message);
     }

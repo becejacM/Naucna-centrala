@@ -16,6 +16,8 @@ export class TaskComponent implements OnInit {
   isFetched = false;
   taskDetails: any;
   private enumValues = [];
+  revizori=[];
+  naucnaOblast;
   
   constructor(private route: ActivatedRoute,private router: Router, private taskService: PublicationService, private notificationService: NotificationsService) { 
     this.taskDetails = {};
@@ -27,13 +29,34 @@ export class TaskComponent implements OnInit {
       this.taskService.getTask(this.id).subscribe(response => {
         this.task = response;
         console.log(response);
-        this.formTaskDetails();
+        //this.formTaskDetails();
         this.isFetched = true;
+        this.gotToTask();
       })
     })
+    
   }
 
-  completeTask(o?: any) {
+  gotToTask(){
+    console.log(this.task.taskDefinitionId);
+    if(this.task.taskDefinitionId==='Task_004pb17'){
+      let url =this.router.url+'/upload-paper';
+      console.log(url);
+      this.router.navigate([url]);
+    }
+    else if(this.task.taskDefinitionId==='Task_095idnu'){
+      let url =this.router.url+'/check-tematic';
+      console.log(url);
+      this.router.navigate([url]);
+    }
+    else if(this.task.taskDefinitionId==='Task_026kfj5'){
+      let url =this.router.url+'/check-format';
+      console.log(url);
+      this.router.navigate([url]);
+    }
+    
+  }
+  /*completeTask(o?: any) {
     //this.taskDetails = o || this.taskDetails;
     //this.removeNonWriteableFields();
     console.log(this.taskDetails);
@@ -89,5 +112,5 @@ export class TaskComponent implements OnInit {
           //this.book.publicationYear = data.publicationYear.toString();
         });
     }
-  }
+  }*/
 }

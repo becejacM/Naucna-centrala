@@ -107,8 +107,8 @@ public class RegistrationTaskService {
 		return new ModelAndView("redirect:" + projectUrl);
     }
     
-    public void deleteUser(String username) {
-        AppUser user = this.userRepository.findByUsername(username);
+    public void deleteUser(long id) {
+        AppUser user = this.userRepository.getOne(id);
         this.userRepository.delete(user);
     }
 

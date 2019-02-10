@@ -30,7 +30,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/register")
-//@CrossOrigin(origins = "*")
 public class RegistrationController {
 
 
@@ -73,7 +72,7 @@ public class RegistrationController {
 			System.out.println(fp.getId() + fp.getType());
 		}
 		
-        return new FormFieldsDto(task.getId(), pi.getProcessInstanceId(), properties);
+        return new FormFieldsDto(task.getId(), pi.getProcessInstanceId(), properties, task.getTaskDefinitionKey());
     }
 
     @PostMapping
@@ -141,7 +140,7 @@ public class RegistrationController {
         List<FormField> props = formData.getFormFields();
 		Task task = taskService.createTaskQuery().taskId(id).singleResult();
 
-        return new FormFieldsDto(id, task.getProcessInstanceId(), props);
+        return new FormFieldsDto(id, task.getProcessInstanceId(), props, task.getTaskDefinitionKey());
     }
 
     @PutMapping("task/execute/{id}")

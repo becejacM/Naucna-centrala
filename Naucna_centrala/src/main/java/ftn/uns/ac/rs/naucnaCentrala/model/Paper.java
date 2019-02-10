@@ -21,6 +21,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import ftn.uns.ac.rs.naucnaCentrala.modelDTO.AutorDTO;
 import ftn.uns.ac.rs.naucnaCentrala.modelDTO.PaperDTO;
 
 @Entity
@@ -70,10 +71,21 @@ public class Paper {
 		
 	}
 
-	public Paper(PaperDTO paperdto) {
-		this.id = paperdto.getId();
-		this.naslovRada = paperdto.getName();
-		this.keywords = paperdto.getKeywords();
+	public Paper(PaperDTO a) {
+		this.filename = a.getRad();
+		this.id = a.getId();
+		this.naslovRada = a.getNaslovRada();
+		//this.nazivCasopisa = a.getMagazine().getName();
+		this.apstract = a.getApstrakt();
+		this.keywords = a.getKeywords();
+		ArrayList<Coauthor> autori = new ArrayList<Coauthor>();
+		/*for (AutorDTO autorDTO : a.getAutori()) {
+			Coauthor aaa = new Coauthor(autorDTO.getImeAutora(), autorDTO.getPrezimeAutora());
+			autori.add(aaa);
+		}
+		this.coauthors = autori;
+		this.scientificField = new;*/
+
 	}
 	
 	public String getDostupnost() {

@@ -198,7 +198,8 @@ public class ArticlePublicationController {
         List<FormField> props = formData.getFormFields();
 		Task task = taskService.createTaskQuery().taskId(id).singleResult();
 
-		FormFieldsDto customTask =  new FormFieldsDto(id, task.getProcessInstanceId(), props);
+		System.out.println(task.getTaskDefinitionKey()+"  "+task.getExecutionId());
+		FormFieldsDto customTask =  new FormFieldsDto(id, task.getProcessInstanceId(), props, task.getTaskDefinitionKey());
         return new ResponseEntity<>(customTask, HttpStatus.OK);
     }
 

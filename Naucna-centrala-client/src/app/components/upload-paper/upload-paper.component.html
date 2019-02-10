@@ -1,0 +1,107 @@
+<ul class="breadcrumb">
+  <div class="container-fluid">
+    <form class="form-horizontal">
+      <div class="row" class="row-sm-12">
+        <div class="page-header no-margin-bottom" style="margin-top: 84px;">
+          <div id="registrationDiv" class="mainContainer  d-flex justify-content-center">
+            <div class="card my_card">
+              <div class="col-md-12 col-md-offset-3" id="logreg">
+                <div class="input-group input-group-sm d-flex justify-content-center">
+
+                  <span class="form-group" class="col-sm-6">
+                    <label>Naslov:</label>
+                    <input type="text" name="naslovRada" [(ngModel)]="naslovRada" class="form-control">
+
+                  </span>
+                </div>
+                <div class="input-group input-group-sm d-flex justify-content-center">
+
+                  <span class="form-group" class="col-sm-6">
+                    <label>Apstrakt:</label>
+                    <input type="text" name="apstrakt" [(ngModel)]="apstrakt" class="form-control">
+
+                  </span>
+                </div>
+                <div class="input-group input-group-sm d-flex justify-content-center">
+
+                  <span class="form-group" class="col-sm-6">
+                    <label>Kljucne reci:</label>
+                    <input type="text" name="keywords" [(ngModel)]="keywords" class="form-control">
+
+                  </span>
+                </div>
+                <div class="input-group input-group-sm d-flex justify-content-center">
+
+                  <span class="form-group" class="col-sm-6">
+                    <label>Autori:</label><br/>
+                    <label>Ime:</label>
+                    <input type="text" name="imeAutora" [(ngModel)]="imeAutora" class="form-control">
+                    <label>Prezime:</label>
+                    <input type="text" name="prezimeAutora" [(ngModel)]="prezimeAutora" class="form-control">
+                    <button (click)="addAuthor()" class="btn btn-primary">Dodaj autora</button>
+
+                    <div *ngIf = "autori.length>0">
+                    <label>Dodati autori:</label>
+                    <table class="table table-striped table-hover">
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <th>Ime</th>
+                          <th>Prezime</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let autor of autori; let i = index">
+                          <th scope="row">{{i+1}}</th>
+                          <td>{{autor.imeAutora}}</td>
+                          <td>{{autor.prezimeAutora}}</td>
+                          
+                             </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  </span>
+
+                </div>
+                <div class="input-group input-group-sm d-flex justify-content-center">
+
+                  <span class="form-group" class="col-sm-6">
+                    <label>Naucna oblast:</label>
+                    <select class="form-control" [(ngModel)]="naucnaOblast" class="form-control" name="naucnaOblast">
+                      <option *ngFor="let name of options" [value]="name">{{name}}</option>
+                    </select>
+                  </span>
+                </div>
+                <div class="input-group input-group-sm d-flex justify-content-center">
+
+                  <span class="form-group" class="col-sm-6">
+                    <label>Casopis:</label>
+                    <select class="form-control" [(ngModel)]="nazivCasopisa" class="form-control" name="nazivCasopisa">
+                      <option *ngFor="let name of options2" [value]="name">{{name}}</option>
+                    </select>
+                  </span>
+                </div>
+                  <div class="input-group input-group-sm d-flex justify-content-center">
+                    <span class="form-group" class="col-sm-6">
+                      <label>Odaberite rad:</label>
+                      <input type="file" class="form-control" [(ngModel)]="rad" class="form-control" name="rad" accept="application/pdf" (change)="uploadFile($event)" />
+                    </span>
+                  </div>
+                <br/>
+
+                <div class="input-group input-group-sm d-flex justify-content-center">
+
+                  <span class="form-group" class="col-sm-2">
+                    <button (click)="upload()" class="btn btn-primary">Upload</button>
+                  </span>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+  </div>
+</ul>

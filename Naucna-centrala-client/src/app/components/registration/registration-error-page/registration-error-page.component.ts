@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RegistrationService } from '../../../services/registration/registration.service';
 import { ToastrService } from 'ngx-toastr';import { RegistrationDetailsDTO } from '../../../model/RegistrationDetailsDTO';
 import { NotificationsService } from 'angular2-notifications';
+import { FormField } from '../../../model/FormField';
 
 @Component({
   selector: 'app-registration-error-page',
@@ -11,11 +12,12 @@ import { NotificationsService } from 'angular2-notifications';
 })
 export class RegistrationErrorPageComponent implements OnInit {
 
-  taskId: number;
-  formFields: any[];
+  taskId2: number;
+  formFields2: any[];
   isDoneLoading = false;
   registrationDetails: RegistrationDetailsDTO;
-  
+  formFields = new Array<FormField>();
+  taskId: string;
   constructor(private router: Router, private route: ActivatedRoute, private notificationService: NotificationsService, private registrationService: RegistrationService, private toastr: ToastrService, ) { 
       this.registrationDetails = new RegistrationDetailsDTO();    
   }
@@ -33,14 +35,14 @@ export class RegistrationErrorPageComponent implements OnInit {
   }
 
   register() {
-    this.registrationService.confirm(this.registrationDetails, this.taskId).subscribe(response => {
+    this.registrationService.register(this.taskId, this.formFields).subscribe(response => {
       console.log(response);
-      this.registrationService.getNextTask(this.registrationDetails.username).subscribe(response => {
+      this.registrationService.getNextTask(response.author).subscribe(response => {
         console.log(response);
         //this.ngOnInit();
         if(response!==null){
-          console.log(response.taskId + "eve meeeeeeeeeee");          
-          this.router.navigate([`/registration/error/${response.taskId}`]);          
+          console.log(response.id + "eve meeeeeeeeeee");          
+          this.router.navigate([`/registration/error/${response.id}`]);          
         }
         else{
           this.notificationService.success('Your registration is successfully created. Please check your email for confirmation!');

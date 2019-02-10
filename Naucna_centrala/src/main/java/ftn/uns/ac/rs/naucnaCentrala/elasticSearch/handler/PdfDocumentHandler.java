@@ -37,7 +37,7 @@ public class PdfDocumentHandler extends DocumentHandler {
         	paperIU.setKeywords(paper.getKeywords());
         }
         if (paper.getScientificField() != null) {
-        	paperIU.setNaucnaOblast(paper.getScientificField().getScientificFieldName().name());
+        	paperIU.setOblast(paper.getScientificField().getScientificFieldName().name());
         }
         if (paper.getMagazine() != null) {
         	paperIU.setNazivCasopisa(paper.getMagazine().getName());
@@ -47,7 +47,10 @@ public class PdfDocumentHandler extends DocumentHandler {
         }
         if (paper.getCoauthors().size() > 0) {
         	for (Coauthor c : paper.getCoauthors()) {
-            	paperIU.getAutori().add(new AutorIndexUnit(c.getFirstname(), c.getLastname()));
+        		AutorIndexUnit aa = new AutorIndexUnit();
+        		aa.setImeAutora(c.getFirstname());
+        		aa.setPrezimeAutora(c.getLastname());
+            	paperIU.getAutori().add(aa);
 			}
         }
         return paperIU;

@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { RegistrationDetailsDTO } from '../../model/RegistrationDetailsDTO';
+import { FormField } from '../../model/FormField';
 
 @Injectable()
 export class RegistrationService {
 
-    private baseUrl = '/api/register';
+    private baseUrl = '/api/camunda/register';
 
     constructor(private http: HttpClient) { }
 
@@ -14,19 +15,23 @@ export class RegistrationService {
         return this.http.get<any[]>(`${this.baseUrl}`);
     }
 
-    register(registration: RegistrationDetailsDTO): Observable<any> {
+    register2(registration: RegistrationDetailsDTO): Observable<any> {
         const options = {
             headers: new HttpHeaders({ 'Content-Type': 'application/json' })
         }
         return this.http.post<any>(`${this.baseUrl}`, registration, options);
     }
 
+    register(taskId: string, fields: FormField[]) {
+        return this.http.post<any>(`${this.baseUrl}/${taskId}`, fields);
+      }
+      
     getNextTask(username: string) {
-        return this.http.get<any>(`${this.baseUrl}/task?username=${username}`);
+        return this.http.get<any>(`${this.baseUrl}/task/${username}`);
     }
 
-    getTaskData(taskId: number) {
-        return this.http.get<any>(`${this.baseUrl}/task/${taskId}`);
+    getTaskData(taskId: any) {
+        return this.http.get<any>(`${this.baseUrl}/task/form/${taskId}`);
     }
 
     caluclateCoordinates() {

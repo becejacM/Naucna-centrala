@@ -3,7 +3,7 @@ package ftn.uns.ac.rs.naucnaCentrala.configuration;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
+//import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +22,7 @@ public class ElasticsearchConfiguration {
     public Client client() throws UnknownHostException {
         Settings elasticsearchSettings = Settings.EMPTY;
         TransportClient client = new PreBuiltTransportClient(elasticsearchSettings);
-        client.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("127.0.0.1"), 9300));
+        //client.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("127.0.0.1"), 9300));
         return client;
     }
 

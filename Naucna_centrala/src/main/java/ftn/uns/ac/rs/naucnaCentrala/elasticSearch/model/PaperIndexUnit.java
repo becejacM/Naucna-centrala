@@ -35,15 +35,13 @@ public class PaperIndexUnit {
 	
 	private Collection<AutorIndexUnit> autori = new ArrayList<AutorIndexUnit>();
 		
-	private String naucnaOblast;
+	private String oblast;
 		
 	private String text;
 	
 	private String hightlight;
 	
 	private String dostupnost;
-	
-	
 
 	public String getFilename() {
 		return filename;
@@ -85,13 +83,20 @@ public class PaperIndexUnit {
 		this.keywords = keywords;
 	}
 
-
-	public String getNaucnaOblast() {
-		return naucnaOblast;
+	public Collection<AutorIndexUnit> getAutori() {
+		return autori;
 	}
 
-	public void setNaucnaOblast(String naucnaOblast) {
-		this.naucnaOblast = naucnaOblast;
+	public void setAutori(Collection<AutorIndexUnit> autori) {
+		this.autori = autori;
+	}
+
+	public String getOblast() {
+		return oblast;
+	}
+
+	public void setOblast(String oblast) {
+		this.oblast = oblast;
 	}
 
 	public String getText() {
@@ -117,15 +122,10 @@ public class PaperIndexUnit {
 	public void setDostupnost(String dostupnost) {
 		this.dostupnost = dostupnost;
 	}
+	
+	
 
-	public Collection<AutorIndexUnit> getAutori() {
-		return autori;
-	}
-
-	public void setAutori(Collection<AutorIndexUnit> autori) {
-		this.autori = autori;
-	}
-
+	
 	
 	
 }

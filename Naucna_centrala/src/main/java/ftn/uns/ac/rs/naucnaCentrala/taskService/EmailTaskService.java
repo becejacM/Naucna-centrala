@@ -25,7 +25,7 @@ public class EmailTaskService {
 
     public String sendConfirmationMail(String email, String processInstanceId) {
         AppUser user = this.privateUserRepository.findByEmail(email);
-        final String subject = "Verifikacija naloga";
+        final String subject = email;
         final String link = String.format("http://localhost:4200/register/verify/%d/%s", user.getId(), processInstanceId);
         final String messageText = String.format("Uspešno ste se registrovali.\n\n%s.\n\nMolimo Vas da klikom na link iznad potvrdite svoju registraciju.", link);
         sendEmail(email, subject, messageText);

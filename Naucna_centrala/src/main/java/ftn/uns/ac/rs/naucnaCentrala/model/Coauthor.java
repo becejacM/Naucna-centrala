@@ -14,7 +14,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 @Entity
-@Table(name = "article")
+@Table(name = "coauthor")
 public class Coauthor {
 
 	@Id
@@ -55,6 +55,13 @@ public class Coauthor {
 		this.city = city;
 		this.state = state;
 		this.articles = articles;
+	}
+
+	
+	public Coauthor(String firstname, String lastname) {
+		super();
+		this.firstname = firstname;
+		this.lastname = lastname;
 	}
 
 	public Long getId() {

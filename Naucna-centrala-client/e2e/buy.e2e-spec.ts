@@ -18,10 +18,10 @@ describe('Buy Book', function () {
         })*/
         page.getBuyButton().first().click().then(()=>{
             browser.getCurrentUrl().then((url)=>{
-                expect(url.startsWith("http://192.168.0.16:4201/orders")).toBeTruthy();
+                expect(url.startsWith("http://192.168.43.17:4201/orders")).toBeTruthy();
                 page.getBankButton().click().then(()=>{
                     browser.getCurrentUrl().then((urlBank)=>{
-                        expect(urlBank.startsWith("http://192.168.0.19:4200/payment")).toBeTruthy();
+                        expect(urlBank.startsWith("http://192.168.43.47:4200/payment")).toBeTruthy();
                         page.imputDataBank("Zaharije Trnavcevic", "4026708020739462", "123", "05-05-2019");
                         page.getBuyBankButton().click().then(()=>{
                             browser.sleep(3000);

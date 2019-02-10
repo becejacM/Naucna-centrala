@@ -7,6 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import * as Stomp from 'stompjs';
 import SockJS from 'sockjs-client';
 import { NotificationsService } from 'angular2-notifications';
+import { FormField } from '../../../model/FormField';
 
 @Component({
   selector: 'app-registration-page',
@@ -16,11 +17,13 @@ import { NotificationsService } from 'angular2-notifications';
 export class RegistrationPageComponent implements OnInit {
 
 
-  private formFields: any[];
+  private formFields2: any[];
   private processInstanceId: string;
   private task: any;
   private start: boolean;
-  //geocoder = new google.maps.Geocoder();
+  formFields = new Array<FormField>();
+  taskId: string;
+
   private stompClient;
   ws: any;
   disabled: boolean;
@@ -34,33 +37,33 @@ export class RegistrationPageComponent implements OnInit {
   startRegisterProcess() {
     this.registrationService.startProcess().subscribe(response => {
       this.formFields = response.formFields;
-      this.processInstanceId = response.processInstanceId;
-      console.log(this.processInstanceId);
+      this.taskId = response.taskId;
+      //this.processInstanceId = response.processInstanceId;
+      console.log(this.taskId);
       this.formFields.forEach(element => {
-        console.log(element.id);
+        //console.log(element.id);
         this.start = true;
       });
     });
   }
-  register(registration: RegistrationDetailsDTO) {
+  register(registration: FormField[]) {
     console.log("Evo me");
     console.log(registration);
-    registration.processInstanceId = this.processInstanceId;
-    console.log("processsssssssss: " + registration.processInstanceId);
+    //registration.processInstanceId = this.processInstanceId;
+    //console.log("processsssssssss: " + registration.processInstanceId);
     //this.tempDataService.tempData = registration;
     //this.setLatLng(registration).then((updatedReg) => {
-    this.registrationService.register(registration).subscribe(response => {
-      this.registrationService.getNextTask(registration.username).subscribe(response => {
+    this.registrationService.register(this.taskId, registration).subscribe(response => {
+      console.log(response);
+      this.registrationService.getNextTask(response.author).subscribe(response => {
         console.log(response);
         //this.ngOnInit();
         if(response!==null){
-          console.log(response.taskId + "eve meeeeeeeeeee");          
-          this.router.navigate([`/registration/error/${response.taskId}`]);          
+          console.log(response.id + "eve meeeeeeeeeee");          
+          this.router.navigate([`/registration/error/${response.id}`]);          
         }
         else{
           this.notificationService.success('Vasa registracija je uspesno kreirana. Potvrdite Vas nalog putem e-mail-a!');
-          
-  //        this.toastr.success("Your registration is successfully created. Please check your email for confirmation!");
           this.router.navigate([`/login`]);
         }
         
@@ -73,36 +76,15 @@ export class RegistrationPageComponent implements OnInit {
         if (err.error instanceof Error) {
           this.router.navigate([`/registration`]);
           this.notificationService.error(err.error.message + '\nError Status ' + err.status);          
-          //this.toastr.error(err.error.message + '\nError Status ' + err.status);
           console.log(err.error.message + '\nError Status ' + err.status);
         } else {
           this.router.navigate([`/registration`]);
           this.notificationService.error(err.error.message + '\nError Status ' + err.status);                    
-          //this.toastr.error(err.error.message + '\nError Status ' + err.status);
           console.log(err.error.message + '\nError Status ' + err.status);
 
         }
       }
     )
-  }
-  
-  setLatLng(registration: RegistrationDetailsDTO): Promise<any> {
-    const promise = new Promise((resolve, reject) => {
-      //const address = `${registration.city}, ${registration.place}, Serbia, ${registration.zipCode}`;
-      //this.geocoder.geocode({address: address}, (results, status) => {
-      //if (status === google.maps.GeocoderStatus.OK) {
-      //const latlong = results[0].geometry.location;
-      //registration.lat = `${latlong.lat()}`;
-      //registration.lng = `${latlong.lng()}`;
-      //registration.lat = '0.2';
-      //registration.lng = '2.2';
-      resolve(registration);
-      //} else {
-      //reject("something went wrong");
-      //}
-      //});
-    });
-    return promise;
   }
 
 }

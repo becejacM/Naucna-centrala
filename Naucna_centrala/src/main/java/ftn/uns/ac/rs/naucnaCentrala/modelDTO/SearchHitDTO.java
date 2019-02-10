@@ -23,7 +23,7 @@ public class SearchHitDTO {
    	
    	private Collection<AutorIndexUnit> autori = new ArrayList<AutorIndexUnit>();
    		
-   	private String naucnaOblast;
+   	private String oblast;
    		
    	private String text;
    	
@@ -42,7 +42,7 @@ public class SearchHitDTO {
 		this.keywords = index.getKeywords();
 		this.autori = index.getAutori();
 		this.keywords = index.getKeywords();
-		this.naucnaOblast = index.getNaucnaOblast();
+		this.oblast = index.getOblast();
 		this.hightlight = index.getHightlight();
 		this.text = index.getText();
 		this.dostupnost = index.getDostupnost();
@@ -53,11 +53,11 @@ public class SearchHitDTO {
 		this.nazivCasopisa = index.getMagazine().getName();
 		this.naslovRada = index.getNaslovRada();
 		this.keywords = index.getKeywords();
-		this.naucnaOblast = index.getScientificField().getScientificFieldName().name();
+		this.oblast = index.getScientificField().getScientificFieldName().name();
 		this.dostupnost = index.getDostupnost();
 	}
 	public SearchHitDTO(String filename, String nazivCasopisa, String naslovRada, String apstrakt,
-			String keywords, Collection<AutorIndexUnit> autori, String naucnaOblast, String text, String hightlight,
+			String keywords, Collection<AutorIndexUnit> autori, String oblast, String text, String hightlight,
 			String dostupnost) {
 		super();
 		this.filename = filename;
@@ -66,7 +66,7 @@ public class SearchHitDTO {
 		this.apstrakt = apstrakt;
 		this.keywords = keywords;
 		this.autori = autori;
-		this.naucnaOblast = naucnaOblast;
+		this.oblast = oblast;
 		this.text = text;
 		this.hightlight = hightlight;
 		this.dostupnost = dostupnost;
@@ -123,12 +123,14 @@ public class SearchHitDTO {
 	}
 
 
-	public String getNaucnaOblast() {
-		return naucnaOblast;
+	
+
+	public String getOblast() {
+		return oblast;
 	}
 
-	public void setNaucnaOblast(String naucnaOblast) {
-		this.naucnaOblast = naucnaOblast;
+	public void setOblast(String oblast) {
+		this.oblast = oblast;
 	}
 
 	public String getText() {

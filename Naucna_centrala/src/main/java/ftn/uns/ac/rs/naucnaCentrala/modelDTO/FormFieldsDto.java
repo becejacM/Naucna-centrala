@@ -8,18 +8,21 @@ public class FormFieldsDto {
 	String taskId;
 	List<FormField> formFields;
 	String processInstanceId;
+	String taskDefinitionId;
 
-	public FormFieldsDto(String taskId, String processInstanceId, List<FormField> formFields) {
+	public FormFieldsDto() {
+		
+	}
+
+	
+	public FormFieldsDto(String taskId, String processInstanceId,List<FormField> formFields, String taskDefinitionId) {
 		super();
 		this.taskId = taskId;
 		this.formFields = formFields;
 		this.processInstanceId = processInstanceId;
+		this.taskDefinitionId = taskDefinitionId;
 	}
 
-	public FormFieldsDto() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
 
 	public String getTaskId() {
 		return taskId;
@@ -44,6 +47,15 @@ public class FormFieldsDto {
 	public void setProcessInstanceId(String processInstanceId) {
 		this.processInstanceId = processInstanceId;
 	}
+
+	public String getTaskDefinitionId() {
+		return taskDefinitionId;
+	}
+
+	public void setTaskDefinitionId(String taskDefinitionId) {
+		this.taskDefinitionId = taskDefinitionId;
+	}
+	
 	
 	
 }

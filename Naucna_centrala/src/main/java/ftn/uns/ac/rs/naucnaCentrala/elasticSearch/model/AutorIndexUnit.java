@@ -8,15 +8,7 @@ public class AutorIndexUnit {
 	private String imeAutora;
 	private String prezimeAutora;
 	
-	public AutorIndexUnit() {
-		
-	}
-
-	public AutorIndexUnit(String imeAutora, String prezimeAutora) {
-		super();
-		this.imeAutora = imeAutora;
-		this.prezimeAutora = prezimeAutora;
-	}
+	
 
 	public String getImeAutora() {
 		return imeAutora;

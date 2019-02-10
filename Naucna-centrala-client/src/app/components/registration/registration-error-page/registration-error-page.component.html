@@ -6,23 +6,22 @@
         </p>
         <div *ngIf="isDoneLoading">
             
-        <form (ngSubmit)="register()">
-            <div *ngFor="let field of formFields" class="form-group">
-              <label *ngIf="field.type.name !== 'boolean'" [for]="field.id">{{field.id}}</label>
-              <input  class="form-control" type="checkbox" name={{field.id}} [(ngModel)]="registrationDetails[field.id]"  *ngIf="field.type.name=='boolean'">
-              <input  class="form-control" type="number" name={{field.id}} [(ngModel)]="registrationDetails[field.id]"  *ngIf="field.type.name=='long'">
-              <input *ngIf="'string'" [name]="field.id" [id]="field.id" [type]="field.id === 'password' ? 'password' : field.type.name"
-              class="form-control" [(ngModel)]="registrationDetails[field.id]">
-              <select name="field.id" *ngIf="field.type.name=='enum'">
-                <option *ngFor="let val of enumValues" value={{val}}>
-                  {{field.type.values[val]}}
-                </option>
-              </select>
+          <form class="col-md-4 form" (ngSubmit)="register()" #signupForm="ngForm">
+            <h2 class="form-heading">Sign up</h2>
+            <div *ngFor="let field of formFields">
+              <div *ngIf="field.name!=='isOK'">
+                  <label>{{field.name}}</label>
+                  <input type="text" *ngIf="field.name !== 'password'" class="form-control" [(ngModel)]="field.value.value"
+                    name="{{field.name}}">
+                  <input type="password" *ngIf="field.name === 'password'" class="form-control" [(ngModel)]="field.value.value"
+                    name="{{field.name}}">
+              </div>
+
+              
             </div>
-            <button id="registration-button" type="submit" class="btn btn-primary btn-md align-self-center">
-                Registruj se
-                <i class="fa fa-plus-circle" aria-hidden="true"></i>
-              </button>
+            <br>
+            <button id="signinButton" [disabled]="signupForm.form.invalid" class="btn btn-lg btn-primary btn-block"
+              type="submit">Sign up</button>
           </form>
           </div>
       </div>

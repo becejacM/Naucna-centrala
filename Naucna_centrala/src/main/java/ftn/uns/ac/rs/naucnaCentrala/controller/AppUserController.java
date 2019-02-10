@@ -32,7 +32,6 @@ import ftn.uns.ac.rs.naucnaCentrala.service.UserExtendedService;
 
 @RestController
 @RequestMapping("/users")
-//@CrossOrigin
 public class AppUserController {
     private static final Logger logger = LoggerFactory.getLogger(NaucnaCentralaApplication.class);
 
@@ -67,15 +66,6 @@ public class AppUserController {
 
         // Reload password post-authentication so we can generate token
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-//        for (GrantedAuthority g : userDetails.getAuthorities()) {
-//            if (g.toString().equals("ADMIN")) {
-//                MongoClientURI mongoClientURI = new MongoClientURI("mongodb://admin:MDJ421054-bsep@localhost:27017/bezbednost");
-//                MongoClient mongo = new MongoClient(mongoClientURI);
-//            } else {
-//                MongoClientURI mongoClientURI = new MongoClientURI("mongodb://operator:Operator-bsep@localhost:27017/bezbednost");
-//                MongoClient mongo = new MongoClient(mongoClientURI);
-//            }
-//        }
 
         SecurityUser su = (SecurityUser) userDetails;
         String token = this.tokenUtils.generateToken(userDetails);

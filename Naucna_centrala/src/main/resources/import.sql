@@ -54,8 +54,8 @@ insert into users_roles(user_id, role_id) value (8, 3);
 insert into users_roles(user_id, role_id) value (9, 3);
 
 -- dodavanje casopisa
-insert into magazine(id, issn, name, payment_method, editorial_board_id, mid) values (1, '12345', 'casopis 1 biologija', 1, 1, '8d9e4e86-c835-4072-87a9-86af21cc6233');
-insert into magazine(id, issn, name, payment_method, editorial_board_id, mid) values (2, '741258', 'casopis 2 logika', 0, 2, '8d9e4e86-c835-4072-87a9-86af21cc6233');
+insert into magazine(id, issn, name, payment_method, editorial_board_id, mid) values (1, '12345', 'casopis 1 biologija', 1, 1, '8f9ecd69-00f3-400e-9c70-d56074259e9a');
+insert into magazine(id, issn, name, payment_method, editorial_board_id, mid) values (2, '741258', 'casopis 2 logika', 0, 2, '8f9ecd69-00f3-400e-9c70-d56074259e9a');
 
 -- dodavanje naucnih oblasti
 insert into scientific_field(id, scientific_field_name) values (1, 0);

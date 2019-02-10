@@ -19,6 +19,11 @@ import { FailPaymentComponent } from './components/fail-payment/fail-payment.com
 import { MagazinelistComponent } from './components/magazinelist/magazinelist.component';
 import { FailSubscriptionComponent } from './components/fail-subscription/fail-subscription.component';
 import { SuccessSubscriptionComponent } from './components/success-subscription/success-subscription.component';
+import { ReviewersComponent } from './components/reviewers/reviewers.component';
+import { UploadPaperComponent } from './components/upload-paper/upload-paper.component';
+import { TaskUploadPaperComponent } from './components/publication/task-upload-paper/task-upload-paper.component';
+import { TaskCheckTematicComponent } from './components/publication/task-check-tematic/task-check-tematic.component';
+import { TaskCheckFormatComponent } from './components/publication/task-check-format/task-check-format.component';
 
 
 const appRoutes: Routes = [
@@ -39,7 +44,11 @@ const appRoutes: Routes = [
     path: 'tasks',
     component: TasksPageComponent,
     children: [
-      { path: ':taskId', component: TaskComponent, canActivate: [OnlyLoggedInGuard] }
+      { path: ':taskId', component: TaskComponent, canActivate: [OnlyLoggedInGuard] },
+      { path: ':taskId/upload-paper', component: TaskUploadPaperComponent, canActivate: [OnlyLoggedInGuard] },
+      { path: ':taskId/check-tematic', component: TaskCheckTematicComponent, canActivate: [OnlyLoggedInGuard] },
+      { path: ':taskId/check-format', component: TaskCheckFormatComponent, canActivate: [OnlyLoggedInGuard] }
+
     ]
   },
   {path: 'change-password', component: ChangePasswordComponent},
@@ -50,6 +59,8 @@ const appRoutes: Routes = [
   {path: 'magazine', component: MagazinelistComponent, canActivate: [OnlyLoggedInGuard]},
   {path: 'subscribe/success/:id', component: SuccessSubscriptionComponent},
   {path: 'subscribe/fail/:id', component: FailSubscriptionComponent},
+  {path: 'revizori', component: ReviewersComponent, canActivate: [OnlyLoggedInGuard]},
+  {path: 'upload', component: UploadPaperComponent, canActivate: [OnlyLoggedInGuard]},
 
 
 ];

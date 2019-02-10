@@ -3,9 +3,11 @@ package ftn.uns.ac.rs.naucnaCentrala;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.concurrent.Executor;
 
 import javax.sql.DataSource;
 
+import org.camunda.bpm.spring.boot.starter.annotation.EnableProcessApplication;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,7 +18,10 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -25,10 +30,12 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.StorageProperties;
 import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.service.ESPaperService;
 
-
+@EnableAsync
+@EnableScheduling
 @Configuration
 @EnableWebMvc
 @SpringBootApplication
+@EnableProcessApplication
 @EnableConfigurationProperties(StorageProperties.class)
 public class NaucnaCentralaApplication {
 
@@ -53,7 +60,7 @@ public class NaucnaCentralaApplication {
 		return bean;
 	}
 	
-	@Bean
+	/*@Bean
     CommandLineRunner init(ESPaperService eBookService) {
         return (args) -> {
             eBookService.init();
@@ -71,6 +78,16 @@ public class NaucnaCentralaApplication {
 
         String mappingSettings = new String (Files.readAllBytes(Paths.get("src/main/resources/mapping.json")));
         elasticsearchTemplate.putMapping("naucnacentrala6", "paperindexunit", mappingSettings);
+        
+        String indexSettings2 = new String (Files.readAllBytes(Paths.get("src/main/resources/indexsettings.json")));
+        elasticsearchTemplate.createIndex("naucnacentrala6reviewer", indexSettings);
+        String mappingSettingsR = new String (Files.readAllBytes(Paths.get("src/main/resources/mappingReviewer.json")));
+        elasticsearchTemplate.putMapping("naucnacentrala6reviewer", "reviewerindexunit", mappingSettingsR);
+    }
+    */
+    @Bean
+    public Executor taskExecutor() {
+        return new SimpleAsyncTaskExecutor();
     }
 }
 
