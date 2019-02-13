@@ -18,37 +18,58 @@ import java.util.Map;
 @Controller
 public class SocketController {
 
-    @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
-    
-    
-    private static final Logger log = LoggerFactory.getLogger(SocketController.class);
+	@Autowired
+	private SimpMessagingTemplate simpMessagingTemplate;
 
-    
-    
-    @MessageMapping("/nc")
-    @SendTo("/nc/errors")
+	private static final Logger log = LoggerFactory.getLogger(SocketController.class);
+
+	@MessageMapping("/nc")
+	@SendTo("/nc/errors")
 	public String processMessageFromClientAlarms(@Payload String message) throws Exception {
-    	System.out.println("evo meeeeeeeeeeee porukaaa");
-    	String name = new Gson().fromJson(message, Map.class).get("name").toString();
+		System.out.println("evo meeeeeeeeeeee porukaaa");
+		String name = new Gson().fromJson(message, Map.class).get("name").toString();
 		return name;
-    }
-    
-    @SendTo("/nc/notifyAboutOpenAccess")
+	}
+
+	@SendTo("/nc/notifyAboutOpenAccess")
 	public String processMessageNotifyAboutOpenAccess(@Payload String message) throws Exception {
-    	String name = new Gson().fromJson(message, Map.class).get("name").toString();
+		String name = new Gson().fromJson(message, Map.class).get("name").toString();
 		return name;
-    }
-    
-    @SendTo("/nc/notifyAboutActiveFee")
+	}
+
+	@SendTo("/nc/notifyAboutActiveFee")
 	public String processMessageNotifyAboutActiveFee(@Payload String message) throws Exception {
-    	String name = new Gson().fromJson(message, Map.class).get("name").toString();
+		String name = new Gson().fromJson(message, Map.class).get("name").toString();
 		return name;
-    }
-    
-    @SendTo("/nc/notifyAboutInvalidPaper")
+	}
+
+	@SendTo("/nc/notifyAboutInvalidPaper")
 	public String processMessagenotifyAboutInvalidPaper(@Payload String message) throws Exception {
-    	String name = new Gson().fromJson(message, Map.class).get("name").toString();
+		String name = new Gson().fromJson(message, Map.class).get("name").toString();
 		return name;
-    }
+	}
+
+	@SendTo("/nc/notifyTest")
+	public String processMessagenotifyTest(@Payload String message) throws Exception {
+		String name = new Gson().fromJson(message, Map.class).get("name").toString();
+		return name;
+	}
+
+	@SendTo("/nc/notifyAboutEndOfProcess")
+	public String processMessagenotifyAboutEndOfProcess(@Payload String message) throws Exception {
+		String name = new Gson().fromJson(message, Map.class).get("name").toString();
+		return name;
+	}
+
+	@SendTo("/nc/notifyAboutSuccessSubscribe")
+	public String processMessagenotifyAboutSuccessSubscribe(@Payload String message) throws Exception {
+		String name = new Gson().fromJson(message, Map.class).get("name").toString();
+		return name;
+	}
+	
+	@SendTo("/nc/notifyAboutUnSuccessSubscribe")
+	public String processMessagenotifyAboutUnSuccessSubscribe(@Payload String message) throws Exception {
+		String name = new Gson().fromJson(message, Map.class).get("name").toString();
+		return name;
+	}
 }

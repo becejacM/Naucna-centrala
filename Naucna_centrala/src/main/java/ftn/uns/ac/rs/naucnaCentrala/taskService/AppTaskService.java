@@ -65,6 +65,7 @@ public class AppTaskService {
     }
     
     public Boolean checkMagazine(String name) {
+    	//prebaceno
     	System.out.println("checkiram magazine "+name);
     	Magazine m = magazineRepository.findByName(name);
     	if(m.getPaymentMethod().equals(PaymentMethod.OPEN_ACCESS)) {
@@ -81,13 +82,28 @@ public class AppTaskService {
     }
     
     public void notifyAboutOpenAccess() {
+    	//staro, iskorisceno
     	System.out.println("radi ovo obavestenje 2 ");
         this.template.convertAndSend("/nc/notifyAboutOpenAccess", "Magazine is open access");
     }
     
     public void notifyAboutActiveFee() {
+    	//staro, iskorisceno
     	System.out.println("radi ovo obavestenje 3");
         this.template.convertAndSend("/nc/notifyAboutActiveFee", "You have access to choosen magazine");
+    }
+    
+    public void notifyAboutSuccesSubscribe() {
+    	
+    	//novo
+    	System.out.println("radi ovo obavestenje success sub");
+        this.template.convertAndSend("/nc/notifyAboutSuccessSubscribe", "Your subscription is successfully finished");
+    }
+    
+    public void notifyAboutUnSuccessSubscribe() {
+    	//novo
+    	System.out.println("radi ovo obavestenje unsuccess sub");
+        this.template.convertAndSend("/nc/notifyAboutUnSuccessSubscribe", "Your subscription is unsuccessfully finished");
     }
     
     public void payFee() {
@@ -109,6 +125,7 @@ public class AppTaskService {
     }
     
     public String addMainEditor(String magazineName) {
+    	//prebaceno
     	String usernameEditor = "";
     	Magazine m = this.magazineRepository.findByName(magazineName);
     	System.out.println(m.getName() + "naziv magazinaaaa");
@@ -170,5 +187,21 @@ public class AppTaskService {
 			}
 		}*/
 		return reviewersUsernames;
+    }
+    
+    public void notifyTest() {
+    	//novo
+		System.out.println("radi ovo obavestenje za testiranje");
+        this.template.convertAndSend("/nc/notifyTest", "Testno obavestenje");
+
+    }
+    
+	public ModelAndView notifyAboutEndOfProcess() {
+		//novo
+		System.out.println("radi ovo obavestenje za istek vremena za objavu rada");
+        this.template.convertAndSend("/nc/notifyAboutEndOfProcess", "Isteklo vreme za objavu rada");
+
+        String projectUrl = "http://localhost:4200/home";
+		return new ModelAndView("redirect:" + projectUrl);
     }
 }

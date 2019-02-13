@@ -24,6 +24,7 @@ public class EmailTaskService {
     
 
     public String sendConfirmationMail(String email, String processInstanceId) {
+    	//korisceno, poziva sse iz registrationStoreDataTask
         AppUser user = this.privateUserRepository.findByEmail(email);
         final String subject = email;
         final String link = String.format("http://localhost:4200/register/verify/%d/%s", user.getId(), processInstanceId);
@@ -34,6 +35,7 @@ public class EmailTaskService {
     }
 
     public void sendEmailAuthorAndEditorPaperReceived(String starter, String usernameEditor) {
+    	//korisceno, poziva se iz procesnog taska
     	Author a = (Author) privateUserRepository.findByUsername(starter);
     	Editor e = (Editor) privateUserRepository.findByUsername(usernameEditor);
     	
@@ -51,18 +53,20 @@ public class EmailTaskService {
         
         sendEmail(subject, e.getEmail(), messageText);
     }
-    public void sendEmailAuthorPaperRejected(String starter) {
+    public void sendEmailAuthorPaperRejectedFormat(String starter) {
+    	//korisceno
     	Author a = (Author) privateUserRepository.findByUsername(starter);    	
         final String subject = "Odbijen rad";
-        final String messageText = String.format("Vas rad je odbijen!");
+        final String messageText = String.format("Vas rad je odbijen jer nije tematski prikladan!");
         
         sendEmail(subject, a.getEmail(), messageText);
     }
     
-    public void sendEmailAuthorPaperCorrection(String starter) {
+    public void sendEmailAuthorPaperCorrection(String starter, String poruka) {
+    	//korisceno
     	Author a = (Author) privateUserRepository.findByUsername(starter);    	
         final String subject = "Potrebnna korekcija rada";
-        final String messageText = String.format("Vasem rad nije dobro formatiran! Molimo Vas posetite svoj profil i izvrsite potrebne korekcije");
+        final String messageText = String.format("Vas rad nije dobro formatiran! Molimo Vas posetite svoj profil i izvrsite potrebne korekcije. Poruka editora: "+poruka);
         
         sendEmail(subject, a.getEmail(), messageText);
     }

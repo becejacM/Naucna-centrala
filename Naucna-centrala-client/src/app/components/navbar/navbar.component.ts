@@ -79,6 +79,10 @@ export class NavbarComponent implements OnInit {
     //this.sendName();
     this.ws.connect({}, function (frame) {
 
+      that.ws.subscribe("/nc/notifyTest", function (message) {
+        console.log(message);
+        that.notificationService.info("Testni soket radi!");        
+      });
       that.ws.subscribe("/nc/errors", function (message) {
         console.log(message);
         that.notificationService.error("Greska prilikom registracije! Pokusajte ponovo!");        
@@ -96,7 +100,20 @@ export class NavbarComponent implements OnInit {
         console.log(message);
         that.notificationService.info("Vasa unos rada je neuspesan! Neki od parametara nisu validni");        
       });
-
+      that.ws.subscribe("/nc/notifyAboutEndOfProcess", function (message) {
+        console.log(message);
+        that.notificationService.info("Isteklo je vreme u trajanju od 45 dana za objavu Vaseg rada");        
+      });
+      that.ws.subscribe("/nc/notifyAboutSuccessSubscribe", function (message) {
+        console.log(message);
+        that.notificationService.info("Vasa pretplata je uspesno zavrsena");    
+        that.router.navigate([`/home`]);    
+      });
+      that.ws.subscribe("/nc/notifyAboutUnSuccessSubscribe", function (message) {
+        console.log(message);
+        that.notificationService.info("Doslo je do greske prilikom Vase pretplate na casopis");        
+      });
+      
       
     }, function (error) {
       console.log("STOMP error " + error);

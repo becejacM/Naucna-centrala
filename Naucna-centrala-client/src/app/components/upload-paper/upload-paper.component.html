@@ -72,15 +72,7 @@
                     </select>
                   </span>
                 </div>
-                <div class="input-group input-group-sm d-flex justify-content-center">
-
-                  <span class="form-group" class="col-sm-6">
-                    <label>Casopis:</label>
-                    <select class="form-control" [(ngModel)]="nazivCasopisa" class="form-control" name="nazivCasopisa">
-                      <option *ngFor="let name of options2" [value]="name">{{name}}</option>
-                    </select>
-                  </span>
-                </div>
+                
                   <div class="input-group input-group-sm d-flex justify-content-center">
                     <span class="form-group" class="col-sm-6">
                       <label>Odaberite rad:</label>
@@ -92,7 +84,7 @@
                 <div class="input-group input-group-sm d-flex justify-content-center">
 
                   <span class="form-group" class="col-sm-2">
-                    <button (click)="upload()" class="btn btn-primary">Upload</button>
+                    <button (click)="upload()" [disabled]="rad === '' || naslovRada==='' || apstrakt==='' || keywords===''" class="btn btn-primary">Upload</button>
                   </span>
 
                 </div>

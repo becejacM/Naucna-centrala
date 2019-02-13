@@ -15,11 +15,22 @@ public class PaperDTO {
 	private String naucnaOblast;
 	private String nazivCasopisa;
 	private String rad;
+	private String filename;
 	
 	public PaperDTO() {
 		
 	}
 
+	public PaperDTO(String naslovRada, String apstrakt, String keywords) {
+		this.naslovRada = naslovRada;
+		this.apstrakt = apstrakt;
+		this.keywords = keywords;
+	}
+	
+	public PaperDTO(String rad, String filename) {
+		this.rad = rad;
+		this.filename = filename;
+	}
 	
 	public Long getId() {
 		return id;
@@ -101,6 +112,14 @@ public class PaperDTO {
 	}
 
 
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
 	public PaperDTO(Long id, String naslovRada, String apstrakt, String keywords, ArrayList<AutorDTO> autori,
 			String naucnaOblast, String nazivCasopisa, String rad) {
 		super();
@@ -131,5 +150,15 @@ public class PaperDTO {
 		this.naucnaOblast = a.getScientificField().getScientificFieldName().name();
 
     }
+
+
+	@Override
+	public String toString() {
+		return "PaperDTO [id=" + id + ", naslovRada=" + naslovRada + ", apstrakt=" + apstrakt + ", keywords=" + keywords
+				+ ", autori=" + autori + ", naucnaOblast=" + naucnaOblast + ", nazivCasopisa=" + nazivCasopisa
+				+ ", rad=" + rad + "]";
+	}
+	
+	
 	
 }

@@ -54,6 +54,11 @@ import { UploadPaperComponent } from './components/upload-paper/upload-paper.com
 import { TaskUploadPaperComponent } from './components/publication/task-upload-paper/task-upload-paper.component';
 import { TaskCheckTematicComponent } from './components/publication/task-check-tematic/task-check-tematic.component';
 import { TaskCheckFormatComponent } from './components/publication/task-check-format/task-check-format.component';
+import { StartComponent } from './components/publication/start/start.component';
+import { SubscribeComponent } from './components/publication/subscribe/subscribe.component';
+import { CheckFormatComponent } from './components/publication/check-format/check-format.component';
+import { CheckTematicComponent } from './components/publication/check-tematic/check-tematic.component';
+import { ResubmitComponent } from './components/publication/resubmit/resubmit.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +91,11 @@ import { TaskCheckFormatComponent } from './components/publication/task-check-fo
     TaskUploadPaperComponent,
     TaskCheckTematicComponent,
     TaskCheckFormatComponent,
+    StartComponent,
+    SubscribeComponent,
+    CheckFormatComponent,
+    CheckTematicComponent,
+    ResubmitComponent,
   ],
   imports: [
     BrowserModule,

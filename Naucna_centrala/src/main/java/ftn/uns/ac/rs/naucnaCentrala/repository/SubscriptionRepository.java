@@ -11,5 +11,7 @@ import ftn.uns.ac.rs.naucnaCentrala.model.Subscription;
 public interface SubscriptionRepository extends JpaRepository<Subscription, Long>{
 
 	//Collection<Subscription> 
+	Subscription getByKupacAndNazivCasopisa(String kupac, String naziv);
+	Subscription getByKupacAndNazivCasopisaAndStatus(String kupac, String naziv, String status);
 
 }

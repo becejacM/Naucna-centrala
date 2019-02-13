@@ -95,6 +95,7 @@ public class ArticlePublicationController {
 	
     @GetMapping
     public @ResponseBody ProccessMagazineDTO startProcess() {
+    	//prebaceno
 		String username = this.tokenUtils.getUsernameFromToken(this.httpServletRequest.getHeader("X-Auth-Token"));
 		System.out.println("evo usernameeeee: "  + username);
 		ProcessInstance pi = runtimeService.startProcessInstanceByKey("ObjavljivanjeRada");
@@ -114,6 +115,7 @@ public class ArticlePublicationController {
 
     @PostMapping("chooseMagazine")
     public ResponseEntity chooseMagazine(@RequestBody MagazineDetailsDTO magazineDetails) {
+    	//prebaceno
     	System.out.println(magazineDetails.getProcessInstanceId());
 		Task task = taskService.createTaskQuery().processInstanceId(magazineDetails.getProcessInstanceId()).list().get(0);
 

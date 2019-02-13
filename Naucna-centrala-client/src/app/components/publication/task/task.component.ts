@@ -54,7 +54,42 @@ export class TaskComponent implements OnInit {
       console.log(url);
       this.router.navigate([url]);
     }
-    
+    else if(this.task.taskDefinitionId==='Task_0k2mpm2'){
+      //odabir casopisa
+      let url =this.router.url+'/choose-magazine';
+      console.log(url);
+      this.router.navigate([url]);
+    }
+    else if(this.task.taskDefinitionId==='Task_18686dm'){
+      //subskripcija casopisa
+      let url =this.router.url+'/subscribe';
+      console.log(url);
+      this.router.navigate([url]);
+    }
+    else if(this.task.taskDefinitionId==='Task_0f9j2ju'){
+      //upload rada casopisa
+      let url =this.router.url+'/upload';
+      console.log(url);
+      this.router.navigate([url]);
+    }
+    else if(this.task.taskDefinitionId==='Task_0dg9w5t'){
+      //provera tematike rada casopisa
+      let url =this.router.url+'/checkTematic';
+      console.log(url);
+      this.router.navigate([url]);
+    }
+    else if(this.task.taskDefinitionId==='Task_0epjvsx'){
+      //provera formata rada casopisa
+      let url =this.router.url+'/checkFormat';
+      console.log(url);
+      this.router.navigate([url]);
+    }
+    else if(this.task.taskDefinitionId==='Task_1228eof'){
+      //korekcija rada
+      let url =this.router.url+'/resubmit';
+      console.log(url);
+      this.router.navigate([url]);
+    }
   }
   /*completeTask(o?: any) {
     //this.taskDetails = o || this.taskDetails;

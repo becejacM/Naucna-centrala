@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import {LoggedUtils} from '../../utils/logged-utils';
+import { MagazineDetails } from '../../model/MagazineDetails';
 
 @Component({
   selector: 'app-home',
@@ -9,12 +11,14 @@ import {LoggedUtils} from '../../utils/logged-utils';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   private user;
-
+  
   ngOnInit() {
     this.user = LoggedUtils.getRole();
+    this.router.navigate([`/tasks`]);
+
   }
 
 }

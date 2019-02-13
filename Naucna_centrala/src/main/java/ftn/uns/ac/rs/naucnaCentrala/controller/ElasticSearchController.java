@@ -99,6 +99,7 @@ public class ElasticSearchController {
         Paper paper = null;
         File storedFile = esPaperService.storeFileTemporary(multipartFile);
         paper = esPaperService.getMetadata(storedFile);
+        paper.setFilename(originalFileName);
         return new ResponseEntity<>(paper, HttpStatus.OK);
     }
 	@GetMapping("reviewers/{naucnaOblast}")

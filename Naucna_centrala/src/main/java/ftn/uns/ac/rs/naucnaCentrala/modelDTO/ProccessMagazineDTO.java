@@ -17,6 +17,11 @@ public class ProccessMagazineDTO {
 		this.processInstanceId = processInstanceId;
 	}
 
+	public ProccessMagazineDTO(Collection<MagazineDTO> magazines) {
+		super();
+		this.magazines = magazines;
+	}
+
 	public Collection<MagazineDTO> getMagazines() {
 		return magazines;
 	}

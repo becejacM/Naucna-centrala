@@ -13,6 +13,7 @@ export class TasksPageComponent implements OnInit {
     constructor(private route: ActivatedRoute, private taskService: PublicationService) { }
   
     ngOnInit() {
+      console.log("getujem taskove");
       this.taskService.getTasks().subscribe((response) => {
         console.log(response);
         this.tasks = response;

@@ -7,6 +7,7 @@ import { Autor } from '../../model/Autor';
 import { areAllEquivalent } from '@angular/compiler/src/output/output_ast';
 import { SearchService } from '../../services/search/search.service';
 import { Paper } from '../../model/Paper';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-upload-paper',
@@ -23,16 +24,18 @@ export class UploadPaperComponent implements OnInit {
   casopis: Casopis;
   Casopis: typeof Casopis = Casopis;
 
-  rad: any;
-  naslovRada: string;
-  apstrakt: string;
+  rad: any ='';
+  naslovRada: string = '';
+  apstrakt: string = '';
   nazivCasopisa: string;
   autori: Autor[] = [];
-  keywords: string;
+  keywords: string='';
   imeAutora: any;
   prezimeAutora: any;
   paper: Paper = new Paper();
-  constructor(private taskService: PublicationService, private notificationService: NotificationsService, private searchService: SearchService) { }
+  id:any;
+  flag:any;
+  constructor(private router: Router, private route: ActivatedRoute, private taskService: PublicationService, private notificationService: NotificationsService, private searchService: SearchService) { }
 
   ngOnInit() {
 
@@ -40,22 +43,27 @@ export class UploadPaperComponent implements OnInit {
     const options = Object.keys(naucnaOblast);
     this.options = options.slice(options.length / 2);
     //console.log(this.options);
-    const x2 = Casopis;
-    const options2 = Object.keys(Casopis);
-    this.options2 = options2.slice(options2.length / 2);
+    //const x2 = Casopis;
+    //const options2 = Object.keys(Casopis);
+    //this.options2 = options2.slice(options2.length / 2);
+
+    this.route.params.subscribe(params => {
+      this.id = params["taskId"];
+    })
+    this.flag=0;
   }
 
   localUrl: any[];
   fileList: FileList;
   radic:any;
   uploadFile(event: any) {
-
+    //ovo koristim
 
     let fileList: FileList = event.target.files;
     if (fileList.length > 0) {
       let file: File = fileList[0];
       //console.log(file);
-      this.taskService.upload(file)
+      this.taskService.temporaryupload(file)
         .subscribe(data => {
           console.log(data);
           this.radic = data.filename;
@@ -74,19 +82,23 @@ export class UploadPaperComponent implements OnInit {
     this.paper.naslovRada = this.naslovRada;
     this.paper.apstrakt = this.apstrakt;
     this.paper.autori = this.autori;
-    this.paper.nazivCasopisa = this.nazivCasopisa;
     this.paper.rad = this.radic;
     this.paper.keywords = this.keywords;
     this.paper.naucnaOblast = this.naucnaOblast;
 
-    this.searchService.save(this.paper)
+    this.taskService.save(this.paper, this.id)
       .subscribe(
         data => {
           console.log(data);
-          this.notificationService.info("Uspesno ste dodali clanak!")
+          this.notificationService.info("Uspesno ste dodali clanak!");
+          this.router.navigate([`/home`]);
+
         },
         error => {
           console.log(error);
+          this.notificationService.info("Doslo je do greske prilikom dodavanja clanka!");
+          this.router.navigate([`/home`]);
+
         }
       );
 

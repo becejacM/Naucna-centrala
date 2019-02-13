@@ -1,0 +1,22 @@
+<div id="registrationDiv" class="mainContainer  d-flex justify-content-center">
+  <div class="card my_card">
+    <div class="col-md-12 col-md-offset-3" id="logreg">
+
+        <div class="input-group input-group-sm d-flex justify-content-center">
+            <span class="form-group" class="col-sm-6">
+              <label>Odaberite rad:</label>
+              <input type="file" class="form-control" [(ngModel)]="rad" class="form-control" name="rad" accept="application/pdf" (change)="uploadFile($event)" />
+            </span>
+          </div>
+          <br/>
+
+                <div class="input-group input-group-sm d-flex justify-content-center">
+
+                  <span class="form-group" class="col-sm-2">
+                    <button (click)="submit()" [disabled]="rad === ''" class="btn btn-primary">Upload</button>
+                  </span>
+
+                </div>
+    </div>
+  </div>
+</div>

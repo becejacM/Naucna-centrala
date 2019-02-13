@@ -230,6 +230,7 @@ public class ESPaperService {
     
 
     public File storeFileTemporary(MultipartFile file) {
+    	//ovo koristim kod prvog dodavanja fajla
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
         System.out.println("jebi se "+file.getOriginalFilename());
         InputStream inputStream = null;

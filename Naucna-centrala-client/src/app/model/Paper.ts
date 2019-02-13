@@ -9,6 +9,7 @@ export class Paper{
     naucnaOblast : any;
     nazivCasopisa : string;
     rad : string;
+    filename: string;
 
     constructor(paper: PaperInterface = {}) {
         this.id = paper.id;
@@ -19,6 +20,7 @@ export class Paper{
         this.naucnaOblast = paper.naucnaOblast;
         this.nazivCasopisa = paper.nazivCasopisa;
         this.rad = paper.rad;
+        this.filename = paper.filename;
     }
 }
 
@@ -31,4 +33,5 @@ interface PaperInterface {
     naucnaOblast ?: any;
     nazivCasopisa ?: string;
     rad ?: string;
+    filename ?: string;
 }

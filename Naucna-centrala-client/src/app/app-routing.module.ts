@@ -24,6 +24,11 @@ import { UploadPaperComponent } from './components/upload-paper/upload-paper.com
 import { TaskUploadPaperComponent } from './components/publication/task-upload-paper/task-upload-paper.component';
 import { TaskCheckTematicComponent } from './components/publication/task-check-tematic/task-check-tematic.component';
 import { TaskCheckFormatComponent } from './components/publication/task-check-format/task-check-format.component';
+import { StartComponent } from './components/publication/start/start.component';
+import { SubscribeComponent } from './components/publication/subscribe/subscribe.component';
+import { ResubmitComponent } from './components/publication/resubmit/resubmit.component';
+import { CheckFormatComponent } from './components/publication/check-format/check-format.component';
+import { CheckTematicComponent } from './components/publication/check-tematic/check-tematic.component';
 
 
 const appRoutes: Routes = [
@@ -37,7 +42,7 @@ const appRoutes: Routes = [
   {path: 'register/verify/:id/:processInstanceId', component: VerificationPageComponent},  
   {path: 'registration/error/:taskId', component: RegistrationErrorPageComponent, canActivate: [AlreadyLoggedInGuard]},    
   {path: 'home', component: HomeComponent, canActivate: [OnlyLoggedInGuard]},
-  {path: 'choose-magazine', component: MagazinesPageComponent, canActivate: [OnlyLoggedInGuard]},
+  {path: 'start', component: StartComponent, canActivate: [OnlyLoggedInGuard]},
   {path: 'submit-paper-page', component: SubmitPaperPageComponent, canActivate: [OnlyLoggedInGuard]},    
   {path: 'tasks-list', component: SubmitPaperPageComponent, canActivate: [OnlyLoggedInGuard]}, 
   {
@@ -47,7 +52,13 @@ const appRoutes: Routes = [
       { path: ':taskId', component: TaskComponent, canActivate: [OnlyLoggedInGuard] },
       { path: ':taskId/upload-paper', component: TaskUploadPaperComponent, canActivate: [OnlyLoggedInGuard] },
       { path: ':taskId/check-tematic', component: TaskCheckTematicComponent, canActivate: [OnlyLoggedInGuard] },
-      { path: ':taskId/check-format', component: TaskCheckFormatComponent, canActivate: [OnlyLoggedInGuard] }
+      { path: ':taskId/check-format', component: TaskCheckFormatComponent, canActivate: [OnlyLoggedInGuard] },
+      { path: ':taskId/choose-magazine', component: MagazinesPageComponent, canActivate: [OnlyLoggedInGuard] },
+      { path: ':taskId/subscribe', component: SubscribeComponent, canActivate: [OnlyLoggedInGuard] },
+      { path: ':taskId/upload', component: UploadPaperComponent, canActivate: [OnlyLoggedInGuard] },
+      { path: ':taskId/checkTematic', component: CheckTematicComponent, canActivate: [OnlyLoggedInGuard] },
+      { path: ':taskId/checkFormat', component: CheckFormatComponent, canActivate: [OnlyLoggedInGuard] },
+      { path: ':taskId/resubmit', component: ResubmitComponent, canActivate: [OnlyLoggedInGuard] }
 
     ]
   },

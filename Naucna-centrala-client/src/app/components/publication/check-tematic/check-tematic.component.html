@@ -1,0 +1,37 @@
+<div id="registrationDiv" class="mainContainer  d-flex justify-content-center">
+  <div class="card my_card">
+    <div class="col-md-12 col-md-offset-3" id="logreg">
+      <div *ngIf="start!==false">
+
+              <table class="table table-user-information">
+                <tbody>
+                  
+                  <tr>
+                    <td>Naslov:</td>
+                    <td>{{ paper.naslovRada }}</td>
+                  </tr>
+                  <tr>
+                    <td>Kljucne reci:</td>
+                    <td>{{ paper.keywords }}</td>
+                  </tr>
+                  <tr>
+                    <td>Apstrakt:</td>
+                    <td>{{ paper.apstrakt }}</td>
+                  </tr>
+
+                </tbody>
+              </table>
+
+              <label class="container"> 
+                  Da li je rad tematski prikladan?
+
+                  <input type="checkbox" [(ngModel)]="theCheckbox"  data-md-icheck (change)="toggleVisibility($event)"/>
+                    <span class="checkmark"></span>
+                  </label>
+                  <span class="form-group" class="col-sm-2">
+                      <button (click)="submit()" class="btn btn-primary">Posalji</button>
+                    </span>
+      </div>
+    </div>
+  </div>
+</div>
