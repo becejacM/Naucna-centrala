@@ -1,0 +1,70 @@
+<div id="registrationDiv" class="mainContainer  d-flex justify-content-center">
+  <div class="card my_card">
+    <div class="col-md-12 col-md-offset-3" id="logreg">
+      <div *ngIf="start!==false">
+
+              <table class="table table-user-information">
+                <tbody>
+                  
+                  <tr>
+                    <td>Naslov:</td>
+                    <td>{{ paper.naslovRada }}</td>
+                  </tr>
+                  <tr>
+                    <td>Kljucne reci:</td>
+                    <td>{{ paper.keywords }}</td>
+                  </tr>
+                  <tr>
+                    <td>Apstrakt:</td>
+                    <td>{{ paper.apstrakt }}</td>
+                  </tr>
+
+                </tbody>
+              </table>
+
+              <label class="container"> 
+                  Odaberite najmanje 2 revizora
+
+                  </label>
+                  <button type="button" class="btn btn-primary button-accept-accounting"
+              (click)="filter()">Filter</button>
+                  <div class="row">
+                    <h2>Revizori</h2>
+                    <table class="table">
+                      <thead class="thead-dark">
+                        <tr>
+                          <th scope="col">Ime</th>
+                          <th scope="col">Prezime</th>
+                          <th scope="col">Naucne oblasti</th>
+                          <th scope="col"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let reviewer of reviewers">
+                          <td scope="row">{{reviewer.firstname}}</td>
+                          <td scope="row">{{reviewer.lastname}}</td>
+                          <td scope="row">{{reviewer.no}}</td>
+                          <td><button class="btn btn-primary btn-block" (click)="addReviewer(reviewer)">Add</button></td>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="row">
+                    <h2>Odabrani revizori</h2>
+                    <ul class="list-group">
+                      <li *ngFor="let reviewer of choosenReviewers" class="list-group-item">
+                        <p>{{reviewer.firstname}} {{reviewer.lastname}} <span
+                            class="float-right fa fa-trash fa-2x icon-pad pointer" (click)="removeReviewer(reviewer)">
+                          </span></p>
+                      </li>
+                      <label>Deadline</label>
+                      <input type="number" class="form-control" [(ngModel)]="date" name="date">
+                      <br>
+                      <button [disabled]="choosenReviewers.length !== 1 || !date" class="btn btn-lg btn-primary btn-block"
+                        (click)="submitReviewers()">Submit</button>
+                    </ul>
+                  </div>
+              
+      </div>
+    </div>
+  </div>
+</div>

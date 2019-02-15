@@ -24,17 +24,17 @@ export class UploadPaperComponent implements OnInit {
   casopis: Casopis;
   Casopis: typeof Casopis = Casopis;
 
-  rad: any ='';
+  rad: any = '';
   naslovRada: string = '';
   apstrakt: string = '';
   nazivCasopisa: string;
   autori: Autor[] = [];
-  keywords: string='';
+  keywords: string = '';
   imeAutora: any;
   prezimeAutora: any;
   paper: Paper = new Paper();
-  id:any;
-  flag:any;
+  id: any;
+  flag: any;
   constructor(private router: Router, private route: ActivatedRoute, private taskService: PublicationService, private notificationService: NotificationsService, private searchService: SearchService) { }
 
   ngOnInit() {
@@ -50,12 +50,12 @@ export class UploadPaperComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.id = params["taskId"];
     })
-    this.flag=0;
+    this.flag = 0;
   }
 
   localUrl: any[];
   fileList: FileList;
-  radic:any;
+  radic: any;
   uploadFile(event: any) {
     //ovo koristim
 
@@ -105,12 +105,12 @@ export class UploadPaperComponent implements OnInit {
   }
 
 
-addAuthor() {
-  let aa = new Autor();
-  aa.imeAutora = this.imeAutora;
-  aa.prezimeAutora = this.prezimeAutora;
-  this.autori.push(aa);
-  this.imeAutora = "";
-  this.prezimeAutora = "";
-}
+  addAuthor() {
+    let aa = new Autor();
+    aa.imeAutora = this.imeAutora;
+    aa.prezimeAutora = this.prezimeAutora;
+    this.autori.push(aa);
+    this.imeAutora = "";
+    this.prezimeAutora = "";
+  }
 }

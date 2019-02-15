@@ -53,7 +53,7 @@ public class EmailTaskService {
         
         sendEmail(subject, e.getEmail(), messageText);
     }
-    public void sendEmailAuthorPaperRejectedFormat(String starter) {
+    public void sendEmailAuthorPaperRejectedTematic(String starter) {
     	//korisceno
     	Author a = (Author) privateUserRepository.findByUsername(starter);    	
         final String subject = "Odbijen rad";
@@ -62,6 +62,32 @@ public class EmailTaskService {
         sendEmail(subject, a.getEmail(), messageText);
     }
     
+    public void sendEmailAuthorPaperRejected(String starter) {
+    	//korisceno
+    	Author a = (Author) privateUserRepository.findByUsername(starter);    	
+        final String subject = "Odbijen rad";
+        final String messageText = String.format("Zao nam je! Vas rad je odbijen!");
+        
+        sendEmail(subject, a.getEmail(), messageText);
+    }
+    
+    public void sendEmailEditorChooseReviewers(String editor) {
+    	//korisceno
+    	Editor e = (Editor) privateUserRepository.findByUsername(editor);    	
+        final String subject = "Potreban odabir revizora";
+        final String messageText = String.format("Potrebno je da odaberete revizore za dodeljeni rad! Molimo Vas ucinite to logovanjem na Vas profil");
+        
+        sendEmail(subject, e.getEmail(), messageText);
+    }
+    
+    public void sendEmailEditorChooseNewReviewer(String editor) {
+    	//korisceno
+    	Editor e = (Editor) privateUserRepository.findByUsername(editor);    	
+        final String subject = "Potreban odabir revizora";
+        final String messageText = String.format("Odabrani revizor nije revizirao dodeljeni rad. Molimo Vas odaberite drugog revizora!");
+        
+        sendEmail(subject, e.getEmail(), messageText);
+    }
     public void sendEmailAuthorPaperCorrection(String starter, String poruka) {
     	//korisceno
     	Author a = (Author) privateUserRepository.findByUsername(starter);    	

@@ -29,6 +29,12 @@ import { SubscribeComponent } from './components/publication/subscribe/subscribe
 import { ResubmitComponent } from './components/publication/resubmit/resubmit.component';
 import { CheckFormatComponent } from './components/publication/check-format/check-format.component';
 import { CheckTematicComponent } from './components/publication/check-tematic/check-tematic.component';
+import { ChooseReviewersComponent } from './components/publication/choose-reviewers/choose-reviewers.component';
+import { AddReviewComponent } from './components/publication/add-review/add-review.component';
+import { ChooseNewReviewerComponent } from './components/publication/choose-new-reviewer/choose-new-reviewer.component';
+import { EditorRevisionComponent } from './components/publication/editor-revision/editor-revision.component';
+import { AuthorRevisionComponent } from './components/publication/author-revision/author-revision.component';
+import { EditorDecisionComponent } from './components/publication/editor-decision/editor-decision.component';
 
 
 const appRoutes: Routes = [
@@ -58,8 +64,13 @@ const appRoutes: Routes = [
       { path: ':taskId/upload', component: UploadPaperComponent, canActivate: [OnlyLoggedInGuard] },
       { path: ':taskId/checkTematic', component: CheckTematicComponent, canActivate: [OnlyLoggedInGuard] },
       { path: ':taskId/checkFormat', component: CheckFormatComponent, canActivate: [OnlyLoggedInGuard] },
-      { path: ':taskId/resubmit', component: ResubmitComponent, canActivate: [OnlyLoggedInGuard] }
-
+      { path: ':taskId/resubmit', component: ResubmitComponent, canActivate: [OnlyLoggedInGuard] },
+      { path: ':taskId/chooseReviewers', component: ChooseReviewersComponent, canActivate: [OnlyLoggedInGuard] },
+      { path: ':taskId/addReview', component: AddReviewComponent, canActivate: [OnlyLoggedInGuard] },
+      { path: ':taskId/chooseNewReviewer', component: ChooseNewReviewerComponent, canActivate: [OnlyLoggedInGuard] },
+      { path: ':taskId/editorRevision', component: EditorRevisionComponent, canActivate: [OnlyLoggedInGuard] },
+      { path: ':taskId/authorRevision', component: AuthorRevisionComponent, canActivate: [OnlyLoggedInGuard] },
+      { path: ':taskId/editorDecision', component: EditorDecisionComponent, canActivate: [OnlyLoggedInGuard] }
     ]
   },
   {path: 'change-password', component: ChangePasswordComponent},

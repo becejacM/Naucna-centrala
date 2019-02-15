@@ -16,6 +16,7 @@ public class PaperDTO {
 	private String nazivCasopisa;
 	private String rad;
 	private String filename;
+	private String komentarDorada;
 	
 	public PaperDTO() {
 		
@@ -157,6 +158,14 @@ public class PaperDTO {
 		return "PaperDTO [id=" + id + ", naslovRada=" + naslovRada + ", apstrakt=" + apstrakt + ", keywords=" + keywords
 				+ ", autori=" + autori + ", naucnaOblast=" + naucnaOblast + ", nazivCasopisa=" + nazivCasopisa
 				+ ", rad=" + rad + "]";
+	}
+
+	public String getKomentarDorada() {
+		return komentarDorada;
+	}
+
+	public void setKomentarDorada(String komentarDorada) {
+		this.komentarDorada = komentarDorada;
 	}
 	
 	

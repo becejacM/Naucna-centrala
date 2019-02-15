@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PublicationService } from '../../../services/publication/publication.service';
 
 @Component({
@@ -12,7 +12,7 @@ export class SubscribeComponent implements OnInit {
   id: string;
   name: string;
   start: any;
-  constructor(private route: ActivatedRoute, private taskService: PublicationService) { }
+  constructor(private router: Router,private route: ActivatedRoute, private taskService: PublicationService) { }
 
   ngOnInit() {
     this.start=false;
@@ -36,6 +36,7 @@ export class SubscribeComponent implements OnInit {
     this.taskService.subscribe(this.id).subscribe(response => {
       console.log(response);
       this.start=true;
+      this.router.navigate([`/home`]);
       //this.formTaskDetails();
     })
   }

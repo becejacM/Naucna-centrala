@@ -90,6 +90,42 @@ export class TaskComponent implements OnInit {
       console.log(url);
       this.router.navigate([url]);
     }
+    else if(this.task.taskDefinitionId==='Task_0z8xpc6'){
+      //odabir recenzenata
+      let url =this.router.url+'/chooseReviewers';
+      console.log(url);
+      this.router.navigate([url]);
+    }
+    else if(this.task.taskDefinitionId==='Task_1m39t98'){
+      //recenziranje
+      let url =this.router.url+'/addReview';
+      console.log(url);
+      this.router.navigate([url]);
+    }
+    else if(this.task.taskDefinitionId==='Task_0tphnhs'){
+      //odabir novog recenzenta
+      let url =this.router.url+'/chooseNewReviewer';
+      console.log(url);
+      this.router.navigate([url]);
+    }
+    else if(this.task.taskDefinitionId==='Task_1b482le'){
+      //odluka editora
+      let url =this.router.url+'/editorRevision';
+      console.log(url);
+      this.router.navigate([url]);
+    }
+    else if(this.task.taskDefinitionId==='Task_0r1rfkk'){
+      //dorada autora
+      let url =this.router.url+'/authorRevision';
+      console.log(url);
+      this.router.navigate([url]);
+    }
+    else if(this.task.taskDefinitionId==='Task_0tt3xhq'){
+      //konacna odluka editora
+      let url =this.router.url+'/editorDecision';
+      console.log(url);
+      this.router.navigate([url]);
+    }
   }
   /*completeTask(o?: any) {
     //this.taskDetails = o || this.taskDetails;

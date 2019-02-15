@@ -7,8 +7,10 @@ import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ftn.uns.ac.rs.naucnaCentrala.model.AppUser;
 import ftn.uns.ac.rs.naucnaCentrala.model.Editor;
 import ftn.uns.ac.rs.naucnaCentrala.model.Magazine;
+import ftn.uns.ac.rs.naucnaCentrala.repository.AppUserRepository;
 import ftn.uns.ac.rs.naucnaCentrala.repository.MagazineRepository;
 
 @Service
@@ -16,6 +18,8 @@ public class PublishAddMainEditor implements JavaDelegate{
 
 	@Autowired
     private MagazineRepository magazineRepository;
+	
+	
 	
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
@@ -33,7 +37,6 @@ public class PublishAddMainEditor implements JavaDelegate{
 			}
 		}
         execution.setVariable("editor", usernameEditor);
-
     	System.out.println("dodeljujem urednika "+usernameEditor);
 	}
 

@@ -10,17 +10,21 @@
           <button (click)="download()" class="btn btn-md btn-primary btn-block" type="submit">Preuzmi</button>
         </span>
         <label class="container">
-          Da li je rad formatiran prikladno?
+          Unesite svoju reviziju
 
-          <input type="checkbox" [(ngModel)]="theCheckbox" data-md-icheck (change)="toggleVisibility($event)" />
-          <span class="checkmark"></span>
-          <label *ngIf="!marked">Unesite poruku autoru:</label>
-          <input [(ngModel)]="poruka" *ngIf="!marked">
+          Poruka autoru:<input [(ngModel)]="commentAuthor" >
+          <span class="form-group" class="col-sm-6">
+            <label>Sugestija:</label>
+            <select class="form-control" [(ngModel)]="suggestion" class="form-control" name="suggestion">
+              <option *ngFor="let name of options" [value]="name">{{name}}</option>
+            </select>
+          </span>
+          Poruka editoru:<input [(ngModel)]="commentEditor" >
         </label>
-        
         <span class="form-group" class="col-sm-2">
           <button (click)="submit()" class="btn btn-primary">Posalji</button>
         </span>
+        
       </div>
     </div>
   </div>

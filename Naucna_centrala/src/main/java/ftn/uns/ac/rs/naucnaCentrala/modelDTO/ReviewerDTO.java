@@ -13,6 +13,8 @@ public class ReviewerDTO {
 	private String lastname;
 	private String city;
 	private String state;
+	private String username;
+	private String no;
 	private Collection<NaucnaOblast> naucnaOblast = new ArrayList<NaucnaOblast>();
 
 	
@@ -21,10 +23,10 @@ public class ReviewerDTO {
 	}
 
 
-	public ReviewerDTO(String id, String firstname, String lastname, String city, String state,
+	public ReviewerDTO(String username, String firstname, String lastname, String city, String state,
 			Collection<NaucnaOblast> naucnaOblast) {
 		super();
-		this.id = id;
+		this.username = username;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.city = city;
@@ -32,6 +34,17 @@ public class ReviewerDTO {
 		this.naucnaOblast = naucnaOblast;
 	}
 
+	public ReviewerDTO(String username, String firstname, String lastname, String city, String state,
+			String naucnaOblast) {
+		super();
+		this.username = username;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.city = city;
+		this.state = state;
+		this.no = naucnaOblast;
+	}
+	
 	public ReviewerDTO(ReviewerIndexUnit r) {
 		this.id = r.getId();
 		this.firstname = r.getFirstname();
@@ -99,6 +112,27 @@ public class ReviewerDTO {
 	public void setNaucnaOblast(Collection<NaucnaOblast> naucnaOblast) {
 		this.naucnaOblast = naucnaOblast;
 	}
+
+
+	public String getUsername() {
+		return username;
+	}
+
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+
+	public String getNo() {
+		return no;
+	}
+
+
+	public void setNo(String no) {
+		this.no = no;
+	}
+	
 	
 	
 	

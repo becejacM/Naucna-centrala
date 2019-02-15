@@ -1,0 +1,6 @@
+export enum Suggeation {
+    "PRIHVATITI" = 0,
+	"PRIHVATITI UZ MANJE ISPRAVKE" = 1,
+	"USLOVNO PRIHVATITI UZ VECE ISPRAVKE" = 2,
+	"ODBITI" = 3,
+}

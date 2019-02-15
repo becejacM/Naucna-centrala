@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MagazineDetails } from '../../model/MagazineDetails';
+import { ReviewersDTO } from '../../model/ReviewerDTO';
+import { ReviewDTO } from '../../model/ReviewDTO';
 
 @Injectable()
 export class PublicationService {
@@ -103,6 +105,10 @@ export class PublicationService {
     return this.http.post(`${this.publishUrl}/submit/${taskId}`, paper);
   }
 
+  adapted(paper, taskId) {
+    //novo
+    return this.http.post(`${this.publishUrl}/adapted/${taskId}`, paper);
+  }
   answerTematic(answer, taskId) {
     //novo
     return this.http.post(`${this.publishUrl}/tematicAnswer/${taskId}`, answer);
@@ -113,6 +119,10 @@ export class PublicationService {
     return this.http.post(`${this.publishUrl}/formatAnswer/${taskId}`, answer);
   }
 
+  answerEditorDecision(answer, taskId) {
+    //novo
+    return this.http.post(`${this.publishUrl}/editorDecision/${taskId}`, answer);
+  }
   download(simpleQuery) {
     //novo
     return this.http.post(`${this.searchUrl}/download`, simpleQuery, { responseType: 'blob' });
@@ -123,4 +133,47 @@ export class PublicationService {
     //novo
     return this.http.post(`${this.publishUrl}/resubmit/${taskId}`, paper);
   }
+
+  getRevizoriSviTask(taskId: string) {
+    //novo
+    return this.http.get<any>(`${this.publishUrl}/task/${taskId}/allReviewers`);
+  };
+
+  getCommentFromAuthor(taskId: string) {
+    //novo
+    return this.http.get<any>(`${this.publishUrl}/task/${taskId}/authorComment`);
+  };
+  getRevizoriNOTask(taskId: string) {
+    //novo
+    return this.http.get<any>(`${this.publishUrl}/task/${taskId}/reviewersBySF`);
+  };
+
+  addReviewers(taskId: string, reviewers: ReviewersDTO[], date: string) {
+    //novo
+    return this.http.post<ReviewersDTO[]>(`${this.publishUrl}/task/${taskId}/addReviewers`, reviewers, { params: { 'date': date } });
+  }
+
+  addNewReviewer(taskId: string, reviewer: ReviewersDTO, date: string) {
+    //novo
+    return this.http.post<ReviewersDTO>(`${this.publishUrl}/task/${taskId}/addNewReviewer`, reviewer, { params: { 'date': date } });
+  }
+
+  postReview(taskId: string, fields: ReviewDTO) {
+    //novo
+    return this.http.post<ReviewDTO>(`${this.publishUrl}/task/${taskId}/addReview`, fields);
+  }
+  postEditorReview(taskId: string, fields: ReviewDTO) {
+    //novo
+    return this.http.post<ReviewDTO>(`${this.publishUrl}/task/${taskId}/addEditorReview`, fields);
+  }
+
+  getReviewsForEditor(taskId: string) {
+    //novo
+    return this.http.get<any>(`${this.publishUrl}/task/${taskId}/getReviewsEditor`);
+  };
+
+  getReviewsForAuthor(taskId: string) {
+    //novo
+    return this.http.get<any>(`${this.publishUrl}/task/${taskId}/getReviewsAuthor`);
+  };
 }

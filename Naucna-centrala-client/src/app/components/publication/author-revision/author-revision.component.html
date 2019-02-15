@@ -1,0 +1,54 @@
+<div id="registrationDiv" class="mainContainer  d-flex justify-content-center">
+  <div class="card my_card">
+    <div class="col-md-12 col-md-offset-3" id="logreg">
+      <div *ngIf="reviews">
+
+        Revizije
+        <div *ngFor="let review of reviews; let i = index;">
+          <li class="list-group-item list-group-item flex-column align-items-start">
+            <div *ngIf="review" class="d-flex w-100 justify-content-between div-toggle-building-list-item"
+              style="cursor: pointer">
+
+              <table class="table table-user-information">
+                <tbody>
+
+                  <tr>
+                    <td>Revizor:</td>
+                    <td>{{ review.reviewer }}</td>
+                  </tr>
+                  <tr>
+                    <td>Komentar:</td>
+                    <td>{{ review.commentEditor }}</td>
+                  </tr>
+                  <tr>
+                    <td>Sugestija:</td>
+                    <td>{{ review.suggestion }}</td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </li>
+        </div>
+        <label class="container">
+
+          <label>
+            Unesite doradjen rad i komentar
+          </label>
+          <label>Komentar :</label>
+          <input [(ngModel)]="komentarDorada">
+          <div class="input-group input-group-sm d-flex justify-content-center">
+            <span class="form-group" class="col-sm-6">
+              <label>Odaberite rad:</label>
+              <input type="file" class="form-control" [(ngModel)]="rad" class="form-control" name="rad"
+                accept="application/pdf" (change)="uploadFile($event)" />
+            </span>
+          </div>
+          <span class="form-group" class="col-sm-2">
+            <button (click)="submit()" class="btn btn-primary">Posalji</button>
+          </span>
+          </label>
+      </div>
+    </div>
+  </div>
+</div>

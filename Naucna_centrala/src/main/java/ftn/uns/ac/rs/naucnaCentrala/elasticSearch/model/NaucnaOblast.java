@@ -4,6 +4,17 @@ public class NaucnaOblast {
 
 	private String ime;
 
+	public NaucnaOblast() {
+		
+	}
+	
+	public NaucnaOblast(String ime) {
+		super();
+		this.ime = ime;
+	}
+
+
+
 	public String getIme() {
 		return ime;
 	}

@@ -23,12 +23,15 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 
+import ftn.uns.ac.rs.naucnaCentrala.elasticSearch.model.NaucnaOblast;
 import ftn.uns.ac.rs.naucnaCentrala.model.AppUser;
 import ftn.uns.ac.rs.naucnaCentrala.model.Author;
 import ftn.uns.ac.rs.naucnaCentrala.model.Editor;
 import ftn.uns.ac.rs.naucnaCentrala.model.Magazine;
 import ftn.uns.ac.rs.naucnaCentrala.model.PaymentMethod;
 import ftn.uns.ac.rs.naucnaCentrala.model.Reviewer;
+import ftn.uns.ac.rs.naucnaCentrala.model.ScientificField;
+import ftn.uns.ac.rs.naucnaCentrala.modelDTO.ReviewerDTO;
 import ftn.uns.ac.rs.naucnaCentrala.repository.AppUserRepository;
 import ftn.uns.ac.rs.naucnaCentrala.repository.MagazineRepository;
 import ftn.uns.ac.rs.naucnaCentrala.repository.RoleRepository;
@@ -191,8 +194,8 @@ public class AppTaskService {
     
     public void notifyTest() {
     	//novo
-		System.out.println("radi ovo obavestenje za testiranje");
-        this.template.convertAndSend("/nc/notifyTest", "Testno obavestenje");
+		System.out.println("radi ovo obavestenje za prihvatanje rada");
+        this.template.convertAndSend("/nc/notifyTest", "Vas rad je prihaven");
 
     }
     
@@ -204,4 +207,39 @@ public class AppTaskService {
         String projectUrl = "http://localhost:4200/home";
 		return new ModelAndView("redirect:" + projectUrl);
     }
+	
+	public Collection<ReviewerDTO> getAllReviewers(String magazine) {
+		// novo, getuje sve revizore
+		Collection<ReviewerDTO> reviewersDTOs = new ArrayList<ReviewerDTO>();
+    	Collection<Reviewer> reviewers = magazineRepository.findByName(magazine).getEditorialBoard().getReviewers();
+    	for (Reviewer reviewer : reviewers) {
+    		String no = "";
+    		for(ScientificField sf : reviewer.getReviewerFields()) {
+    			no+=sf.getScientificFieldName().name();
+    			no+=" ";
+    		}
+			reviewersDTOs.add(new ReviewerDTO(reviewer.getUsername(), reviewer.getFirstname(),
+					reviewer.getLastname(), reviewer.getCity(), reviewer.getState(), no));
+		}
+    	return reviewersDTOs;
+	}
+	
+	public Collection<ReviewerDTO> getAllReviewersBySF(String magazine, String naucnaOblast) {
+		// novo, getuje revizore po naucnoj oblasti
+		Collection<ReviewerDTO> reviewersDTOs = new ArrayList<ReviewerDTO>();
+    	Collection<Reviewer> reviewers = magazineRepository.findByName(magazine).getEditorialBoard().getReviewers();
+    	for (Reviewer reviewer : reviewers) {
+    		for(ScientificField sf : reviewer.getReviewerFields()) {
+        		if(sf.getScientificFieldName().name().equals(naucnaOblast)) {
+        			String no = "";
+            		for(ScientificField sfield : reviewer.getReviewerFields()) {
+            			no+=sfield.getScientificFieldName().name();
+            			no+=" ";
+            		}
+        			reviewersDTOs.add(new ReviewerDTO(reviewer.getUsername(), reviewer.getFirstname(), reviewer.getLastname(), reviewer.getCity(), reviewer.getState(), no));
+        		}
+    		}
+		}
+    	return reviewersDTOs;
+	}
 }

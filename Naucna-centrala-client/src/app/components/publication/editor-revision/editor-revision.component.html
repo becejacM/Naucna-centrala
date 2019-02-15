@@ -1,0 +1,62 @@
+<div id="registrationDiv" class="mainContainer  d-flex justify-content-center">
+  <div class="card my_card">
+    <div class="col-md-12 col-md-offset-3" id="logreg">
+      <div *ngIf="paper">
+
+        <div class="form-group">
+          <textarea rows="14" class="form-control" readonly>{{ paper.rad }}</textarea>
+        </div>
+        <span class="form-group" class="col-sm-2">
+          <button (click)="download()" class="btn btn-md btn-primary btn-block" type="submit">Preuzmi</button>
+        </span>
+        Revizije
+        <div *ngFor="let review of reviews; let i = index;">
+          <li class="list-group-item list-group-item flex-column align-items-start">
+            <div *ngIf="review" class="d-flex w-100 justify-content-between div-toggle-building-list-item" style="cursor: pointer">
+    
+              <table class="table table-user-information">
+                <tbody>
+                  
+                  <tr>
+                    <td>Revizor:</td>
+                    <td>{{ review.reviewer }}</td>
+                  </tr>
+                  <tr>
+                    <td>Komentar:</td>
+                    <td>{{ review.commentEditor }}</td>
+                  </tr>
+                  <tr>
+                    <td>Sugestija:</td>
+                    <td>{{ review.suggestion }}</td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </li>
+        </div>
+        <label class="container">
+          Ukoliko se ocene drasticno razlikuju mozete odabrati da se izvrsi nova revizija?
+
+          <input type="checkbox" [(ngModel)]="theCheckbox" data-md-icheck (change)="toggleVisibility($event)" />
+          <span class="checkmark"></span>
+          <label *ngIf="!marked">
+          Odabrali ste da se ocene revizora ne razlikuju drsticno
+          <br/>Unesite odluku za rad:
+        </label>
+        <label *ngIf="marked">
+          Odabrali ste da se ocene revizora razlikuju drasticno
+          i da je potrebno izvrsiti ponovni izbor recenzenata
+        </label>
+        <select *ngIf="!marked" class="form-control" [(ngModel)]="suggestion" class="form-control" name="suggestion">
+          <option *ngFor="let name of options" [value]="name">{{name}}</option>
+        </select>
+        </label>
+        
+        <span class="form-group" class="col-sm-2">
+          <button (click)="submit()" class="btn btn-primary">Posalji</button>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

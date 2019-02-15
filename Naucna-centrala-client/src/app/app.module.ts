@@ -59,6 +59,12 @@ import { SubscribeComponent } from './components/publication/subscribe/subscribe
 import { CheckFormatComponent } from './components/publication/check-format/check-format.component';
 import { CheckTematicComponent } from './components/publication/check-tematic/check-tematic.component';
 import { ResubmitComponent } from './components/publication/resubmit/resubmit.component';
+import { ChooseReviewersComponent } from './components/publication/choose-reviewers/choose-reviewers.component';
+import { ChooseNewReviewerComponent } from './components/publication/choose-new-reviewer/choose-new-reviewer.component';
+import { AddReviewComponent } from './components/publication/add-review/add-review.component';
+import { EditorRevisionComponent } from './components/publication/editor-revision/editor-revision.component';
+import { AuthorRevisionComponent } from './components/publication/author-revision/author-revision.component';
+import { EditorDecisionComponent } from './components/publication/editor-decision/editor-decision.component';
 
 @NgModule({
   declarations: [
@@ -96,6 +102,12 @@ import { ResubmitComponent } from './components/publication/resubmit/resubmit.co
     CheckFormatComponent,
     CheckTematicComponent,
     ResubmitComponent,
+    ChooseReviewersComponent,
+    ChooseNewReviewerComponent,
+    AddReviewComponent,
+    EditorRevisionComponent,
+    AuthorRevisionComponent,
+    EditorDecisionComponent,
   ],
   imports: [
     BrowserModule,

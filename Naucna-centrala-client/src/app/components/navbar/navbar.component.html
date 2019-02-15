@@ -16,13 +16,13 @@
       <li class="nav-item" *ngxPermissionsOnly="['[AUTHOR]']">
           <a id="choose-magazine-link" class="nav-link" routerLink="/start" translate>Objavi rad</a>
         </li>
-        <li class="nav-item" *ngxPermissionsOnly="['[AUTHOR]', '[EDITOR]']">
+        <li class="nav-item" *ngxPermissionsOnly="['[AUTHOR]', '[EDITOR]', '[REVIEWER]']">
           <a id="my-tasks-link" class="nav-link" routerLink="/tasks" translate>Moji zadaci</a>
         </li>
     <li class="nav-item" *ngxPermissionsOnly="['[AUTHOR]', '[EDITOR]']">
       <a id="change-password-link" class="nav-link" routerLink="/change-password" translate>Promeni sifru</a>
     </li>
-    <li class="nav-item" *ngxPermissionsOnly="['[AUTHOR]', '[EDITOR]']">
+    <li class="nav-item" *ngxPermissionsOnly="['[AUTHOR]', '[EDITOR]', '[REVIEWER]']">
       <a id="sing-out-link" class="nav-link" (click)="logoutf()" routerLink="/login" translate>Izloguj se</a>
     </li>
     <li class="nav-item" *ngxPermissionsExcept="['[AUTHOR]', '[EDITOR]']">
