@@ -30,8 +30,11 @@ export class UploadPaperComponent implements OnInit {
   nazivCasopisa: string;
   autori: Autor[] = [];
   keywords: string = '';
-  imeAutora: any;
-  prezimeAutora: any;
+  imeAutora: string = '';
+  prezimeAutora: string = '';
+  email:string = '';
+  city:string = '';
+  state:string = '';
   paper: Paper = new Paper();
   id: any;
   flag: any;
@@ -109,8 +112,14 @@ export class UploadPaperComponent implements OnInit {
     let aa = new Autor();
     aa.imeAutora = this.imeAutora;
     aa.prezimeAutora = this.prezimeAutora;
+    aa.email = this.email;
+    aa.city = this.city;
+    aa.state = this.state;
     this.autori.push(aa);
     this.imeAutora = "";
     this.prezimeAutora = "";
+    this.email = "";
+    this.city = "";
+    this.state = "";
   }
 }

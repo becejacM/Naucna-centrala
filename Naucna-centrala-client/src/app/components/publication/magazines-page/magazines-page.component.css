@@ -5,7 +5,7 @@
 .my_card{
     width: 70%;
     padding: 5%;
-    background-color: #426066dc;
+    background-color: #8daaa6;
     align-self: center;
 }
 
@@ -14,5 +14,10 @@
 }
 
 .my_input{
-    width: 70%
+    width: 70%;
+}
+
+#casopis{
+    margin: 5%;
+    padding: 5%;
 }

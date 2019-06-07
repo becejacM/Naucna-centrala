@@ -65,6 +65,7 @@ import { AddReviewComponent } from './components/publication/add-review/add-revi
 import { EditorRevisionComponent } from './components/publication/editor-revision/editor-revision.component';
 import { AuthorRevisionComponent } from './components/publication/author-revision/author-revision.component';
 import { EditorDecisionComponent } from './components/publication/editor-decision/editor-decision.component';
+import { ChooseTaskComponent } from './components/choose-task/choose-task.component';
 
 @NgModule({
   declarations: [
@@ -108,6 +109,7 @@ import { EditorDecisionComponent } from './components/publication/editor-decisio
     EditorRevisionComponent,
     AuthorRevisionComponent,
     EditorDecisionComponent,
+    ChooseTaskComponent,
   ],
   imports: [
     BrowserModule,

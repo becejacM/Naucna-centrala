@@ -25,7 +25,7 @@ public class PublishAddChoosenEditor implements JavaDelegate{
 	
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
-		// TODO Auto-generated method stub
+		// OK
 		String choosenEditor = "";
 
         String naucnaOblast = (String) execution.getVariable("nsucnaOblast");

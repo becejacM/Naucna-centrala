@@ -35,7 +35,7 @@ public class EmailTaskService {
     }
 
     public void sendEmailAuthorAndEditorPaperReceived(String starter, String usernameEditor) {
-    	//korisceno, poziva se iz procesnog taska
+    	//OK, korisceno, poziva se iz procesnog taska
     	Author a = (Author) privateUserRepository.findByUsername(starter);
     	Editor e = (Editor) privateUserRepository.findByUsername(usernameEditor);
     	
@@ -54,7 +54,7 @@ public class EmailTaskService {
         sendEmail(subject, e.getEmail(), messageText);
     }
     public void sendEmailAuthorPaperRejectedTematic(String starter) {
-    	//korisceno
+    	//OK, korisceno
     	Author a = (Author) privateUserRepository.findByUsername(starter);    	
         final String subject = "Odbijen rad";
         final String messageText = String.format("Vas rad je odbijen jer nije tematski prikladan!");
@@ -64,6 +64,7 @@ public class EmailTaskService {
     
     public void sendEmailAuthorPaperRejected(String starter) {
     	//korisceno
+    	System.out.println("evo me ovdeeee odbijen rad ****************-------------------**************");
     	Author a = (Author) privateUserRepository.findByUsername(starter);    	
         final String subject = "Odbijen rad";
         final String messageText = String.format("Zao nam je! Vas rad je odbijen!");

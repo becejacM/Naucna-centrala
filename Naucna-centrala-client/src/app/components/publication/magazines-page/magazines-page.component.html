@@ -4,12 +4,12 @@
       
         <div *ngIf="start!==false">
             <ul class="list-unstyled" *ngIf="magazines">
-              <h3 id="heading-own-magazines">Odaberi casopis:</h3>
+              <h3 id="heading-own-magazines">Odaberite časopis:</h3>
               <div *ngFor="let magazine of magazines; let i = index;">
                 <li class="list-group-item list-group-item flex-column align-items-start">
-                  <div *ngIf="magazine" (click)="chooseMagazine(magazine.name)" class="d-flex w-100 justify-content-between div-toggle-building-list-item" style="cursor: pointer">
+                  <div *ngIf="magazine" (click)="chooseMagazine(magazine.name)" class="d-flex w-100 justify-content-between div-toggle-building-list-item" style="cursor: pointer" class="casopis" >
           
-                    CASOPIS naziv: {{magazine.name}}, issn: {{magazine.issn}}, metod placanja: {{magazine.paymentMethod}}
+                    {{i+1}}. naziv: {{magazine.name}}, issn: {{magazine.issn}}, metod placanja: {{magazine.paymentMethod}}
                     
                   </div>
                 </li>

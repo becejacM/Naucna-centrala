@@ -1,14 +1,14 @@
-<ul class="breadcrumb">
   <div class="container-fluid">
     <form class="form-horizontal">
       <div class="row" class="row-sm-12">
-        <div class="page-header no-margin-bottom" style="margin-top: 84px;">
+        <div class="page-header no-margin-bottom" style="margin-top: 2%;">
           <div id="registrationDiv" class="mainContainer  d-flex justify-content-center">
             <div class="card my_card">
               <div class="col-md-12 col-md-offset-3" id="logreg">
+                  <h3 id="heading-own-magazines">Unesite rad:</h3>
                 <div class="input-group input-group-sm d-flex justify-content-center">
 
-                  <span class="form-group" class="col-sm-6">
+                  <span class="form-group" class="col-sm-12">
                     <label>Naslov:</label>
                     <input type="text" name="naslovRada" [(ngModel)]="naslovRada" class="form-control">
 
@@ -16,15 +16,15 @@
                 </div>
                 <div class="input-group input-group-sm d-flex justify-content-center">
 
-                  <span class="form-group" class="col-sm-6">
+                  <span class="form-group" class="col-sm-12">
                     <label>Apstrakt:</label>
-                    <input type="text" name="apstrakt" [(ngModel)]="apstrakt" class="form-control">
-
+                    <textarea type="text" name="apstrakt" rows="6" [(ngModel)]="apstrakt" class="form-control">
+</textarea>
                   </span>
                 </div>
                 <div class="input-group input-group-sm d-flex justify-content-center">
 
-                  <span class="form-group" class="col-sm-6">
+                  <span class="form-group" class="col-sm-12">
                     <label>Kljucne reci:</label>
                     <input type="text" name="keywords" [(ngModel)]="keywords" class="form-control">
 
@@ -32,12 +32,18 @@
                 </div>
                 <div class="input-group input-group-sm d-flex justify-content-center">
 
-                  <span class="form-group" class="col-sm-6">
+                  <span class="form-group" class="col-sm-12">
                     <label>Autori:</label><br/>
                     <label>Ime:</label>
                     <input type="text" name="imeAutora" [(ngModel)]="imeAutora" class="form-control">
                     <label>Prezime:</label>
                     <input type="text" name="prezimeAutora" [(ngModel)]="prezimeAutora" class="form-control">
+                    <label>Email:</label>
+                    <input type="text" name="email" [(ngModel)]="email" class="form-control">
+                    <label>Grad:</label>
+                    <input type="text" name="city" [(ngModel)]="city" class="form-control">
+                    <label>Drzava:</label>
+                    <input type="text" name="state" [(ngModel)]="state" class="form-control">
                     <button (click)="addAuthor()" class="btn btn-primary">Dodaj autora</button>
 
                     <div *ngIf = "autori.length>0">
@@ -65,7 +71,7 @@
                 </div>
                 <div class="input-group input-group-sm d-flex justify-content-center">
 
-                  <span class="form-group" class="col-sm-6">
+                  <span class="form-group" class="col-sm-12">
                     <label>Naucna oblast:</label>
                     <select class="form-control" [(ngModel)]="naucnaOblast" class="form-control" name="naucnaOblast">
                       <option *ngFor="let name of options" [value]="name">{{name}}</option>
@@ -74,7 +80,7 @@
                 </div>
                 
                   <div class="input-group input-group-sm d-flex justify-content-center">
-                    <span class="form-group" class="col-sm-6">
+                    <span class="form-group" class="col-sm-12">
                       <label>Odaberite rad:</label>
                       <input type="file" class="form-control" [(ngModel)]="rad" class="form-control" name="rad" accept="application/pdf" (change)="uploadFile($event)" />
                     </span>
@@ -96,4 +102,3 @@
     </form>
 
   </div>
-</ul>

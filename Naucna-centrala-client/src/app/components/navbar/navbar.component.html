@@ -1,16 +1,16 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-muted rounded" style="background-color: #000508;">
 
   <ul class="navbar nav ml-auto" style="margin-right: 2%">
-  <li class="nav-item" *ngxPermissionsOnly="['[AUTHOR]']">
+  <li class="nav-item" *ngxPermissionsOnly="['[SEPauthor]']">
           <a id="choose-magazine-link" class="nav-link" routerLink="/magazine" translate>Pretplata</a>
         </li>
-      <li class="nav-item" *ngxPermissionsOnly="['[AUTHOR]']">
+      <li class="nav-item" *ngxPermissionsOnly="['[SEPauthor]']">
           <a id="choose-magazine-link" class="nav-link" routerLink="/revizori" translate>Revizori</a>
         </li>
-        <li class="nav-item" *ngxPermissionsOnly="['[AUTHOR]']">
+        <li class="nav-item" *ngxPermissionsOnly="['[SEPauthor]']">
           <a id="choose-magazine-link" class="nav-link" routerLink="/upload" translate>Upload</a>
         </li>
-        <li class="nav-item" *ngxPermissionsOnly="['[AUTHOR]']">
+        <li class="nav-item" *ngxPermissionsOnly="['[SEPauthor]']">
           <a id="choose-magazine-link" class="nav-link" routerLink="/search-and-buy" translate>Pretrazi i kupi</a>
         </li>
       <li class="nav-item" *ngxPermissionsOnly="['[AUTHOR]']">
@@ -19,15 +19,17 @@
         <li class="nav-item" *ngxPermissionsOnly="['[AUTHOR]', '[EDITOR]', '[REVIEWER]']">
           <a id="my-tasks-link" class="nav-link" routerLink="/tasks" translate>Moji zadaci</a>
         </li>
-    <li class="nav-item" *ngxPermissionsOnly="['[AUTHOR]', '[EDITOR]']">
+    <li class="nav-item" *ngxPermissionsOnly="['[AUTHOR]', '[EDITOR]', '[REVIEWER]']">
       <a id="change-password-link" class="nav-link" routerLink="/change-password" translate>Promeni sifru</a>
     </li>
     <li class="nav-item" *ngxPermissionsOnly="['[AUTHOR]', '[EDITOR]', '[REVIEWER]']">
       <a id="sing-out-link" class="nav-link" (click)="logoutf()" routerLink="/login" translate>Izloguj se</a>
     </li>
-    <li class="nav-item" *ngxPermissionsExcept="['[AUTHOR]', '[EDITOR]']">
+    <li class="nav-item" *ngxPermissionsExcept="['[AUTHOR]', '[EDITOR]', '[REVIEWER]']">
       <a id="sing-in-link" class="nav-link" routerLink="/login" translate>Uloguj se</a>
     </li>
-
+    <li class="nav-item" *ngxPermissionsExcept="['[AUTHOR]', '[EDITOR]', '[REVIEWER]']">
+        <a id="sing-in-link" class="nav-link" routerLink="/registration" translate>Registruj se</a>
+      </li>
   </ul>
 </nav>

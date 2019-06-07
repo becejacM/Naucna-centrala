@@ -18,7 +18,7 @@ public class PublishCheckOpenAccess implements JavaDelegate{
 	
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
-		// TODO Auto-generated method stub
+		// OK
 		String magazine = (String) execution.getVariable("magazine");
 		System.out.println("checkiram magazine "+magazine);
     	Magazine m = magazineRepository.findByName(magazine);

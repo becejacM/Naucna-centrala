@@ -24,6 +24,8 @@ export class EditorDecisionComponent implements OnInit {
   theCheckbox = false;
   poruka:any;
   answer:Answer=new Answer();
+  answer2:Answer=new Answer();
+
   public simpleQuery = new SimpleQuery;
 
   ngOnInit() {
@@ -36,7 +38,7 @@ export class EditorDecisionComponent implements OnInit {
   }
   getCommentFromAuthor(){
     this.publicationService.getCommentFromAuthor(this.id).subscribe(response => {
-      this.poruka = response;
+      this.poruka = response.answer;
       console.log(this.paper);
       //this.start=true;
     });

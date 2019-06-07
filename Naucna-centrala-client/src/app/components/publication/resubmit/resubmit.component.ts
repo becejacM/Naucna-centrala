@@ -16,11 +16,37 @@ export class ResubmitComponent implements OnInit {
   id:any;
   rad: any ='';
   paper: Paper = new Paper();
+  paperOld: Paper = new Paper();
+
+  poruka:any;
+  start:any;
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.id = params["taskId"];
     })
+    console.log("lfjsdfkjsnksdnj "+this.id);
+    this.getPaperInfo();
+    this.getCommentFromEditor();
+    this.start=false;
+
+
+  }
+
+  getPaperInfo(){
+    this.publicationService.getPaperInfoWithTask(this.id).subscribe(response => {
+      this.paperOld = response;
+      console.log(this.paperOld);
+      this.start=true;
+      //this.router.navigate([`/tasks`]);
+
+    });
+  }
+  getCommentFromEditor(){
+    this.publicationService.getCommentFromEditorCorrection(this.id).subscribe(response => {
+      this.poruka = response.answer;
+      this.start=true;
+    });
   }
 
   localUrl: any[];

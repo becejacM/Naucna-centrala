@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { PublicationService } from '../../../services/publication/publication.service';
 import { Paper } from '../../../model/Paper';
+import { ReviewDTO } from '../../../model/ReviewDTO';
 
 @Component({
   selector: 'app-author-revision',
@@ -17,9 +18,12 @@ export class AuthorRevisionComponent implements OnInit {
   rad: any ='';
   paper: Paper = new Paper();
   komentarDorada : string = '';
+  reviews:ReviewDTO[];
+  start:any;
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.id = params["taskId"];
+      this.getReviewsForAuthor();
     })
   }
 
@@ -41,7 +45,13 @@ export class AuthorRevisionComponent implements OnInit {
     }
   }
 
-
+  getReviewsForAuthor(){
+    this.publicationService.getReviewsForAuthor(this.id).subscribe(response => {
+      this.reviews = response;
+      console.log(this.reviews);
+      this.start=true;
+    });
+  }
   submit() {
     console.log(this.rad);
     this.paper.komentarDorada = this.komentarDorada;

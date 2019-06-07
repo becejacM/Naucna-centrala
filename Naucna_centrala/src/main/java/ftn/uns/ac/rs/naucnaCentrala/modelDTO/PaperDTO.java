@@ -144,7 +144,7 @@ public class PaperDTO {
 		this.keywords = a.getKeywords();
 		ArrayList<AutorDTO> autori = new ArrayList<AutorDTO>();
 		for (Coauthor autorDTO : a.getCoauthors()) {
-			AutorDTO aaa = new AutorDTO(autorDTO.getFirstname(), autorDTO.getLastname());
+			AutorDTO aaa = new AutorDTO(autorDTO.getFirstname(), autorDTO.getLastname(), autorDTO.getEmail(), autorDTO.getCity(), autorDTO.getState());
 			autori.add(aaa);
 		}
 		this.autori = autori;

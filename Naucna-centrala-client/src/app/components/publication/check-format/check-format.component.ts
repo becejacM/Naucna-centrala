@@ -22,6 +22,8 @@ export class CheckFormatComponent implements OnInit {
   theCheckbox = false;
   poruka:any;
   answer:Answer=new Answer();
+  date: string;
+
   public simpleQuery = new SimpleQuery;
 
   ngOnInit() {
@@ -53,7 +55,7 @@ export class CheckFormatComponent implements OnInit {
     else{
       this.answer.answer=this.poruka;
     }
-    this.publicationService.answerFormat(this.answer, this.id)
+    this.publicationService.answerFormat(this.answer, this.id, `${this.date}`)
       .subscribe(
         data => {
           console.log(data);

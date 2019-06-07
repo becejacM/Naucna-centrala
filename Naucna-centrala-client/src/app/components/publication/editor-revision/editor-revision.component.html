@@ -36,10 +36,11 @@
           </li>
         </div>
         <label class="container">
-          Ukoliko se ocene drasticno razlikuju mozete odabrati da se izvrsi nova revizija?
-
+          <label>Ukoliko se ocene drasticno razlikuju mozete odabrati da se izvrsi nova revizija?
+            
           <input type="checkbox" [(ngModel)]="theCheckbox" data-md-icheck (change)="toggleVisibility($event)" />
-          <span class="checkmark"></span>
+        
+          <span class="checkmark"></span></label> 
           <label *ngIf="!marked">
           Odabrali ste da se ocene revizora ne razlikuju drsticno
           <br/>Unesite odluku za rad:

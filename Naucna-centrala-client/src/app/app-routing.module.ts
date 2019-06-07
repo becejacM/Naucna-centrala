@@ -35,6 +35,7 @@ import { ChooseNewReviewerComponent } from './components/publication/choose-new-
 import { EditorRevisionComponent } from './components/publication/editor-revision/editor-revision.component';
 import { AuthorRevisionComponent } from './components/publication/author-revision/author-revision.component';
 import { EditorDecisionComponent } from './components/publication/editor-decision/editor-decision.component';
+import { ChooseTaskComponent } from './components/choose-task/choose-task.component';
 
 
 const appRoutes: Routes = [
@@ -70,7 +71,9 @@ const appRoutes: Routes = [
       { path: ':taskId/chooseNewReviewer', component: ChooseNewReviewerComponent, canActivate: [OnlyLoggedInGuard] },
       { path: ':taskId/editorRevision', component: EditorRevisionComponent, canActivate: [OnlyLoggedInGuard] },
       { path: ':taskId/authorRevision', component: AuthorRevisionComponent, canActivate: [OnlyLoggedInGuard] },
-      { path: ':taskId/editorDecision', component: EditorDecisionComponent, canActivate: [OnlyLoggedInGuard] }
+      { path: ':taskId/editorDecision', component: EditorDecisionComponent, canActivate: [OnlyLoggedInGuard] },
+      { path: ':taskId/chooseTask', component: ChooseTaskComponent, canActivate: [OnlyLoggedInGuard] }
+
     ]
   },
   {path: 'change-password', component: ChangePasswordComponent},

@@ -10,7 +10,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./task.component.css']
 })
 export class TaskComponent implements OnInit {
-
+  //korisceno za redirekciju na odredjeni task
   task: any;
   id: string;
   isFetched = false;
@@ -123,6 +123,12 @@ export class TaskComponent implements OnInit {
     else if(this.task.taskDefinitionId==='Task_0tt3xhq'){
       //konacna odluka editora
       let url =this.router.url+'/editorDecision';
+      console.log(url);
+      this.router.navigate([url]);
+    }
+    else{
+      //default
+      let url =this.router.url+'/chooseTask';
       console.log(url);
       this.router.navigate([url]);
     }

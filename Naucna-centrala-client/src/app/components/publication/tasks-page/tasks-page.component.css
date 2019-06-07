@@ -1,9 +1,8 @@
 .content {
     margin: 2% 5% 5% 25%; /* Same as the width of the sidenav */
-    padding: 0px 10px;
-    background:#fafafa;
+    padding-top: 2%;
+    background: 	#d08b53;
     color: #5b5b5b;
     border-radius: 5px;
     border: 1px solid #b7b7b7;
-    height: 530px;
 }

@@ -9,17 +9,23 @@
         <span class="form-group" class="col-sm-2">
           <button (click)="download()" class="btn btn-md btn-primary btn-block" type="submit">Preuzmi</button>
         </span>
+        <h3>Unesite svoju reviziju</h3>
         <label class="container">
-          Unesite svoju reviziju
-
-          Poruka autoru:<input [(ngModel)]="commentAuthor" >
+          
+            <span class="form-group" class="col-sm-6">
+          <label>Poruka autoru:</label> </span>
           <span class="form-group" class="col-sm-6">
+          <textarea rows="5" cols="50" [(ngModel)]="commentAuthor" ></textarea><br/></span>
+          
+          <span class="form-group" class="col-sm-6">
+          <label>Poruka editoru:</label></span><span class="form-group" class="col-sm-6"><textarea rows="5" cols="50" [(ngModel)]="commentEditor" ></textarea>
+        </span><br/>
+        <span class="form-group" class="col-sm-6">
             <label>Sugestija:</label>
             <select class="form-control" [(ngModel)]="suggestion" class="form-control" name="suggestion">
               <option *ngFor="let name of options" [value]="name">{{name}}</option>
             </select>
           </span>
-          Poruka editoru:<input [(ngModel)]="commentEditor" >
         </label>
         <span class="form-group" class="col-sm-2">
           <button (click)="submit()" class="btn btn-primary">Posalji</button>

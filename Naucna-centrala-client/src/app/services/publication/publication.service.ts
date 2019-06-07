@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MagazineDetails } from '../../model/MagazineDetails';
 import { ReviewersDTO } from '../../model/ReviewerDTO';
 import { ReviewDTO } from '../../model/ReviewDTO';
+import { Answer } from '../../model/answer';
 
 @Injectable()
 export class PublicationService {
@@ -114,9 +115,9 @@ export class PublicationService {
     return this.http.post(`${this.publishUrl}/tematicAnswer/${taskId}`, answer);
   }
 
-  answerFormat(answer, taskId) {
+  answerFormat(answer, taskId, date) {
     //novo
-    return this.http.post(`${this.publishUrl}/formatAnswer/${taskId}`, answer);
+    return this.http.post(`${this.publishUrl}/formatAnswer/${taskId}`, answer, { params: { 'date': date } });
   }
 
   answerEditorDecision(answer, taskId) {
@@ -141,7 +142,12 @@ export class PublicationService {
 
   getCommentFromAuthor(taskId: string) {
     //novo
-    return this.http.get<any>(`${this.publishUrl}/task/${taskId}/authorComment`);
+    return this.http.get<Answer>(`${this.publishUrl}/task/${taskId}/authorComment`);
+  };
+
+  getCommentFromEditorCorrection(taskId: string) {
+    //novo
+    return this.http.get<Answer>(`${this.publishUrl}/task/${taskId}/editorCommentCorrection`);
   };
   getRevizoriNOTask(taskId: string) {
     //novo

@@ -85,7 +85,7 @@ public class AppTaskService {
     }
     
     public void notifyAboutOpenAccess() {
-    	//staro, iskorisceno
+    	//OK staro, iskorisceno
     	System.out.println("radi ovo obavestenje 2 ");
         this.template.convertAndSend("/nc/notifyAboutOpenAccess", "Magazine is open access");
     }
@@ -98,13 +98,13 @@ public class AppTaskService {
     
     public void notifyAboutSuccesSubscribe() {
     	
-    	//novo
+    	//OK, novo
     	System.out.println("radi ovo obavestenje success sub");
         this.template.convertAndSend("/nc/notifyAboutSuccessSubscribe", "Your subscription is successfully finished");
     }
     
     public void notifyAboutUnSuccessSubscribe() {
-    	//novo
+    	//OK, novo
     	System.out.println("radi ovo obavestenje unsuccess sub");
         this.template.convertAndSend("/nc/notifyAboutUnSuccessSubscribe", "Your subscription is unsuccessfully finished");
     }
@@ -221,6 +221,16 @@ public class AppTaskService {
 			reviewersDTOs.add(new ReviewerDTO(reviewer.getUsername(), reviewer.getFirstname(),
 					reviewer.getLastname(), reviewer.getCity(), reviewer.getState(), no));
 		}
+    	Collection<Editor> editors = magazineRepository.findByName(magazine).getEditorialBoard().getEditors();
+    	for (Editor editor : editors) {
+    		String no = "";
+    		for(ScientificField sf : editor.getEditorFields()) {
+    			no+=sf.getScientificFieldName().name();
+    			no+=" ";
+    		}
+			reviewersDTOs.add(new ReviewerDTO(editor.getUsername(), editor.getFirstname(),
+					editor.getLastname(), editor.getCity(), editor.getState(), no));
+		}
     	return reviewersDTOs;
 	}
 	
@@ -237,6 +247,19 @@ public class AppTaskService {
             			no+=" ";
             		}
         			reviewersDTOs.add(new ReviewerDTO(reviewer.getUsername(), reviewer.getFirstname(), reviewer.getLastname(), reviewer.getCity(), reviewer.getState(), no));
+        		}
+    		}
+		}
+    	Collection<Editor> editors = magazineRepository.findByName(magazine).getEditorialBoard().getEditors();
+    	for (Editor editor : editors) {
+    		for(ScientificField sf : editor.getEditorFields()) {
+        		if(sf.getScientificFieldName().name().equals(naucnaOblast)) {
+        			String no = "";
+            		for(ScientificField sfield : editor.getEditorFields()) {
+            			no+=sfield.getScientificFieldName().name();
+            			no+=" ";
+            		}
+        			reviewersDTOs.add(new ReviewerDTO(editor.getUsername(), editor.getFirstname(), editor.getLastname(), editor.getCity(), editor.getState(), no));
         		}
     		}
 		}

@@ -28,10 +28,12 @@
                   </label>
                   <button type="button" class="btn btn-primary button-accept-accounting"
               (click)="filter()">Filter</button>
+              <button type="button" class="btn btn-primary button-accept-accounting"
+              (click)="getReviewers()">All</button>
                   <div class="row">
                     <h2>Revizori</h2>
-                    <table class="table">
-                      <thead class="thead-dark">
+                    <table class="table table-striped table-hover">
+                      <thead>
                         <tr>
                           <th scope="col">Ime</th>
                           <th scope="col">Prezime</th>
@@ -44,24 +46,29 @@
                           <td scope="row">{{reviewer.firstname}}</td>
                           <td scope="row">{{reviewer.lastname}}</td>
                           <td scope="row">{{reviewer.no}}</td>
-                          <td><button class="btn btn-primary btn-block" (click)="addReviewer(reviewer)">Add</button></td>
+                          <td><button class="btn btn-primary btn-block" (click)="addReviewer(reviewer)">Dodaj</button></td>
                       </tbody>
                     </table>
                   </div>
+                  <div>
+                      <h2>Odabrani revizori</h2>
+                      </div>
                   <div class="row">
-                    <h2>Odabrani revizori</h2>
+                    
+                    <div>
                     <ul class="list-group">
                       <li *ngFor="let reviewer of choosenReviewers" class="list-group-item">
                         <p>{{reviewer.firstname}} {{reviewer.lastname}} <span
-                            class="float-right fa fa-trash fa-2x icon-pad pointer" (click)="removeReviewer(reviewer)">
+                            class="float-right fa fa-close fa-2x icon-pad pointer" (click)="removeReviewer(reviewer)">
                           </span></p>
                       </li>
-                      <label>Deadline</label>
+                      <label>Unesite broj dana za reviziju</label>
                       <input type="number" class="form-control" [(ngModel)]="date" name="date">
                       <br>
-                      <button [disabled]="choosenReviewers.length === 0 || !date" class="btn btn-lg btn-primary btn-block"
-                        (click)="submitReviewers()">Submit</button>
+                      <button [disabled]="choosenReviewers.length < 2 || !date" class="btn btn-lg btn-primary btn-block"
+                        (click)="submitReviewers()">Posalji</button>
                     </ul>
+                    </div>
                   </div>
               
       </div>

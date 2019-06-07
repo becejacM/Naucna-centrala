@@ -15,16 +15,18 @@ public class PublishCheckSubscription implements JavaDelegate{
 	SubscriptionRepository subRepository;
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
-		// TODO Auto-generated method stub
+		// OK
 		String magazine = (String) execution.getVariable("magazine");
 		String user = (String) execution.getVariable("author");
     	System.out.println("proveravam da li je korisnik"+user+" pretplacen ako je casopis sa pretplatom, naziv magazina: "+ magazine);
     	Subscription sub = subRepository.getByKupacAndNazivCasopisaAndStatus(user, magazine, "SUCCESS");
+    	
     	if(sub==null) {
         	System.out.println("nema suuubskripcije");
             throw new BpmnError("NeuspesnaPretplata", "NeuspesnaPretplata!");
     	}
     	else {
+    		
     		if (!sub.getStatus().equals("SUCCESS")) {
     	    	System.out.println("subskripcija koja nije success");
                 throw new BpmnError("NeuspesnaPretplata", "NeuspesnaPretplata!");

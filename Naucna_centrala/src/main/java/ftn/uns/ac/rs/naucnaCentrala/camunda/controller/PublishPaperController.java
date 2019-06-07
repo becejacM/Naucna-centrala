@@ -101,7 +101,7 @@ public class PublishPaperController {
 
 	@GetMapping("startPublishProccess")
 	public ResponseEntity startPaperSubmissionProcess() {
-		// novo, pokretanje procesa
+		//OK novo, pokretanje procesa 
 		String username = this.tokenUtils.getUsernameFromToken(this.httpServletRequest.getHeader("X-Auth-Token"));
 		System.out.println("zapocinjem proces objave rada za korisnika: " + username);
 		Map<String, VariableValueDto> variables = new HashMap<>();
@@ -114,7 +114,7 @@ public class PublishPaperController {
 
 	@GetMapping("/userTasks")
 	ResponseEntity getUserTasks() {
-		// novo
+		//OK novo, getovanje taskova
 		String username = this.tokenUtils.getUsernameFromToken(this.httpServletRequest.getHeader("X-Auth-Token"));
 		System.out.println("Trazim taskove za: " + username);
 		final List<TaskDto> tasks = rspe.getTasks(null, username);
@@ -126,7 +126,7 @@ public class PublishPaperController {
 
 	@GetMapping("task/{taskId}")
 	public ResponseEntity getByTaskId(@PathVariable String taskId) {
-		// novo
+		//OK novo
 		TaskDto task = rspe.findTask(taskId);
 		String magazine = (String) rspe.getVariable(task.getProcessInstanceId(), "magazine");
 		System.out.println("ispisujem task id: " + task.getId());
@@ -147,25 +147,63 @@ public class PublishPaperController {
 
 	@GetMapping("task/{taskId}/allReviewers")
 	public ResponseEntity<Collection<ReviewerDTO>> getAllReviewers(@PathVariable String taskId) {
-		// novo, getuje sve revizore
+		// OK, novo, getuje sve revizore
 		TaskDto task = rspe.findTask(taskId);
 		String magazine = (String) rspe.getVariable(task.getProcessInstanceId(), "magazine");
+		String paper = (String) rspe.getVariable(task.getProcessInstanceId(), "filename");
 
 		Collection<ReviewerDTO> reviewers = appTaskService.getAllReviewers(magazine);
+		Collection<ReviewerDTO> reviewersData = new ArrayList<ReviewerDTO>();
+
+		Collection<Review> reviews = reviewService.getByPaper(paper);
+		for(ReviewerDTO rew : reviewers) {
+			boolean flag = false;
+			for(Review review : reviews) {
+				System.out.println("evo me odje6666666666666666666666666666666 "+rew.getUsername()+"   "+review.getReviewer());
+				if(rew.getUsername().equals(review.getReviewer())) {
+					System.out.println("evo me odje6666666666666666666666666666666");
+					flag = true;
+				}
+			}
+			
+			if(!flag && !reviewersData.contains(rew)) {
+				
+				reviewersData.add(rew);
+			}
+		}
 		System.out.println("ispisujem task id: " + task.getId());
-		return ResponseEntity.ok(reviewers);
+		return ResponseEntity.ok(reviewersData);
 	}
 
 	@GetMapping("task/{taskId}/reviewersBySF")
 	public ResponseEntity<Collection<ReviewerDTO>> getReviewersBySF(@PathVariable String taskId) {
-		// novo, getuje samo one revizore sa prosledjenom naucnom oblascu
+		// OK, novo, getuje samo one revizore sa prosledjenom naucnom oblascu
 		TaskDto task = rspe.findTask(taskId);
 		String magazine = (String) rspe.getVariable(task.getProcessInstanceId(), "magazine");
 		String naucnaOblast = (String) rspe.getVariable(task.getProcessInstanceId(), "nsucnaOblast");
+		String paper = (String) rspe.getVariable(task.getProcessInstanceId(), "filename");
 
 		Collection<ReviewerDTO> reviewers = appTaskService.getAllReviewersBySF(magazine, naucnaOblast);
+		Collection<ReviewerDTO> reviewersData = new ArrayList<ReviewerDTO>();
+
+		Collection<Review> reviews = reviewService.getByPaper(paper);
+		for(ReviewerDTO rew : reviewers) {
+			boolean flag = false;
+			for(Review review : reviews) {
+				System.out.println("evo me odje6666666666666666666666666666666 "+rew.getUsername()+"   "+review.getReviewer());
+				if(rew.getUsername().equals(review.getReviewer())) {
+					System.out.println("evo me odje6666666666666666666666666666666");
+					flag = true;
+				}
+			}
+			
+			if(!flag && !reviewersData.contains(rew)) {
+				
+				reviewersData.add(rew);
+			}
+		}
 		System.out.println("ispisujem task id: " + task.getId());
-		return ResponseEntity.ok(reviewers);
+		return ResponseEntity.ok(reviewersData);
 	}
 
 	@PostMapping("task/{taskId}/addReviewers")
@@ -232,7 +270,7 @@ public class PublishPaperController {
 
 	@PostMapping("task/{taskId}/addReview")
 	public ResponseEntity reviewPaper(@PathVariable String taskId, @RequestBody ReviewDTO review) {
-		// novo
+		// OK, novo
 		String username = this.tokenUtils.getUsernameFromToken(this.httpServletRequest.getHeader("X-Auth-Token"));
 		TaskDto task = rspe.findTask(taskId);
 		String filename = (String) rspe.getVariable(task.getProcessInstanceId(), "filename");
@@ -251,7 +289,7 @@ public class PublishPaperController {
 
 	@PostMapping("task/{taskId}/addEditorReview")
 	public ResponseEntity reviewPaperByEditor(@PathVariable String taskId, @RequestBody ReviewDTO review) {
-		// novo
+		// OK, novo
 		TaskDto task = rspe.findTask(taskId);
 		String filename = (String) rspe.getVariable(task.getProcessInstanceId(), "filename");
 		//Review r = new Review(review.getCommentAuthor(), review.getSuggestion(), review.getCommentEditor(), filename);
@@ -265,7 +303,17 @@ public class PublishPaperController {
 		else {
 			System.out.println("***********************************"+review.getSuggestion());
 			rspe.setVariable(task.getProcessInstanceId(), "newReviewer", false);
-			fields.add(new FormFieldDTO("odluka", review.getSuggestion()));
+			if(review.getSuggestion().equals("PRIHVATITI UZ MANJE ISPRAVKE")) {
+				fields.add(new FormFieldDTO("odluka", "prihvatiUzManjeIspravke"));
+			}
+			else if(review.getSuggestion().equals("USLOVNO PRIHVATITI UZ VECE ISPRAVKE")) {
+				fields.add(new FormFieldDTO("odluka", "uslovnoPrihvatitiUzVeceIspravke"));
+
+			}
+			else {
+				fields.add(new FormFieldDTO("odluka", review.getSuggestion()));
+
+			}
 		}
 		rspe.submitTaskForm(taskId, fields);
 
@@ -317,7 +365,7 @@ public class PublishPaperController {
 	
 	@GetMapping("subscribe/{taskId}")
 	public ResponseEntity subscribe(@PathVariable String taskId) {
-		// novo
+		// OK, novo
 		String username = this.tokenUtils.getUsernameFromToken(this.httpServletRequest.getHeader("X-Auth-Token"));
 		TaskDto task = rspe.findTask(taskId);
 		System.out.println("ispisujem task id iz subscribe: " + task.getId());
@@ -337,7 +385,7 @@ public class PublishPaperController {
 
 	@GetMapping()
 	public @ResponseBody ProccessMagazineDTO getMagazines() {
-		// novo, dobavljanje casopisa
+		// OK, novo, dobavljanje casopisa
 		String username = this.tokenUtils.getUsernameFromToken(this.httpServletRequest.getHeader("X-Auth-Token"));
 		System.out.println("dobavljam casopise za korisnika: " + username);
 		Collection<MagazineDTO> magazines = magazineService.getAll(username);
@@ -348,7 +396,7 @@ public class PublishPaperController {
 
 	@PostMapping("chooseMagazine/{taskId}")
 	public ResponseEntity chooseMagazine(@PathVariable String taskId, @RequestBody MagazineDetailsDTO magazineDetails) {
-		// novo
+		// OK, novo
 		System.out.println(magazineDetails.getProcessInstanceId());
 		System.out.println("submitovani podaci za odabir casopisa");
 		final ArrayList<FormFieldDTO> taskFormFieldDtos = new ArrayList<>();
@@ -360,7 +408,7 @@ public class PublishPaperController {
 
 	@PostMapping("submit/{taskId}")
 	public ResponseEntity submit(@PathVariable String taskId, @RequestBody PaperDTO paperDTO) {
-		// novo, submitovani potrebni podaci o radu
+		// OK, novo, submitovani potrebni podaci o radu
 		System.out.println("Dodajem rad: " + paperDTO.toString() + " za task sa idom: " + taskId);
 		final ArrayList<FormFieldDTO> taskFormFieldDtos = new ArrayList<>();
 		taskFormFieldDtos.add(new FormFieldDTO("naslov", paperDTO.getNaslovRada()));
@@ -391,7 +439,7 @@ public class PublishPaperController {
 	
 	@PostMapping("resubmit/{taskId}")
 	public ResponseEntity resubmit(@PathVariable String taskId, @RequestBody PaperDTO paperDTO) {
-		// novo, submitovani potrebni podaci o radu
+		// OK, novo, resubmitovani potrebni podaci o radu
 		System.out.println("Dodajem rad: " + paperDTO.toString() + " za task sa idom: " + taskId);
 		final ArrayList<FormFieldDTO> taskFormFieldDtos = new ArrayList<>();
 
@@ -405,6 +453,7 @@ public class PublishPaperController {
 
 	@PostMapping("temporaryupload")
 	public ResponseEntity uploadTemporary(@RequestParam("file") MultipartFile multipartFile) {
+		//OK, jedino kad je isti fajl kaze da je vec zauzet
 		String originalFileName = multipartFile.getOriginalFilename();
 
 		Paper paper = null;
@@ -416,7 +465,7 @@ public class PublishPaperController {
 
 	@PostMapping("tematicAnswer/{taskId}")
 	public ResponseEntity tematicAnswer(@PathVariable String taskId, @RequestBody AnswerDTO answer) throws IOException {
-		// novo, submitovani potrebni podaci o radu
+		// OK, novo, submitovani potrebni podaci o radu
 		System.out.println(" rad tematski prikladan: " + answer.getAnswer() + " za task sa idom: " + taskId);
 		final ArrayList<FormFieldDTO> taskFormFieldDtos = new ArrayList<>();
 		if (answer.getAnswer().equals("yes")) {
@@ -432,8 +481,8 @@ public class PublishPaperController {
 	}
 
 	@PostMapping("formatAnswer/{taskId}")
-	public ResponseEntity formatAnswer(@PathVariable String taskId, @RequestBody AnswerDTO answer) throws IOException {
-		// novo, submitovani potrebni podaci o radu
+	public ResponseEntity formatAnswer(@PathVariable String taskId, @RequestBody AnswerDTO answer, @RequestParam String date) throws IOException {
+		// OK, novo, submitovani potrebni podaci o radu
 		System.out.println(" rad tematski prikladan: " + answer.getAnswer() + " za task sa idom: " + taskId);
 		final ArrayList<FormFieldDTO> taskFormFieldDtos = new ArrayList<>();
 		TaskDto task = rspe.findTask(taskId);
@@ -445,6 +494,8 @@ public class PublishPaperController {
 		} else {
 			taskFormFieldDtos.add(new FormFieldDTO("radFormatiran", false));
 			taskFormFieldDtos.add(new FormFieldDTO("poruka", answer.getAnswer()));
+			taskFormFieldDtos.add(new FormFieldDTO("timeCorrection", "P"+date+"D"));
+
 			// Files.deleteIfExists(dirTemporaryLocation.resolve(filename));
 
 		}
@@ -457,7 +508,7 @@ public class PublishPaperController {
 	
 	@PostMapping("editorDecision/{taskId}")
 	public ResponseEntity editorDecisionAnswer(@PathVariable String taskId, @RequestBody AnswerDTO answer) throws IOException {
-		// novo, submitovani potrebni podaci o radu
+		// Ok, novo, submitovani potrebni podaci o radu
 		System.out.println(" rad editor odluka: " + answer.getAnswer() + " za task sa idom: " + taskId);
 		final ArrayList<FormFieldDTO> taskFormFieldDtos = new ArrayList<>();
 		if (answer.getAnswer().equals("yes")) {
@@ -473,11 +524,22 @@ public class PublishPaperController {
 	}
 	
 	@GetMapping("task/{taskId}/authorComment")
-	public ResponseEntity<String> getAuthorComment(@PathVariable String taskId) {
-		// novo, getuje samo one revizore sa prosledjenom naucnom oblascu
+	public ResponseEntity<AnswerDTO> getAuthorComment(@PathVariable String taskId) {
+		// OK, novo, getuje samo one revizore sa prosledjenom naucnom oblascu
 		TaskDto task = rspe.findTask(taskId);
 		String comment = (String) rspe.getVariable(task.getProcessInstanceId(), "komentarDorada");
 		System.out.println("ispisujem task id: " + task.getId()+" komentar dorada: "+comment);
-		return ResponseEntity.ok(comment);
+		AnswerDTO answer = new AnswerDTO(comment);
+		return ResponseEntity.ok(answer);
+	}
+	
+	@GetMapping("task/{taskId}/editorCommentCorrection")
+	public ResponseEntity<AnswerDTO> getEditorCommentCorrection(@PathVariable String taskId) {
+		// OK, novo, getuje samo one revizore sa prosledjenom naucnom oblascu
+		TaskDto task = rspe.findTask(taskId);
+		String comment = (String) rspe.getVariable(task.getProcessInstanceId(), "poruka");
+		System.out.println("ispisujem task id: " + task.getId()+" poruka za autora za korekciju rada: "+comment);
+		AnswerDTO answer = new AnswerDTO(comment);
+		return ResponseEntity.ok(answer);
 	}
 }

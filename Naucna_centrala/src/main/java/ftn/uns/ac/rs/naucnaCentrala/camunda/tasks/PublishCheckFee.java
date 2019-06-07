@@ -18,6 +18,7 @@ public class PublishCheckFee implements JavaDelegate{
 	public void execute(DelegateExecution execution) throws Exception {
 		// TODO Auto-generated method stub
 		// ovde treba odraditi proveru da li je bas taj autor pretplacen na bas taj magazin, ima vec negde odradjena ta provera
+		// OK odradjeno
 		String magazine = (String) execution.getVariable("magazine");
 		String user = (String) execution.getVariable("author");
     	System.out.println("proveravam da li je korisnik"+user+" pretplacen ako je casopis sa pretplatom, naziv magazina: "+ magazine);

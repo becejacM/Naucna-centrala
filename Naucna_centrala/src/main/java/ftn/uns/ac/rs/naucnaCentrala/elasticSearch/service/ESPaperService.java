@@ -104,8 +104,8 @@ public class ESPaperService {
         this.irEbookRepository = irEbookRepository;
         this.paperRepository = paperRepository;
         this.pdfDocumentHandler = pdfDocumentHandler;
-        this.dirLocation = Paths.get(properties.getLocation());
-        this.dirTemporaryLocation = Paths.get(properties.getTemporarylocation());
+        this.dirLocation = Paths.get("src/main/resources/files/pdf_files");
+        this.dirTemporaryLocation = Paths.get("src/main/resources/files/temporary_pdf_files");
         this.elasticsearchTemplate = elasticsearchTemplate;
         this.magazineRepository = magazineRepository;
         this.sfRepository = sfRepository;
@@ -238,6 +238,8 @@ public class ESPaperService {
             inputStream = file.getInputStream();
             Files.copy(inputStream, this.dirTemporaryLocation.resolve(filename),
                     StandardCopyOption.REPLACE_EXISTING);
+            inputStream.close();
+            
         } catch (IOException e) {
             e.printStackTrace();
         }

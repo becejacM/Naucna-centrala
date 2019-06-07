@@ -71,7 +71,7 @@ export class ChooseNewReviewerComponent implements OnInit {
   }
 
   submitReviewers() {
-    this.publicationService.addNewReviewer(this.id, this.choosenReviewers[0], `PT${this.date}S`).subscribe(res => {
+    this.publicationService.addNewReviewer(this.id, this.choosenReviewers[0], `${this.date}`).subscribe(res => {
       this.notificationService.info("Uspesno ste dodali revizora!");
       this.router.navigate([`/home`]);
     });

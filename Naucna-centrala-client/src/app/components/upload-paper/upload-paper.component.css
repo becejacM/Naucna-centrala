@@ -3,9 +3,9 @@
 }
 
 .my_card{
-    width: 95%;
+    width: 70%;
     padding: 5%;
-    background-color: #e05dd5dc;
+    background-color: #8daaa6;
     align-self: center;
 }
 
@@ -15,4 +15,8 @@
 
 .my_input{
     width: 95%
+}
+
+.inputPolje{
+    width: 80%;
 }

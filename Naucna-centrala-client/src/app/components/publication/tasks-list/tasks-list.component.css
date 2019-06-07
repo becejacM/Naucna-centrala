@@ -9,7 +9,7 @@
   overflow-x: hidden;
   padding-top: 2%;
   color: #5b5b5b;
-  background: #fafafa;
+  background: #d08b53;
   border-right: 1px solid #b7b7b7;
 }
 
@@ -31,11 +31,16 @@
   color: #5b5b5b;
   display: block;
   cursor: default;
+  background: #8daaa6;
   border-bottom: 1px solid #b7b7b7;
+  margin-left: 3%;
+  margin-right: 3%;
+  margin-top: 2%;
+  margin-bottom: 2%;
 }
 
 li.active {
-  background: #deeff5;
+  background: #ff7518;
   font-weight: bold;
 }
 

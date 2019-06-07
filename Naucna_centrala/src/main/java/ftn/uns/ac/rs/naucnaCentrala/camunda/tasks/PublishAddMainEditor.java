@@ -23,7 +23,7 @@ public class PublishAddMainEditor implements JavaDelegate{
 	
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
-		// TODO Auto-generated method stub
+		// OK
 		String usernameEditor = "";
         String magazine = (String) execution.getVariable("magazine");
     	Magazine m = this.magazineRepository.findByName(magazine);

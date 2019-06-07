@@ -16,10 +16,12 @@
           <span class="checkmark"></span>
           <label *ngIf="!marked">Unesite poruku autoru:</label>
           <input [(ngModel)]="poruka" *ngIf="!marked">
+          <label *ngIf="!marked">Unesite broj dana za korekciju</label>
+          <input *ngIf="!marked" type="number" class="form-control" [(ngModel)]="date" name="date">
         </label>
         
         <span class="form-group" class="col-sm-2">
-          <button (click)="submit()" class="btn btn-primary">Posalji</button>
+          <button (click)="submit()" [disabled]="date === '' || poruka===''" class="btn btn-primary">Posalji</button>
         </span>
       </div>
     </div>
